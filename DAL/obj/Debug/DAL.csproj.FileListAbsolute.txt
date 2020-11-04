@@ -1,0 +1,16 @@
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\obj\Debug\DAL.Properties.Resources.resources
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\DAL.dll.config
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\DAL.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\DAL.pdb
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\EntityFramework.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\EntityFramework.xml
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\ru\EntityFramework.resources.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\obj\Debug\DAL.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\DAL\obj\Debug\DAL.pdb

@@ -1,0 +1,51 @@
+﻿<Window x:Class="foodShop.ThankYou"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:foodShop"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Height="300" Width="400"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="0.3*"/>
+        </Grid.ColumnDefinitions>
+        <Border Background="#FF5AE784" Grid.ColumnSpan="2"/>
+        <TextBlock Text="СПАСИБО ЗА ПОКУПКУ!" Foreground="White" HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="2"/>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Label Margin="10" FontSize="18" 
+                   FontFamily="Champagne &amp; Limousines">
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap">Сумма чека:</TextBlock>
+                </Label.Content>
+            </Label>
+
+            <Label Margin="10" FontSize="18" 
+                   FontFamily="Champagne &amp; Limousines">
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap">Скидка составила:</TextBlock>
+                </Label.Content>
+            </Label>
+
+            <Label Margin="10" FontSize="18" 
+                   FontFamily="Champagne &amp; Limousines">
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap">Итоговая стоимость со скидкой:</TextBlock>
+                </Label.Content>
+            </Label>
+        </StackPanel>
+
+        <WrapPanel Grid.Column="1" Grid.Row="1">
+            <Button Content="ОК" VerticalAlignment="Bottom" Command="{Binding Ok}"/>
+        </WrapPanel>
+        
+    </Grid>
+</Window>

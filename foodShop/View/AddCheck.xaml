@@ -1,0 +1,78 @@
+﻿<Window x:Class="foodShop.AddCheck"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:foodShop"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="AddCheck" 
+        Height="800" Width="800"  WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,-0.4,-0.4" Grid.RowSpan="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.8*"/>
+            </Grid.ColumnDefinitions>
+            <Border Background="#FF5AE784" Grid.ColumnSpan="3"/>
+            <TextBlock Text="ЧЕК" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       FontSize="22" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="3"/>
+            <!--<Button  Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding Bay}"
+                     VerticalAlignment="Center" Background="{x:Null}" 
+                     BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="Close"/>
+            </Button>-->
+
+            <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}" SelectedItem="{Binding SelectedLine_of_check}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <TextBlock FontSize="18" Text="{Binding Path=Line_of_checks.Product.title}" />
+                            <TextBlock Text="{Binding Path=much_of_products}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <WrapPanel Grid.Row="1" Grid.Column="1" Margin="10" Orientation="Vertical">
+                <Label Margin="10" FontSize="20" 
+                   FontFamily="Champagne &amp; Limousines">
+                    <Label.Content>
+                        <TextBlock TextWrapping="Wrap">Выберите название:</TextBlock>
+                    </Label.Content>
+                </Label>
+
+                <ComboBox Width="auto" Margin="10" x:Name="nameProduct" ItemsSource="{Binding Products}" 
+                          DisplayMemberPath="title" IsSynchronizedWithCurrentItem="True"/>
+
+                <Label Margin="10" FontSize="20" 
+                   FontFamily="Champagne &amp; Limousines">
+                    <Label.Content>
+                        <TextBlock TextWrapping="Wrap">Выберите количество продуктов:</TextBlock>
+                    </Label.Content>
+                </Label>
+
+                <ComboBox Width="auto" Margin="10" ItemsSource="{Binding SelectedItem.all_kolvo, ElementName=nameProduct}" IsSynchronizedWithCurrentItem="True"
+                      VerticalAlignment="Center"/>
+
+                <Button Command="{Binding AddCommand}"
+                    Content="Добавить новый продукт" Width="auto" Margin="10"/>
+            </WrapPanel>
+
+            <WrapPanel Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Button Width="auto" Margin="10"  Command="{Binding GetCheck}"
+                    Content="Составить чек"/>
+                
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</Window>
