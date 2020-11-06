@@ -7,7 +7,7 @@ using DAL;
 
 namespace foodShop
 {
-    class ProductModel
+    public class ProductModel : IComparable
     {
         public int code_of_product { get; set; }
         public decimal now_cost { get; set; }
@@ -30,6 +30,15 @@ namespace foodShop
             //правильно считаю кол-во всех продуктов?
             foreach (var lpost in product.Line_of_postavka)
                 all_kolvo += lpost.ostalos_product;
+        }
+
+        public int CompareTo(object o)
+        {
+            ProductModel p = o as ProductModel;
+            if (p != null)
+                return this.title.CompareTo(p.title);
+            else
+                throw new Exception("Невозможно сравнить два объекта");
         }
     }
 }

@@ -7,7 +7,7 @@ using DAL;
 
 namespace foodShop
 {
-    class PostavkaModel
+    public class PostavkaModel
     {
         public int number_of_postavka { get; set; }
         public decimal? itogo_cost { get; set; }

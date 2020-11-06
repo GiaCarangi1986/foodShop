@@ -11,6 +11,8 @@ namespace foodShop
 {
     class ThankYouViewModel : INotifyPropertyChanged
     {
+        CheckModel checkModel; //полученный чек
+
         private RelayCommand ok; //ознакомились с подведением итогов о покупке
         public RelayCommand Ok
         {

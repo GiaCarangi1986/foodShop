@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace foodShop
 {
-    class LoginAndPassword : INotifyPropertyChanged
+    public class LoginAndPassword : INotifyPropertyChanged
     {
         private string login;
 

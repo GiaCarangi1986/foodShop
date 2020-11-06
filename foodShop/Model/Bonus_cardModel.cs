@@ -7,7 +7,7 @@ using DAL;
 
 namespace foodShop
 {
-    class Bonus_cardModel
+    public class Bonus_cardModel
     {
         public int number_of_card { get; set; }
         public int? kolvo_bonusov { get; set; }

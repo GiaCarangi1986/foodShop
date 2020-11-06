@@ -7,7 +7,7 @@ using DAL;
 
 namespace foodShop
 {
-    class Line_of_checkModel
+    public class Line_of_checkModel
     {
         public int line_number_of_check { get; set; }
         public int much_of_products { get; set; }

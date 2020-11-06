@@ -40,7 +40,7 @@ namespace foodShop
         private BonusCard bonusCard;
         public BonusCardViewModel(BonusCard bonusCard)
         {
-            this.bonusCard = bonusCard;
+            this.bonusCard = bonusCard; //используем для последующего закрытия текущего окна
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

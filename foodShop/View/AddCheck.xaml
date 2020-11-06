@@ -32,12 +32,22 @@
                 <materialDesign:PackIcon Kind="Close"/>
             </Button>-->
 
-            <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}" SelectedItem="{Binding SelectedLine_of_check}">
+            <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5">
-                            <TextBlock FontSize="18" Text="{Binding Path=Line_of_checks.Product.title}" />
-                            <TextBlock Text="{Binding Path=much_of_products}" />
+                            <TextBlock FontSize="18" Text="{Binding Path=name_of_product}" />
+                            <TextBlock>
+                                <Run Text="кол-во: "/>
+                                <Run Text="{Binding Path=much_of_products}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="цена: "/>
+                                <Run Text="{Binding Path=cost_for_buyer}"/>
+                            </TextBlock>
+                            
+                          <!--  <TextBlock Text="кол-во: {Binding Path=much_of_products}" />
+                            <TextBlock Text="цена: {Binding Path=line_of_check.cost_for_buyer}" /> -->
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -52,6 +62,7 @@
                 </Label>
 
                 <ComboBox Width="auto" Margin="10" x:Name="nameProduct" ItemsSource="{Binding Products}" 
+                          IsEditable="True" SelectedItem="{Binding SelectedProduct}" 
                           DisplayMemberPath="title" IsSynchronizedWithCurrentItem="True"/>
 
                 <Label Margin="10" FontSize="20" 
@@ -61,10 +72,19 @@
                     </Label.Content>
                 </Label>
 
-                <ComboBox Width="auto" Margin="10" ItemsSource="{Binding SelectedItem.all_kolvo, ElementName=nameProduct}" IsSynchronizedWithCurrentItem="True"
-                      VerticalAlignment="Center"/>
-
-                <Button Command="{Binding AddCommand}"
+                <TextBox Text="{Binding VvodMax, UpdateSourceTrigger=PropertyChanged}" />
+                
+                <Label Margin="10" FontSize="16" 
+                   FontFamily="Champagne &amp; Limousines">
+                    <Label.Content>
+                        <TextBlock>
+                            <Run Text="макс="/>
+                            <Run Text="{Binding Max}"/>
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+                
+                <Button Command="{Binding AddLine_of_check}" 
                     Content="Добавить новый продукт" Width="auto" Margin="10"/>
             </WrapPanel>
 

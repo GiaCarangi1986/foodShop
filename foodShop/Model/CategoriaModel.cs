@@ -7,7 +7,7 @@ using DAL;
 
 namespace foodShop
 {
-    class CategoriaModel
+    public class CategoriaModel
     {
         public int id_categoria { get; set; }
         public string name { get; set; }

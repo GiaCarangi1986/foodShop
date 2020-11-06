@@ -12,51 +12,82 @@ namespace foodShop
 {
     class AddCheckViewModel : INotifyPropertyChanged
     {
-        private foodShopContext dbContext;
-        private Line_of_check selectedLine_of_check;
-        private ProductModel selectedProductModel;
+        private Line_of_checkModel lcheck; //хранит строку чека
+        private DBOperations db;
+        private ProductModel selectedProduct; //хранит выбранный в combox продукт
+        private CheckModel check; //создает новый чек, куда впишем строки чека
+        private int max; //хранит максимально доступное кол-во товара
+        private int vvodMax; //пользовательский ввод кол-ва продуктов
+        private int sumInCheck; //итоговая сумма чека
 
-        public ObservableCollection<ProductModel> Products { get; set; }
-        public ObservableCollection<Line_of_check> Line_of_checks { get; set; }
-        
-        public Line_of_check SelectedLine_of_check
+        public ObservableCollection<ProductModel> Products { get; set; } //коллекция продуктов
+        public ObservableCollection<Line_of_checkModel> Line_of_checks { get; set; } //коллекция строк чека
+
+
+
+        public int VvodMax //ввод желаемого кол-ва товаров
         {
-            get { return selectedLine_of_check; }
+            get { return vvodMax; }
             set
             {
-                if (selectedLine_of_check.Check.number_of_check == 0)
-                {
-                    selectedLine_of_check = value;
-                    OnPropertyChanged("SelectedLine_of_check");
-                }
+                vvodMax = value;
+                OnPropertyChanged("VvodMax");
             }
         }
 
-        public int? SelectedProductModel
+        public int Max //отправляем в текстблок максимально возможное кол-во товара
         {
-            get { return selectedProductModel.all_kolvo; }
+            get { return max; }
+            set
+            {
+                max = value;
+               OnPropertyChanged("Max");
+            }
+        }
+         
+        public ProductModel SelectedProduct //запомнить продукт, выбранный в combobox
+        {
+            get { return selectedProduct; }
+            set
+            {
+                selectedProduct = value;
+                max = (int)selectedProduct.all_kolvo;
+                Max = max;
+                OnPropertyChanged("SelectedProduct");
+            }
         }
 
-        // команда добавления нового объекта
-        private RelayCommand addCommand;
-        public RelayCommand AddCommand
+       // команда добавления новой строки чека
+        private RelayCommand addLine_of_check;
+        public RelayCommand AddLine_of_check
         {
             get
             {
-                //здесь должно быть добавление нового элемента в дал (работа тут с моделями или как)?
-                //если да, то как фиксировать добавления именно в дал и изменение строки чека
-                return addCommand ??
-                  (addCommand = new RelayCommand(obj =>
+                return addLine_of_check ??
+                  (addLine_of_check = new RelayCommand(obj =>
                   {
-                      Line_of_check lcheck = new Line_of_check();
-                      //lcheck.Check.number_of_check = 0;
-                      Line_of_checks.Insert(Line_of_checks.Count, lcheck);
-                      selectedLine_of_check = lcheck;
-                  }));
+                      lcheck = new Line_of_checkModel();
+                      lcheck.code_of_product_FK = selectedProduct.code_of_product;
+                      lcheck.number_of_check_FK = check.number_of_check;
+                      lcheck.cost_for_buyer = selectedProduct.now_cost;
+                      lcheck.much_of_products = vvodMax;
+                      lcheck.name_of_product = selectedProduct.title;
+                      lcheck.itogo = selectedProduct.now_cost * vvodMax;
+
+                      sumInCheck += (int)lcheck.itogo;
+
+                      //тут должен быть код выбора рандома продуктов из партий
+
+                      db.CreateLine_of_check(lcheck); //в бд сохраним новую строку чека
+
+                      Line_of_checks.Insert(Line_of_checks.Count, lcheck); //добавить строку чека в поле слева
+                  },
+                 //условие, при котором будет доступна команда
+                 (obj) => (vvodMax <= max)));
             }
         }
 
-        private RelayCommand getCheck;
+        private RelayCommand getCheck; //нажали составить чек
         public RelayCommand GetCheck
         {
             get
@@ -64,39 +95,28 @@ namespace foodShop
                 return getCheck ??
                   (getCheck = new RelayCommand(obj =>
                   {
+                      check.total_cost = sumInCheck;
+                      db.UpdateCheck(check);
                       BonusCard bonusCard = new BonusCard();
-                      bonusCard.ShowDialog();
-                      add.Close();
+                      bonusCard.ShowDialog(); //открываем окно с бонусной картой
+                      add.Close(); //как ток там все сделается, закрываем это окно
                   }));
             }
         }
-
-        /*private RelayCommand bay;
-        public RelayCommand Bay
-        {
-            get
-            {
-                return bay ??
-                  (bay = new RelayCommand(obj =>
-                  {
-                      add.Close();
-                  }));
-            }
-        }*/
 
         private AddCheck add;
         public AddCheckViewModel(AddCheck add)
         {
             this.add = add;
-            dbContext = new foodShopContext();
-            Line_of_checks = new ObservableCollection<Line_of_check>(dbContext.Line_of_check.ToList());
-            Products = new ObservableCollection<ProductModel>(dbContext.Products.ToList().Select(i => new ProductModel(i)).ToList());
-            //  selectedProductModel = dbContext.Products.Select(i => new ProductModel(i)).ToList();
-            //надо коллекцию ProductModel?
-            //нужен класс dbOperations где пропишем все методы?
-            //искать в коллекции?
-            //как тут ввести инфу о выбранном в комбобоксе продукте??
-           // selectedProductModel = new ProductModel(dbContext.Products.Find(Products[0].code_of_product));
+            db = new DBOperations();
+            Products = new ObservableCollection<ProductModel>(db.GetAllProduct());
+            
+
+            check = new CheckModel(); //создаем чек
+            check.date_and_time = DateTime.Now;
+            check.number_of_check = db.CreateCheck(check);
+
+            Line_of_checks = new ObservableCollection<Line_of_checkModel>(db.GetAllLine_of_check(check.number_of_check));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

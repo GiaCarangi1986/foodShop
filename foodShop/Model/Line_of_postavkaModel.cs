@@ -7,7 +7,7 @@ using DAL;
 
 namespace foodShop
 {
-    class Line_of_postavkaModel
+    public class Line_of_postavkaModel
     {
         public int line_of_postavka { get; set; }
         public int? kolvo_of_product { get; set; }

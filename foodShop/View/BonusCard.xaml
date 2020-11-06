@@ -46,7 +46,7 @@
         <Label Margin="10" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap">54 (все, что есть)</TextBlock>
+                <TextBlock TextWrapping="Wrap">добавить доступно для снятия</TextBlock>
             </Label.Content>
         </Label>
 

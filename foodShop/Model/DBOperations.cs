@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DAL;
+
+namespace foodShop
+{
+    public class DBOperations
+    {
+        private foodShopContext db;
+
+            public DBOperations()
+            {
+                db = new foodShopContext();
+            }
+
+            public List<CheckModel> GetAllCheck_pok()
+            {
+            return db.Checks.ToList().Select(i => new CheckModel(i)).ToList();
+        }
+
+            public List<Line_of_checkModel> GetAllLine_of_check()
+            {
+                return db.Line_of_check.ToList().Select(i => new Line_of_checkModel(i)).ToList();
+            }
+
+        public List<Line_of_checkModel> GetAllLine_of_check(int id)
+        {
+            return db.Line_of_check.ToList().Select(a => new Line_of_checkModel(a)).Where(i=> i.number_of_check_FK==id).ToList();
+        }
+
+        public List<ProductModel> GetAllProduct()
+            {
+                return db.Products.ToList().Select(i => new ProductModel(i)).ToList().OrderBy(i => i).ToList();
+            }
+
+            public ProductModel GetProduct(int Id)
+            {
+                return new ProductModel(db.Products.Find(Id));
+            }
+
+            public void CreateLine_of_check(Line_of_checkModel line_Of_Check)
+            {
+            Line_of_check line = new Line_of_check();
+            line.much_of_products = line_Of_Check.much_of_products;
+            line.cost_for_buyer = line_Of_Check.cost_for_buyer;
+            line.number_of_check_FK = line_Of_Check.number_of_check_FK;
+            line.code_of_product_FK = line_Of_Check.code_of_product_FK;
+            db.Line_of_check.Add(line);
+            /*db.Line_of_check.Add(new Line_of_check()
+            {
+                much_of_products = line_Of_Check.much_of_products,
+                cost_for_buyer = line_Of_Check.cost_for_buyer,
+                number_of_check_FK = line_Of_Check.number_of_check_FK,
+                code_of_product_FK = line_Of_Check.code_of_product_FK
+            });*/
+            Save();
+            }
+
+            public void UpdateLine_of_check(Line_of_checkModel line_Of_Check)
+            {
+                Line_of_check line = db.Line_of_check.Find(line_Of_Check.line_number_of_check);
+                line.much_of_products = line_Of_Check.much_of_products;
+                line.cost_for_buyer = line_Of_Check.cost_for_buyer;
+                line.number_of_check_FK = line_Of_Check.number_of_check_FK;
+                line.code_of_product_FK = line_Of_Check.code_of_product_FK;
+                Save();
+            }
+
+        public int CreateCheck(CheckModel checkModel)
+        {
+            Check check = new Check();
+            check.date_and_time = (DateTime)checkModel.date_and_time;
+            check.number_of_card_FK = checkModel.number_of_card_FK;
+            check.total_cost = checkModel.total_cost;
+            db.Checks.Add(check);
+            /*db.Checks.Add(new Check()
+            {
+              date_and_time = (DateTime)checkModel.date_and_time,
+            number_of_card_FK = checkModel.number_of_card_FK,
+            total_cost = checkModel.total_cost
+        });*/
+            Save();
+            return check.number_of_check;
+        }
+
+        public void UpdateCheck(CheckModel checkModel)
+        {
+            Check check = db.Checks.Find(checkModel.number_of_check);
+            check.date_and_time = (DateTime)checkModel.date_and_time;
+            check.number_of_card_FK = checkModel.number_of_card_FK;
+            check.total_cost = checkModel.total_cost;
+            Save();
+        }
+
+        public bool Save()
+            {
+                if (db.SaveChanges() > 0) return true;
+                return false;
+            }
+        }
+
+}
