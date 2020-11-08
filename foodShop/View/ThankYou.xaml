@@ -9,8 +9,12 @@
         Height="300" Width="400"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.7*"/>
@@ -20,32 +24,49 @@
         <TextBlock Text="СПАСИБО ЗА ПОКУПКУ!" Foreground="White" HorizontalAlignment="Center" 
                    VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="2"/>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <Label Margin="10" FontSize="18" 
+        
+            <Label Margin="10" FontSize="16" Grid.Row="1" VerticalAlignment="Center"
                    FontFamily="Champagne &amp; Limousines">
                 <Label.Content>
                     <TextBlock TextWrapping="Wrap">Сумма чека:</TextBlock>
                 </Label.Content>
             </Label>
 
-            <Label Margin="10" FontSize="18" 
+        <Label Margin="10" FontSize="16" Grid.Row="2" VerticalAlignment="Center"
                    FontFamily="Champagne &amp; Limousines">
                 <Label.Content>
                     <TextBlock TextWrapping="Wrap">Скидка составила:</TextBlock>
                 </Label.Content>
             </Label>
 
-            <Label Margin="10" FontSize="18" 
+        <Label Margin="10" FontSize="16" Grid.Row="3" VerticalAlignment="Center"
                    FontFamily="Champagne &amp; Limousines">
-                <Label.Content>
-                    <TextBlock TextWrapping="Wrap">Итоговая стоимость со скидкой:</TextBlock>
-                </Label.Content>
-            </Label>
-        </StackPanel>
+            <Label.Content>
+                <TextBlock TextWrapping="Wrap">Итоговая стоимость со скидкой:</TextBlock>
+            </Label.Content>
+        </Label>
 
-        <WrapPanel Grid.Column="1" Grid.Row="1">
-            <Button Content="ОК" VerticalAlignment="Bottom" Command="{Binding Ok}"/>
-        </WrapPanel>
-        
+        <Label Margin="10" FontSize="16" Grid.Row="4" VerticalAlignment="Center"
+                   FontFamily="Champagne &amp; Limousines">
+            <Label.Content>
+                <TextBlock TextWrapping="Wrap">Бонусов на карте:</TextBlock>
+            </Label.Content>
+        </Label>
+ 
+        <Button Content="ОК" VerticalAlignment="Top" Width="auto" Height="auto" HorizontalAlignment="Left"
+                    Command="{Binding Ok}" Grid.Column="1" Grid.Row="5"/>
+
+        <Label Grid.Row="1" Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines"
+               Content="{Binding Sum}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <Label Grid.Row="2" Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines"
+               Content="{Binding Sale}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <Label Grid.Row="3" Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines"
+               Content="{Binding Itog}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <Label Grid.Row="4" Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines"
+               Content="{Binding NowBonusov}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
     </Grid>
 </Window>

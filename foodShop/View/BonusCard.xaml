@@ -33,7 +33,7 @@
             </Label.Content>
         </Label>
 
-        <Label Margin="10" Grid.Row="2" VerticalAlignment="Center" FontSize="20" 
+        <Label Margin="10" Grid.Row="2" VerticalAlignment="Top" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
             <Label.Content>
                 <TextBlock TextWrapping="Wrap">Списать:</TextBlock>
@@ -41,15 +41,23 @@
         </Label>
 
         <ComboBox Grid.Row="1" Width="auto" Margin="10" HorizontalAlignment="Left" 
-                      VerticalAlignment="Center" Grid.Column="1"/>
+          ItemsSource="{Binding BonusCards}" SelectedItem="{Binding SelectedBonusCard, UpdateSourceTrigger=PropertyChanged}"
+          IsEditable="True" DisplayMemberPath="number_of_card" VerticalAlignment="Center" Grid.Column="1" />
 
-        <Label Margin="10" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" FontSize="20" 
+        <WrapPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
+            <TextBox Text="{Binding VvodBonus, UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+
+            <Label Margin="10"  VerticalAlignment="Center" FontSize="12" 
                    FontFamily="Champagne &amp; Limousines">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap">добавить доступно для снятия</TextBlock>
-            </Label.Content>
-        </Label>
-
+                <Label.Content>
+                    <TextBlock>
+                            <Run Text="доступно для снятия="/>
+                            <Run Text="{Binding MaxBonus}"/>
+                    </TextBlock>
+                </Label.Content>
+            </Label>
+        </WrapPanel>
+        
         <WrapPanel VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="3" 
                    Orientation="Vertical" HorizontalAlignment="Center">
             <Button Width="150" Margin="10" Command="{Binding WithCard}" Content="ПРИМЕНИТЬ"/>

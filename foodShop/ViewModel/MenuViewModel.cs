@@ -22,8 +22,7 @@ namespace foodShop
                       AddCheck add = new AddCheck();
                       add.ShowDialog(); //будем открывать последовательно окно с добавлением строк
                       //чека и потом окно с добавлением скидочной карты
-                      ThankYou thank = new ThankYou();
-                      thank.ShowDialog(); //октрыть окно с подведением итогов о покупке
+                      
                   }));
             }
         }

@@ -19,19 +19,30 @@ namespace foodShop
         private int max; //хранит максимально доступное кол-во товара
         private int vvodMax; //пользовательский ввод кол-ва продуктов
         private int sumInCheck; //итоговая сумма чека
+        private decimal price;
 
         public ObservableCollection<ProductModel> Products { get; set; } //коллекция продуктов
         public ObservableCollection<Line_of_checkModel> Line_of_checks { get; set; } //коллекция строк чека
 
-
+        public decimal Price //указывается цена товара
+        {
+            get { return price; }
+            set
+            {
+                    price = value;
+                    OnPropertyChanged("Price");
+            }
+        }
 
         public int VvodMax //ввод желаемого кол-ва товаров
         {
-            get { return vvodMax; }
+            get {  return vvodMax; }
             set
             {
-                vvodMax = value;
-                OnPropertyChanged("VvodMax");
+                if (selectedProduct != null) {
+                    vvodMax = value;
+                    OnPropertyChanged("VvodMax");
+                }
             }
         }
 
@@ -53,6 +64,8 @@ namespace foodShop
                 selectedProduct = value;
                 max = (int)selectedProduct.all_kolvo;
                 Max = max;
+                price = selectedProduct.now_cost;
+                Price = price;
                 OnPropertyChanged("SelectedProduct");
             }
         }
@@ -83,7 +96,7 @@ namespace foodShop
                       Line_of_checks.Insert(Line_of_checks.Count, lcheck); //добавить строку чека в поле слева
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (vvodMax <= max)));
+                 (obj) => (vvodMax <= max && vvodMax>0)));
             }
         }
 
@@ -97,10 +110,12 @@ namespace foodShop
                   {
                       check.total_cost = sumInCheck;
                       db.UpdateCheck(check);
-                      BonusCard bonusCard = new BonusCard();
+                      BonusCard bonusCard = new BonusCard(check);
                       bonusCard.ShowDialog(); //открываем окно с бонусной картой
                       add.Close(); //как ток там все сделается, закрываем это окно
-                  }));
+                  },
+                  //условие, при котором будет доступна команда
+                 (obj) => (Line_of_checks.Count>=1)));
             }
         }
 

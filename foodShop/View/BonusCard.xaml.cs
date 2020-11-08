@@ -19,10 +19,10 @@ namespace foodShop
     /// </summary>
     public partial class BonusCard : Window
     {
-        public BonusCard()
+        public BonusCard(CheckModel check)
         {
             InitializeComponent();
-            DataContext = new BonusCardViewModel(this);
+            DataContext = new BonusCardViewModel(this, check);
         }
     }
 }

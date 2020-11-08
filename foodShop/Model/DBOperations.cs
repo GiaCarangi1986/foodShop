@@ -31,6 +31,20 @@ namespace foodShop
             return db.Line_of_check.ToList().Select(a => new Line_of_checkModel(a)).Where(i=> i.number_of_check_FK==id).ToList();
         }
 
+        public List<Bonus_cardModel> GetAllBonus_card()
+        {
+            return db.Bonus_card.ToList().Select(i => new Bonus_cardModel(i)).ToList().OrderBy(i => i).ToList();
+        }
+
+        public decimal? UpdateBonus_card(Bonus_cardModel bonus, CheckModel check, int spisat)
+        {
+            Bonus_card bonus_Card = db.Bonus_card.Find(bonus.number_of_card);
+            //можно списать только старые бонусы, а новые будут зачислены на след покупку
+            bonus_Card.kolvo_bonusov = bonus_Card.kolvo_bonusov + check.total_cost * (decimal?)0.01 - (decimal?)spisat;
+            Save();
+            return bonus_Card.kolvo_bonusov;
+        }
+
         public List<ProductModel> GetAllProduct()
             {
                 return db.Products.ToList().Select(i => new ProductModel(i)).ToList().OrderBy(i => i).ToList();

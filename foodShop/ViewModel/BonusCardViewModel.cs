@@ -11,7 +11,49 @@ namespace foodShop
 {
     class BonusCardViewModel : INotifyPropertyChanged
     {
-        private RelayCommand withCard; //ПРИМЕНИТЬ скидку
+        private DBOperations db;
+        private Bonus_cardModel selectedBonusCard; //хранит выбранную в combox бонусную карту
+        private int spisat;
+        private decimal? max;
+
+        public ObservableCollection<Bonus_cardModel> BonusCards { get; set; } //коллекция бонусных карт
+
+        public int VvodBonus //ввод желаемого кол-ва бонусов для списания
+        {
+            get { return spisat; }
+            set
+            {
+                if (selectedBonusCard != null)
+                {
+                    spisat = value;
+                    OnPropertyChanged("VvodMax");
+                }
+            }
+        }
+
+        public decimal? MaxBonus //отправляем в текстблок максимально возможное кол-во бонусов для списания
+        {
+            get { return max; }
+            set
+            {
+                max = value;
+                OnPropertyChanged("MaxBonus");
+            }
+        }
+
+        public Bonus_cardModel SelectedBonusCard //запомнить бонусную карту, выбранную в combobox
+        {
+            get { return selectedBonusCard; }
+            set
+            {
+                selectedBonusCard = value;
+                max = selectedBonusCard.kolvo_bonusov;
+                MaxBonus = max;
+                OnPropertyChanged("SelectedProduct");
+            }
+        }
+
+        private RelayCommand withCard; //ПРИМЕНИТЬ бонусную карту (зачислить новые бонусы и/или списать старые бонусы)
         public RelayCommand WithCard
         {
             get
@@ -19,12 +61,20 @@ namespace foodShop
                 return withCard ??
                   (withCard = new RelayCommand(obj =>
                   {
-                      bonusCard.Close(); //закрываем окно BonusCard
-                  }));
+                      //логика (на карту идет 1% от всех покупок, потом можно будет снимать 1:1)
+                      selectedBonusCard.kolvo_bonusov = db.UpdateBonus_card(selectedBonusCard, check, spisat);
+                      selectedBonusCard.snayli_bonusov = spisat;
+
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard);
+                      thank.Show(); //октрыть окно с подведением итогов о покупке
+                     // bonusCard.Close(); //закрываем окно BonusCard
+                  },
+                 //условие, при котором будет доступна команда
+                 (obj) => (selectedBonusCard!=null && spisat<= selectedBonusCard.kolvo_bonusov)));
             }
         }
 
-        private RelayCommand withoutCard; //НЕ ПРИМЕНЯТЬ скидку
+        private RelayCommand withoutCard; //НЕ ПРИМЕНЯТЬ бонусную карту
         public RelayCommand WithoutCard
         {
             get
@@ -32,15 +82,22 @@ namespace foodShop
                 return withoutCard ??
                   (withoutCard = new RelayCommand(obj =>
                   {
-                      bonusCard.Close(); //закрываем окно BonusCard
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard);
+                      thank.Show(); //октрыть окно с подведением итогов о покупке
+                      //bonusCard.Close(); //закрываем окно BonusCard
                   }));
             }
         }
 
+        private CheckModel check;
         private BonusCard bonusCard;
-        public BonusCardViewModel(BonusCard bonusCard)
+        public BonusCardViewModel(BonusCard bonusCard, CheckModel check)
         {
             this.bonusCard = bonusCard; //используем для последующего закрытия текущего окна
+            this.check = check;
+
+            db = new DBOperations();
+            BonusCards = new ObservableCollection<Bonus_cardModel>(db.GetAllBonus_card());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

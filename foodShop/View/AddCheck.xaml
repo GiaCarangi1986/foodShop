@@ -38,16 +38,13 @@
                         <StackPanel Margin="5">
                             <TextBlock FontSize="18" Text="{Binding Path=name_of_product}" />
                             <TextBlock>
-                                <Run Text="кол-во: "/>
-                                <Run Text="{Binding Path=much_of_products}"/>
-                            </TextBlock>
-                            <TextBlock>
                                 <Run Text="цена: "/>
                                 <Run Text="{Binding Path=cost_for_buyer}"/>
                             </TextBlock>
-                            
-                          <!--  <TextBlock Text="кол-во: {Binding Path=much_of_products}" />
-                            <TextBlock Text="цена: {Binding Path=line_of_check.cost_for_buyer}" /> -->
+                            <TextBlock>
+                                <Run Text="кол-во: "/>
+                                <Run Text="{Binding Path=much_of_products}"/>
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -62,8 +59,18 @@
                 </Label>
 
                 <ComboBox Width="auto" Margin="10" x:Name="nameProduct" ItemsSource="{Binding Products}" 
-                          IsEditable="True" SelectedItem="{Binding SelectedProduct}" 
+                          IsEditable="True" SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}" 
                           DisplayMemberPath="title" IsSynchronizedWithCurrentItem="True"/>
+
+                <Label Margin="10" FontSize="16" 
+                   FontFamily="Champagne &amp; Limousines">
+                    <Label.Content>
+                        <TextBlock>
+                            <Run Text="цена="/>
+                            <Run Text="{Binding Price}"/>
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
 
                 <Label Margin="10" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
@@ -83,8 +90,8 @@
                         </TextBlock>
                     </Label.Content>
                 </Label>
-                
-                <Button Command="{Binding AddLine_of_check}" 
+
+                <Button Command="{Binding AddLine_of_check, UpdateSourceTrigger=PropertyChanged}" 
                     Content="Добавить новый продукт" Width="auto" Margin="10"/>
             </WrapPanel>
 
