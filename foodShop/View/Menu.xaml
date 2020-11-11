@@ -48,17 +48,32 @@
             </TabControl.Resources>
 
             <TabItem Header="ЧЕК">
-                <WrapPanel  Orientation="Vertical">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition Height="0.8*"/>
+                    </Grid.RowDefinitions>
                     <WrapPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <Button Width="220" HorizontalAlignment="Left" Command="{Binding Add_Check}"
                                 Margin="10" Content="ДОБАВИТЬ ЧЕК"/>
                         <Button Width="220" HorizontalAlignment="Left" Command="{Binding Change_Check}"
                                 Margin="10" Content="РЕДАКТИРОВАТЬ ЧЕК"/>
                     </WrapPanel>
-                    <DataGrid>
 
-                    </DataGrid>
-                </WrapPanel>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Checks}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="5">
+                                    <TextBlock FontSize="18" Text="{Binding Path=date_and_time}" Language="ru-RU"/>
+                                    <TextBlock>
+                                <Run Text="сумма: "/>
+                                <Run Text="{Binding Path=total_cost}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </TabItem>
 
             <TabItem Header="СПИСАТЬ ПРОДУКТ">

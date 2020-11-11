@@ -13,12 +13,12 @@ namespace foodShop
     {
         private DBOperations db;
         private Bonus_cardModel selectedBonusCard; //хранит выбранную в combox бонусную карту
-        private int spisat;
+        private int? spisat;
         private decimal? max;
 
         public ObservableCollection<Bonus_cardModel> BonusCards { get; set; } //коллекция бонусных карт
 
-        public int VvodBonus //ввод желаемого кол-ва бонусов для списания
+        public int? VvodBonus //ввод желаемого кол-ва бонусов для списания
         {
             get { return spisat; }
             set
@@ -49,6 +49,7 @@ namespace foodShop
                 selectedBonusCard = value;
                 max = selectedBonusCard.kolvo_bonusov;
                 MaxBonus = max;
+                spisat = 0;
                 OnPropertyChanged("SelectedProduct");
             }
         }
@@ -62,9 +63,15 @@ namespace foodShop
                   (withCard = new RelayCommand(obj =>
                   {
                       //логика (на карту идет 1% от всех покупок, потом можно будет снимать 1:1)
-                      selectedBonusCard.kolvo_bonusov = db.UpdateBonus_card(selectedBonusCard, check, spisat);
-                      selectedBonusCard.snayli_bonusov = spisat;
+                      selectedBonusCard.kolvo_bonusov = db.UpdateBonus_card(selectedBonusCard, check, spisat.Value);
+                      selectedBonusCard.snayli_bonusov = spisat.Value;
 
+                      if (spisat != 0)
+                      {
+                          check.total_cost -= spisat;
+                          db.UpdateCheck(check); //обновили чек в бд  (итоговая стоимость ниже, если сняла бонусы)
+                      }
+                      
                       ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                      // bonusCard.Close(); //закрываем окно BonusCard
@@ -82,6 +89,8 @@ namespace foodShop
                 return withoutCard ??
                   (withoutCard = new RelayCommand(obj =>
                   {
+                      if (selectedBonusCard != null)
+                          selectedBonusCard = null;
                       ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                       //bonusCard.Close(); //закрываем окно BonusCard

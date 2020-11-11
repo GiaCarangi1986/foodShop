@@ -34,12 +34,12 @@
             <StackPanel VerticalAlignment="Center" Margin="15">
                 <TextBox Margin="0,10" materialDesign:HintAssist.Hint="ЛОГИН" Text="{Binding Login, UpdateSourceTrigger=LostFocus}"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
-                <PasswordBox Margin="0,10" materialDesign:HintAssist.Hint="ПАРОЛЬ" 
+                <PasswordBox Margin="0,10" materialDesign:HintAssist.Hint="ПАРОЛЬ" x:Name="PasswordBox"
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
             </StackPanel>
         </Grid>
         <Button Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" 
-                Command="{Binding Voiti}" Content="ВОЙТИ"/>
+                Command="{Binding Voiti}" Content="ВОЙТИ" CommandParameter="{Binding ElementName=PasswordBox}"/>
         <TextBlock Text="ПРОДУКТОВЫЙ МАГАЗИН" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30" Foreground="Gray" Cursor="Hand"/>
         <Image Source="/Image/zakaz.jpg"  Height="130" VerticalAlignment="Top" Margin="30"/>
     </Grid>

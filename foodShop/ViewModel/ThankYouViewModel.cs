@@ -17,6 +17,7 @@ namespace foodShop
         private decimal? itog; //сумма покупок чека со скидкой
         private decimal? nowBonusov; //осталось на карте кол-во бонусов
 
+
         public decimal? Sum //сумма покупок чека без учета скидки
         {
             get { return sum; }
@@ -47,12 +48,16 @@ namespace foodShop
             }
         }
 
-        public decimal? NowBonusov //осталось на карте кол-во бонусов
+        public string NowBonusov //осталось на карте кол-во бонусов
         {
-            get { return nowBonusov; }
+            get {
+                if (selectedBonusCard == null)
+                    return "-";
+                return nowBonusov.ToString();
+            }
             set
             {
-                nowBonusov = value;
+                nowBonusov = Convert.ToDecimal(value);
                 OnPropertyChanged("NowBonusov");
             }
         }
@@ -82,10 +87,18 @@ namespace foodShop
             this.check = check;
             this.selectedBonusCard = selectedBonusCard;
 
-            sum = check.total_cost;
-            sale = selectedBonusCard.snayli_bonusov;
-            itog = sum - sale;
-            nowBonusov = selectedBonusCard.kolvo_bonusov;
+            sum = check.total_cost + selectedBonusCard.snayli_bonusov;
+            if (selectedBonusCard != null)
+            {
+                sale = selectedBonusCard.snayli_bonusov;
+                nowBonusov = selectedBonusCard.kolvo_bonusov;
+            }
+            else
+            {
+                sale = 0;
+                nowBonusov = null;
+            }
+            itog = check.total_cost;
 
             bonusCard.Hide();
         }

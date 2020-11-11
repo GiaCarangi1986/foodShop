@@ -17,24 +17,24 @@ namespace foodShop
         private ProductModel selectedProduct; //хранит выбранный в combox продукт
         private CheckModel check; //создает новый чек, куда впишем строки чека
         private int max; //хранит максимально доступное кол-во товара
-        private int vvodMax; //пользовательский ввод кол-ва продуктов
+        private int? vvodMax; //пользовательский ввод кол-ва продуктов
         private int sumInCheck; //итоговая сумма чека
         private decimal price;
 
         public ObservableCollection<ProductModel> Products { get; set; } //коллекция продуктов
         public ObservableCollection<Line_of_checkModel> Line_of_checks { get; set; } //коллекция строк чека
 
-        public decimal Price //указывается цена товара
+        public string Price //указывается цена товара
         {
-            get { return price; }
+            get { return price.ToString("0.00"); }
             set
             {
-                    price = value;
+                    price = Convert.ToDecimal(value);
                     OnPropertyChanged("Price");
             }
         }
 
-        public int VvodMax //ввод желаемого кол-ва товаров
+        public int? VvodMax //ввод желаемого кол-ва товаров
         {
             get {  return vvodMax; }
             set
@@ -65,7 +65,7 @@ namespace foodShop
                 max = (int)selectedProduct.all_kolvo;
                 Max = max;
                 price = selectedProduct.now_cost;
-                Price = price;
+                Price = price.ToString();
                 OnPropertyChanged("SelectedProduct");
             }
         }
@@ -83,9 +83,9 @@ namespace foodShop
                       lcheck.code_of_product_FK = selectedProduct.code_of_product;
                       lcheck.number_of_check_FK = check.number_of_check;
                       lcheck.cost_for_buyer = selectedProduct.now_cost;
-                      lcheck.much_of_products = vvodMax;
+                      lcheck.much_of_products = vvodMax.Value;
                       lcheck.name_of_product = selectedProduct.title;
-                      lcheck.itogo = selectedProduct.now_cost * vvodMax;
+                      lcheck.itogo = selectedProduct.now_cost * vvodMax.Value;
 
                       sumInCheck += (int)lcheck.itogo;
 

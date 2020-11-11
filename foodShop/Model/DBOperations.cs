@@ -16,7 +16,7 @@ namespace foodShop
                 db = new foodShopContext();
             }
 
-            public List<CheckModel> GetAllCheck_pok()
+            public List<CheckModel> GetAllCheck()
             {
             return db.Checks.ToList().Select(i => new CheckModel(i)).ToList();
         }
@@ -55,7 +55,7 @@ namespace foodShop
                 return new ProductModel(db.Products.Find(Id));
             }
 
-            public void CreateLine_of_check(Line_of_checkModel line_Of_Check)
+        public void CreateLine_of_check(Line_of_checkModel line_Of_Check)
             {
             Line_of_check line = new Line_of_check();
             line.much_of_products = line_Of_Check.much_of_products;

@@ -11,6 +11,10 @@ namespace foodShop
 {
     class MenuViewModel : INotifyPropertyChanged
     {
+        private DBOperations db;
+
+        public ObservableCollection<CheckModel> Checks { get; set; } //коллекция чеков
+
         private RelayCommand addCheck; //нажали ДОБАВИТЬ ЧЕК
         public RelayCommand Add_Check
         {
@@ -58,6 +62,9 @@ namespace foodShop
         public MenuViewModel(Menu menu)
         {
             this.menu = menu;
+
+            db = new DBOperations();
+           Checks = new ObservableCollection<CheckModel>(db.GetAllCheck());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

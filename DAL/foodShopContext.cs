@@ -19,6 +19,7 @@ namespace DAL
         public virtual DbSet<Line_of_postavka> Line_of_postavka { get; set; }
         public virtual DbSet<Postavka> Postavkas { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -83,6 +84,14 @@ namespace DAL
                 .WithRequired(e => e.Product)
                 .HasForeignKey(e => e.code_of_product_FK)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.login)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.password)
+                .IsUnicode(false);
         }
     }
 }

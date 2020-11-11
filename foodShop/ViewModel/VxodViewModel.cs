@@ -6,11 +6,24 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using DAL;
 
 namespace foodShop
 {
     class VxodViewModel : INotifyPropertyChanged
     {
+        private foodShopContext foodShop;
+        private string _login;
+        public string Login
+        {
+            get { return _login; }
+            set
+            {
+                _login = value;
+                OnPropertyChanged("Login");
+            }
+        }
         private RelayCommand voiti; //вход
         public RelayCommand Voiti
         {
@@ -19,8 +32,12 @@ namespace foodShop
                 return voiti ??
                   (voiti = new RelayCommand(obj =>
                   {
-                      //LoginAndPassword log = new LoginAndPassword();
-                      //if (log.Login == "Lizok") //поч не попадает в set из xaml? я там прибиндила все вроде
+                      var passwordBox = obj as PasswordBox;
+                      if (passwordBox == null || passwordBox.Password == "")
+                          return;
+                      var _password = passwordBox.Password;
+                      User user = foodShop.Users.Where(i => i.login == _login).SingleOrDefault();
+                      if (user!=null && user.password == _password)
                       {
                           Menu menu = new Menu(); 
                           mainWindow.Close(); //закрываем текущее окно MainWindow
@@ -47,6 +64,7 @@ namespace foodShop
         public VxodViewModel (MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
+            foodShop = new foodShopContext();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
