@@ -13,6 +13,7 @@ namespace foodShop
     class AddCheckViewModel : INotifyPropertyChanged
     {
         private Line_of_checkModel lcheck; //хранит строку чека
+        private Line_of_postavkaModel lpostavka; //хранит строку поставки
         private DBOperations db;
         private ProductModel selectedProduct; //хранит выбранный в combox продукт
         private CheckModel check; //создает новый чек, куда впишем строки чека
@@ -23,6 +24,7 @@ namespace foodShop
 
         public ObservableCollection<ProductModel> Products { get; set; } //коллекция продуктов
         public ObservableCollection<Line_of_checkModel> Line_of_checks { get; set; } //коллекция строк чека
+        public ObservableCollection<Line_of_postavkaModel> Line_of_postavkas { get; set; } //коллекция строк поставки
 
         public string Price //указывается цена товара
         {
@@ -89,11 +91,64 @@ namespace foodShop
 
                       sumInCheck += (int)lcheck.itogo;
 
-                      //тут должен быть код выбора рандома продуктов из партий
+                      //совместить тут надо 2 строки чека, если уже есть товар с такими данными
+                      bool update = false;
+                      foreach (var item in Line_of_checks)
+                      {
+                          if (item.code_of_product_FK == lcheck.code_of_product_FK)
+                          {
+                              Line_of_checkModel model = db.GetLine_of_check((int)item.line_number_of_check);
+                              model.much_of_products += lcheck.much_of_products;
+                              model.itogo += lcheck.itogo;
 
-                      db.CreateLine_of_check(lcheck); //в бд сохраним новую строку чека
+                              Line_of_checks.Remove(item); //удалим первое вхождение старой строки чека
+                              Line_of_checks.Insert(Line_of_checks.Count, model); //добавим в конец обновленную строку чека
 
-                      Line_of_checks.Insert(Line_of_checks.Count, lcheck); //добавить строку чека в поле слева
+                              
+                              db.UpdateLine_of_check(model); //обновим кол-во продуктов и итог стоимость у строки чека в бд
+                              update = true;
+                              break;
+                          }
+                      }
+                      if (!update)
+                      {
+                          
+                          lcheck.line_number_of_check = db.CreateLine_of_check(lcheck); //в бд сохраним новую строку чека
+                          Line_of_checks.Insert(Line_of_checks.Count, lcheck); //добавить строку чека в поле слева
+                      }
+
+                      //уменьшить кол-во в строке поставки
+
+                          var result = Line_of_checks.Join(Line_of_postavkas, // второй набор
+                 lc => lc.code_of_product_FK, // свойство-селектор объекта из первого набор
+                 pc => pc.code_of_product_FK, // свойство-селектор объекта из второго набора
+                 (lc, pc) => new { ostalos_product = pc.ostalos_product, line_number_of_check = lc.number_of_check_FK,
+                 line_of_postavka = pc.line_of_postavka}); // результат
+
+                      //мб в бд в табл "строка поставки" добавить атрибут НОМЕР СТРОКИ ЧЕКА из табл
+                      //"строка чека", чтобы знать потом, в какую строку поставки добавлть продукты при редактировании
+                      max = 0;
+                  foreach (var item in result.Where(i=>i.ostalos_product>0 && i.line_number_of_check==lcheck.number_of_check_FK)) 
+                      {
+                          if (item.ostalos_product>= vvodMax)
+                          {
+                              Line_of_postavkaModel pline = db.GetLine_of_postavka(item.line_of_postavka);
+                              pline.ostalos_product -= vvodMax;
+                              db.UpdateLine_of_postavka(pline);
+                              selectedProduct.all_kolvo -= vvodMax;
+                              max += (int)selectedProduct.all_kolvo;
+                              Max = max;
+                              break;
+                          }
+                          else
+                          {
+                              Line_of_postavkaModel pline = db.GetLine_of_postavka(item.line_of_postavka);
+                              vvodMax -= pline.ostalos_product;
+                              selectedProduct.all_kolvo -= vvodMax;
+                              max += (int)selectedProduct.all_kolvo;
+                              pline.ostalos_product = 0;
+                          }
+                      }
                   },
                  //условие, при котором будет доступна команда
                  (obj) => (vvodMax <= max && vvodMax>0)));
@@ -125,7 +180,7 @@ namespace foodShop
             this.add = add;
             db = new DBOperations();
             Products = new ObservableCollection<ProductModel>(db.GetAllProduct());
-            
+            Line_of_postavkas = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka());
 
             check = new CheckModel(); //создаем чек
             check.date_and_time = DateTime.Now;

@@ -18,6 +18,8 @@ namespace foodShop
         public int code_of_product_FK { get; set; }
         public int number_of_postavka_FK { get; set; }
 
+        public int line_number_of_check { get; set; }
+
         public Line_of_postavkaModel() { }
         public Line_of_postavkaModel(Line_of_postavka lpostavka)
         {
@@ -29,6 +31,11 @@ namespace foodShop
             spisano = lpostavka.spisano;
             code_of_product_FK = lpostavka.code_of_product_FK;
             number_of_postavka_FK = lpostavka.number_of_postavka_FK;
+        }
+
+        public void AddLine_number_of_check(Line_of_check cline)
+        {
+            line_number_of_check = cline.line_number_of_check;
         }
     }
 }

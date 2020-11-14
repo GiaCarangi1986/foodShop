@@ -26,6 +26,11 @@ namespace foodShop
                 return db.Line_of_check.ToList().Select(i => new Line_of_checkModel(i)).ToList();
             }
 
+        public List<Line_of_postavkaModel> GetAllLine_of_postavka()
+        {
+            return db.Line_of_postavka.ToList().Select(i => new Line_of_postavkaModel(i)).ToList();
+        }
+
         public List<Line_of_checkModel> GetAllLine_of_check(int id)
         {
             return db.Line_of_check.ToList().Select(a => new Line_of_checkModel(a)).Where(i=> i.number_of_check_FK==id).ToList();
@@ -55,7 +60,31 @@ namespace foodShop
                 return new ProductModel(db.Products.Find(Id));
             }
 
-        public void CreateLine_of_check(Line_of_checkModel line_Of_Check)
+        public CheckModel GetLastCheck()
+        {
+            CheckModel checkModel = db.Checks.ToList().Select(i => new CheckModel(i)).ToList().LastOrDefault();
+            return new CheckModel(db.Checks.Find(checkModel.number_of_check));
+        }
+
+        public Line_of_checkModel GetLine_of_check(int Id)
+        {
+            return new Line_of_checkModel(db.Line_of_check.Find(Id));
+        }
+
+        public Line_of_postavkaModel GetLine_of_postavka(int Id)
+        {
+            return new Line_of_postavkaModel(db.Line_of_postavka.Find(Id));
+        }
+
+        public void UpdateLine_of_postavka(Line_of_postavkaModel line_of_postavkaModel)
+        {
+            Line_of_postavka pline = db.Line_of_postavka.Find(line_of_postavkaModel.line_of_postavka);
+            pline.ostalos_product = line_of_postavkaModel.ostalos_product;
+            pline.spisano = line_of_postavkaModel.spisano;
+            Save();
+        }
+
+        public int CreateLine_of_check(Line_of_checkModel line_Of_Check)
             {
             Line_of_check line = new Line_of_check();
             line.much_of_products = line_Of_Check.much_of_products;
@@ -71,6 +100,7 @@ namespace foodShop
                 code_of_product_FK = line_Of_Check.code_of_product_FK
             });*/
             Save();
+            return line.line_number_of_check;
             }
 
             public void UpdateLine_of_check(Line_of_checkModel line_Of_Check)

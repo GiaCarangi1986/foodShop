@@ -87,9 +87,10 @@ namespace foodShop
             this.check = check;
             this.selectedBonusCard = selectedBonusCard;
 
-            sum = check.total_cost + selectedBonusCard.snayli_bonusov;
+            sum = check.total_cost;
             if (selectedBonusCard != null)
             {
+                sum += selectedBonusCard.snayli_bonusov;
                 sale = selectedBonusCard.snayli_bonusov;
                 nowBonusov = selectedBonusCard.kolvo_bonusov;
             }

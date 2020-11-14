@@ -26,7 +26,8 @@ namespace foodShop
                       AddCheck add = new AddCheck();
                       add.ShowDialog(); //будем открывать последовательно окно с добавлением строк
                       //чека и потом окно с добавлением скидочной карты
-                      
+                      CheckModel checkModel = db.GetLastCheck();
+                      Checks.Add(checkModel);
                   }));
             }
         }
