@@ -12,8 +12,8 @@ namespace foodShop
         public int line_number_of_check { get; set; }
         public int much_of_products { get; set; }
         public decimal cost_for_buyer { get; set; }
-        public int? number_of_check_FK { get; set; }
-        public int? code_of_product_FK { get; set; }
+        public int number_of_check_FK { get; set; }
+        public int code_of_product_FK { get; set; }
 
         public string name_of_product { get; set; }
         public decimal itogo { get; set; }

@@ -139,6 +139,26 @@ namespace foodShop
             Save();
         }
 
+        public void CreateStroka_check_and_postavka(Stroka_check_and_postavkaModel stroka_check_and_postavkaModel)
+        {
+            Stroka_check_and_postavka stroka_check_and_postavka = new Stroka_check_and_postavka();
+            stroka_check_and_postavka.id_stroka_check = stroka_check_and_postavkaModel.id_stroka_check;
+            stroka_check_and_postavka.id_stroka_postavka = stroka_check_and_postavkaModel.id_stroka_postavka;
+            stroka_check_and_postavka.kolvo_product_in_stroka_postavka = stroka_check_and_postavkaModel.kolvo_product_in_stroka_postavka;
+            db.Stroka_check_and_postavka.Add(stroka_check_and_postavka);
+            Save();
+        }
+
+        public void UpdateStroka_check_and_postavka(Stroka_check_and_postavkaModel stroka_check_and_postavkaModel)
+        {
+            Stroka_check_and_postavka stroka_check_and_postavka = db.Stroka_check_and_postavka.Find(stroka_check_and_postavkaModel.id);
+            stroka_check_and_postavka.id_stroka_check = stroka_check_and_postavkaModel.id_stroka_check;
+            stroka_check_and_postavka.id_stroka_postavka = stroka_check_and_postavkaModel.id_stroka_postavka;
+            stroka_check_and_postavka.kolvo_product_in_stroka_postavka = stroka_check_and_postavkaModel.kolvo_product_in_stroka_postavka;
+            db.Stroka_check_and_postavka.Add(stroka_check_and_postavka);
+            Save();
+        }
+
         public bool Save()
             {
                 if (db.SaveChanges() > 0) return true;

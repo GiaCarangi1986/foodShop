@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:foodShop"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="300" Width="400"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
+        Height="300" Width="450"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*"/>
@@ -28,21 +28,21 @@
             <Label Margin="10" FontSize="16" Grid.Row="1" VerticalAlignment="Center"
                    FontFamily="Champagne &amp; Limousines">
                 <Label.Content>
-                    <TextBlock TextWrapping="Wrap">Сумма чека:</TextBlock>
+                    <TextBlock TextWrapping="Wrap">Сумма чека, руб:</TextBlock>
                 </Label.Content>
             </Label>
 
         <Label Margin="10" FontSize="16" Grid.Row="2" VerticalAlignment="Center"
                    FontFamily="Champagne &amp; Limousines">
                 <Label.Content>
-                    <TextBlock TextWrapping="Wrap">Скидка составила:</TextBlock>
+                    <TextBlock TextWrapping="Wrap">Скидка составила, руб:</TextBlock>
                 </Label.Content>
             </Label>
 
         <Label Margin="10" FontSize="16" Grid.Row="3" VerticalAlignment="Center"
                    FontFamily="Champagne &amp; Limousines">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap">Итоговая стоимость со скидкой:</TextBlock>
+                <TextBlock TextWrapping="Wrap">Итоговая стоимость со скидкой, руб:</TextBlock>
             </Label.Content>
         </Label>
 

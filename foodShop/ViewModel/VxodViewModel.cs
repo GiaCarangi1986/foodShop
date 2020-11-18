@@ -39,7 +39,10 @@ namespace foodShop
                       User user = foodShop.Users.Where(i => i.login == _login).SingleOrDefault();
                       if (user!=null && user.password == _password)
                       {
-                          Menu menu = new Menu(); 
+                          bool kassir = false;
+                          if (user.login == "kassir")
+                              kassir = true;
+                          Menu menu = new Menu(kassir); 
                           mainWindow.Close(); //закрываем текущее окно MainWindow
                           menu.Show(); //открываем меню (окно Menu)
                       }

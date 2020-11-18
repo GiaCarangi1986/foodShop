@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Height="600" Width="1080"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
+    <Window.Resources>
+        
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
@@ -22,7 +25,7 @@
 
         <TabControl Margin="10" BorderBrush="Gainsboro" Grid.Row="1">
             <TabControl.Resources>
-                <Style TargetType="TabItem">
+                <Style TargetType="TabItem" x:Key="tabControl">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
@@ -45,9 +48,17 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
+                <Style x:Key="Vis" BasedOn="{StaticResource tabControl}" TargetType="TabItem">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TabControlVis}" Value="True">
+                            <Setter Property="TabControl.Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
             </TabControl.Resources>
 
-            <TabItem Header="ЧЕК">
+            <TabItem Header="ЧЕК" Style="{StaticResource tabControl}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.1*"/>
@@ -67,7 +78,7 @@
                                     <TextBlock FontSize="18" Text="{Binding Path=date_and_time}" Language="ru-RU"/>
                                     <TextBlock>
                                 <Run Text="сумма: "/>
-                                <Run Text="{Binding Path=total_cost}"/>
+                                <Run Text="{Binding Path=total_cost, StringFormat=0.00}"/>
                                     </TextBlock>
                                 </StackPanel>
                             </DataTemplate>
@@ -76,16 +87,18 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="СПИСАТЬ ПРОДУКТ">
+            <TabItem Header="СПИСАТЬ ПРОДУКТ" Style="{StaticResource Vis}">
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Top">
                     <Button Width="150" HorizontalAlignment="Left" Margin="10" Content="СПИСАТЬ"/>
                 </WrapPanel>
             </TabItem>
 
-            <TabItem Header="СТАТИСТИКА СРЕДИ ПОКУПАТЕЛЕЙ">
+            <TabItem Header="СТАТИСТИКА СРЕДИ ПОКУПАТЕЛЕЙ" Style="{StaticResource Vis}">
                 <WrapPanel>
-                    <Calendar Language="ru-RU" Width="600" HorizontalAlignment="Left"/>
-                    <Button Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Content="ПОЛУЧИТЬ"/>
+                    <Calendar Language="ru-RU" Width="500" HorizontalAlignment="Left"/>
+                    <Button Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" 
+                            Content="ПОЛУЧИТЬ" Command="{Binding GetStatictic}"/>
+                    <Label Content="{Binding ShowStatictic}"/>
                 </WrapPanel>
             </TabItem>
         </TabControl>

@@ -65,13 +65,15 @@ namespace foodShop
                       //логика (на карту идет 1% от всех покупок, потом можно будет снимать 1:1)
                       selectedBonusCard.kolvo_bonusov = db.UpdateBonus_card(selectedBonusCard, check, spisat.Value);
                       selectedBonusCard.snayli_bonusov = spisat.Value;
+                      check.number_of_card_FK = selectedBonusCard.number_of_card;
 
                       if (spisat != 0)
-                      {
                           check.total_cost -= spisat;
-                          db.UpdateCheck(check); //обновили чек в бд  (итоговая стоимость ниже, если сняла бонусы)
-                      }
-                      
+                      check.bonus = spisat.Value;
+
+                      db.UpdateCheck(check); //обновили чек в бд  (итоговая стоимость ниже, если сняла бонусы)
+                      //плюс запишем в чек инфу о бонусной карте, если ее применили
+
                       ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                      // bonusCard.Close(); //закрываем окно BonusCard

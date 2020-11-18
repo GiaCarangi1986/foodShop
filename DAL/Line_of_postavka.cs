@@ -8,6 +8,12 @@ namespace DAL
 
     public partial class Line_of_postavka
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Line_of_postavka()
+        {
+            Stroka_check_and_postavka = new HashSet<Stroka_check_and_postavka>();
+        }
+
         [Key]
         [Column("line_of_postavka")]
         public int line_of_postavka1 { get; set; }
@@ -30,5 +36,8 @@ namespace DAL
         public virtual Postavka Postavka { get; set; }
 
         public virtual Product Product { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Stroka_check_and_postavka> Stroka_check_and_postavka { get; set; }
     }
 }

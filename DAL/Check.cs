@@ -15,7 +15,6 @@ namespace DAL
             Line_of_check = new HashSet<Line_of_check>();
         }
 
-        //[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int number_of_check { get; set; }
 
@@ -25,6 +24,8 @@ namespace DAL
         public decimal? total_cost { get; set; }
 
         public int? number_of_card_FK { get; set; }
+
+        public decimal? bonus { get; set; }
 
         public virtual Bonus_card Bonus_card { get; set; }
 

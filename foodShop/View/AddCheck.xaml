@@ -39,7 +39,7 @@
                             <TextBlock FontSize="18" Text="{Binding Path=name_of_product}" />
                             <TextBlock>
                                 <Run Text="цена: "/>
-                                <Run Text="{Binding Path=cost_for_buyer}"/>
+                                <Run Text="{Binding Path=cost_for_buyer, StringFormat=0.00}"/>
                             </TextBlock>
                             <TextBlock>
                                 <Run Text="кол-во: "/>

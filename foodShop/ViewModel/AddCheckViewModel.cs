@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using DAL;
+using System.Globalization;
 
 namespace foodShop
 {
@@ -17,6 +18,7 @@ namespace foodShop
         private DBOperations db;
         private ProductModel selectedProduct; //хранит выбранный в combox продукт
         private CheckModel check; //создает новый чек, куда впишем строки чека
+        private Stroka_check_and_postavkaModel check_and_postavka; //связывает строку чека и строку поставки
         private int max; //хранит максимально доступное кол-во товара
         private int? vvodMax; //пользовательский ввод кол-ва продуктов
         private int sumInCheck; //итоговая сумма чека
@@ -28,7 +30,9 @@ namespace foodShop
 
         public string Price //указывается цена товара
         {
-            get { return price.ToString("0.00"); }
+            get {
+                //var test = price.ToString("N", CultureInfo.InvariantCulture);
+                return price.ToString("0.00"); }
             set
             {
                     price = Convert.ToDecimal(value);
@@ -104,7 +108,6 @@ namespace foodShop
                               Line_of_checks.Remove(item); //удалим первое вхождение старой строки чека
                               Line_of_checks.Insert(Line_of_checks.Count, model); //добавим в конец обновленную строку чека
 
-                              
                               db.UpdateLine_of_check(model); //обновим кол-во продуктов и итог стоимость у строки чека в бд
                               update = true;
                               break;
@@ -122,13 +125,13 @@ namespace foodShop
                           var result = Line_of_checks.Join(Line_of_postavkas, // второй набор
                  lc => lc.code_of_product_FK, // свойство-селектор объекта из первого набор
                  pc => pc.code_of_product_FK, // свойство-селектор объекта из второго набора
-                 (lc, pc) => new { ostalos_product = pc.ostalos_product, line_number_of_check = lc.number_of_check_FK,
-                 line_of_postavka = pc.line_of_postavka}); // результат
+                 (lc, pc) => new { ostalos_product = pc.ostalos_product, number_of_check = lc.number_of_check_FK,
+                 line_of_postavka = pc.line_of_postavka, line_number_of_check = lc.line_number_of_check}); // результат
 
-                      //мб в бд в табл "строка поставки" добавить атрибут НОМЕР СТРОКИ ЧЕКА из табл
-                      //"строка чека", чтобы знать потом, в какую строку поставки добавлть продукты при редактировании
+                      check_and_postavka = new Stroka_check_and_postavkaModel();
                       max = 0;
-                  foreach (var item in result.Where(i=>i.ostalos_product>0 && i.line_number_of_check==lcheck.number_of_check_FK)) 
+                      //подумать над вторым выражением после "и"
+                  foreach (var item in result.Where(i=>i.ostalos_product>0 && i.number_of_check==lcheck.number_of_check_FK)) 
                       {
                           if (item.ostalos_product>= vvodMax)
                           {
@@ -138,6 +141,10 @@ namespace foodShop
                               selectedProduct.all_kolvo -= vvodMax;
                               max += (int)selectedProduct.all_kolvo;
                               Max = max;
+                              check_and_postavka.id_stroka_check = item.line_number_of_check;
+                              check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
+                              check_and_postavka.kolvo_product_in_stroka_postavka = (int)vvodMax;
+                              db.CreateStroka_check_and_postavka(check_and_postavka);
                               break;
                           }
                           else
@@ -147,6 +154,10 @@ namespace foodShop
                               selectedProduct.all_kolvo -= vvodMax;
                               max += (int)selectedProduct.all_kolvo;
                               pline.ostalos_product = 0;
+                              check_and_postavka.id_stroka_check = item.line_number_of_check;
+                              check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
+                              check_and_postavka.kolvo_product_in_stroka_postavka = (int)vvodMax;
+                              db.CreateStroka_check_and_postavka(check_and_postavka);
                           }
                       }
                   },
