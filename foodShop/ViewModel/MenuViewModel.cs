@@ -13,9 +13,38 @@ namespace foodShop
     {
         private DBOperations db;
         private double statistic;
-        bool kassir;
+        private bool kassir;
+        private CheckModel selectedCheck;
 
         public ObservableCollection<CheckModel> Checks { get; set; } //коллекция чеков
+
+        public CheckModel SelectedCheck //получим выбранный чек
+        {
+            get { return selectedCheck; }
+            set
+            {
+                selectedCheck = value;
+                OnPropertyChanged("SelectedCheck");
+            }
+        }
+
+        private RelayCommand change_Check; //нажали РЕДАКТИРОВАТЬ ЧЕК
+        public RelayCommand Change_Check
+        {
+            get
+            {
+                return change_Check ??
+                  (change_Check = new RelayCommand(obj =>
+                  {
+                      ChangeCheck change = new ChangeCheck(SelectedCheck);
+                      change.ShowDialog(); //открыли окно для редактирования строк чека
+                  },
+                 //условие, при котором будет доступна команда:
+                 //разница даты покупки и текущей даты не более 1 дня
+                 (obj) => (selectedCheck!=null && DateTime.Now.Subtract(selectedCheck.date_and_time).Days==0
+                 && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours<=5)));
+            }
+        }
 
         public bool TabControlVis //скрывает "списать" и "отчет" для кассира
         {
@@ -75,20 +104,6 @@ namespace foodShop
                       //чека и потом окно с добавлением скидочной карты
                       CheckModel checkModel = db.GetLastCheck();
                       Checks.Insert(0,checkModel);
-                  }));
-            }
-        }
-
-        private RelayCommand changeCheck; //нажали РЕДАКТИРОВАТЬ ЧЕК
-        public RelayCommand Change_Check
-        {
-            get
-            {
-                return changeCheck ??
-                  (changeCheck = new RelayCommand(obj =>
-                  {
-                      ChangeCheck change = new ChangeCheck();
-                      change.ShowDialog(); //открыли окно для редактирования строк чека
                   }));
             }
         }

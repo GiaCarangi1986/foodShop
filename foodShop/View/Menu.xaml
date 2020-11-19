@@ -71,7 +71,7 @@
                                 Margin="10" Content="РЕДАКТИРОВАТЬ ЧЕК"/>
                     </WrapPanel>
 
-                    <ListBox Grid.Row="1" ItemsSource="{Binding Checks}">
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="5">

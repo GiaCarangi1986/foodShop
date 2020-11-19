@@ -21,6 +21,23 @@ namespace foodShop
             return db.Checks.ToList().Select(i => new CheckModel(i)).ToList();
         }
 
+        public List<Stroka_check_and_postavkaModel> GetAllStrokaCheckAndPostavka()
+        {
+            return db.Stroka_check_and_postavka.ToList().Select(i => new Stroka_check_and_postavkaModel(i)).ToList();
+        }
+
+        public Stroka_check_and_postavkaModel GetStrokaCheckAndPostavka(int Id)
+        {
+            return new Stroka_check_and_postavkaModel(db.Stroka_check_and_postavka.Find(Id));
+        }
+
+        public void UpdateStrokaCheckAndPostavka(Stroka_check_and_postavkaModel model)
+        {
+            Stroka_check_and_postavka stroka = db.Stroka_check_and_postavka.Find(model.id);
+            stroka.kolvo_product_in_stroka_postavka = model.kolvo_product_in_stroka_postavka;
+            Save();
+        }
+
             public List<Line_of_checkModel> GetAllLine_of_check()
             {
                 return db.Line_of_check.ToList().Select(i => new Line_of_checkModel(i)).ToList();
@@ -142,16 +159,6 @@ namespace foodShop
         public void CreateStroka_check_and_postavka(Stroka_check_and_postavkaModel stroka_check_and_postavkaModel)
         {
             Stroka_check_and_postavka stroka_check_and_postavka = new Stroka_check_and_postavka();
-            stroka_check_and_postavka.id_stroka_check = stroka_check_and_postavkaModel.id_stroka_check;
-            stroka_check_and_postavka.id_stroka_postavka = stroka_check_and_postavkaModel.id_stroka_postavka;
-            stroka_check_and_postavka.kolvo_product_in_stroka_postavka = stroka_check_and_postavkaModel.kolvo_product_in_stroka_postavka;
-            db.Stroka_check_and_postavka.Add(stroka_check_and_postavka);
-            Save();
-        }
-
-        public void UpdateStroka_check_and_postavka(Stroka_check_and_postavkaModel stroka_check_and_postavkaModel)
-        {
-            Stroka_check_and_postavka stroka_check_and_postavka = db.Stroka_check_and_postavka.Find(stroka_check_and_postavkaModel.id);
             stroka_check_and_postavka.id_stroka_check = stroka_check_and_postavkaModel.id_stroka_check;
             stroka_check_and_postavka.id_stroka_postavka = stroka_check_and_postavkaModel.id_stroka_postavka;
             stroka_check_and_postavka.kolvo_product_in_stroka_postavka = stroka_check_and_postavkaModel.kolvo_product_in_stroka_postavka;

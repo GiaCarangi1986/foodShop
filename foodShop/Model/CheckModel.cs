@@ -10,7 +10,7 @@ namespace foodShop
     public class CheckModel
     {
         public int number_of_check { get; set; }
-        public DateTime? date_and_time { get; set; }
+        public DateTime date_and_time { get; set; }
         public decimal? total_cost { get; set; }
         public int? number_of_card_FK { get; set; }
         public decimal? bonus { get; set; }

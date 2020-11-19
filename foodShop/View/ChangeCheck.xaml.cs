@@ -19,10 +19,10 @@ namespace foodShop
     /// </summary>
     public partial class ChangeCheck : Window
     {
-        public ChangeCheck()
+        public ChangeCheck(CheckModel Selectedcheck)
         {
             InitializeComponent();
-            DataContext = new ChangeCheckViewModel(this);
+            DataContext = new ChangeCheckViewModel(this, Selectedcheck);
         }
     }
 }

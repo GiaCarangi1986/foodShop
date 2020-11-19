@@ -19,10 +19,12 @@ namespace foodShop
     /// </summary>
     public partial class Menu : Window
     {
-        public Menu(bool kassir)
+        //public Menu(bool kassir)
+        public Menu()
         {
             InitializeComponent();
-            DataContext = new MenuViewModel(this, kassir);
+            //DataContext = new MenuViewModel(this, kassir);
+            DataContext = new MenuViewModel(this, false);
         }
     }
 }

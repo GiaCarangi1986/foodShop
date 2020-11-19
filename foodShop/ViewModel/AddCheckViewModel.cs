@@ -129,7 +129,6 @@ namespace foodShop
                  line_of_postavka = pc.line_of_postavka, line_number_of_check = lc.line_number_of_check}); // результат
 
                       check_and_postavka = new Stroka_check_and_postavkaModel();
-                      max = 0;
                       //подумать над вторым выражением после "и"
                   foreach (var item in result.Where(i=>i.ostalos_product>0 && i.number_of_check==lcheck.number_of_check_FK)) 
                       {
@@ -139,7 +138,7 @@ namespace foodShop
                               pline.ostalos_product -= vvodMax;
                               db.UpdateLine_of_postavka(pline);
                               selectedProduct.all_kolvo -= vvodMax;
-                              max += (int)selectedProduct.all_kolvo;
+                              max = (int)selectedProduct.all_kolvo;
                               Max = max;
                               check_and_postavka.id_stroka_check = item.line_number_of_check;
                               check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
@@ -152,8 +151,8 @@ namespace foodShop
                               Line_of_postavkaModel pline = db.GetLine_of_postavka(item.line_of_postavka);
                               vvodMax -= pline.ostalos_product;
                               selectedProduct.all_kolvo -= vvodMax;
-                              max += (int)selectedProduct.all_kolvo;
                               pline.ostalos_product = 0;
+                              db.UpdateLine_of_postavka(pline);
                               check_and_postavka.id_stroka_check = item.line_number_of_check;
                               check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
                               check_and_postavka.kolvo_product_in_stroka_postavka = (int)vvodMax;

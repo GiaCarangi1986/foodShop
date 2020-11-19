@@ -26,11 +26,20 @@
                 <materialDesign:PackIcon Kind="Close"/>
             </Button>-->
 
-            <ListBox Grid.Row="1">
+            <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}" 
+                     SelectedItem="{Binding SelectedLine_of_check}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5">
-
+                            <TextBlock FontSize="18" Text="{Binding Path=name_of_product}" />
+                            <TextBlock>
+                                <Run Text="цена: "/>
+                                <Run Text="{Binding Path=cost_for_buyer, StringFormat=0.00}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="кол-во: "/>
+                                <Run Text="{Binding Path=much_of_products}"/>
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -45,17 +54,29 @@
                 </Label>
 
                 <Label Grid.Row="1" Grid.Column="1" Width="auto" Margin="10" HorizontalAlignment="Left"
-                       Content="молоко" FontSize="20"/>
+                       Content="{Binding Path=Title}" FontSize="16"/>
 
                 <Label Margin="10" Grid.Row="1" VerticalAlignment="Center" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
                     <Label.Content>
-                        <TextBlock TextWrapping="Wrap">Выберите количество продуктов:</TextBlock>
+                        <TextBlock TextWrapping="Wrap">Выберите новое количество продуктов:</TextBlock>
                     </Label.Content>
                 </Label>
 
-                <ComboBox Grid.Row="2" Width="auto" Margin="10" HorizontalAlignment="Left" 
-                      VerticalAlignment="Center" Grid.Column="1"/>
+                <TextBox Text="{Binding VvodMax, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Label Margin="10" FontSize="16" 
+                   FontFamily="Champagne &amp; Limousines">
+                    <Label.Content>
+                        <TextBlock>
+                            <Run Text="текущее кол-во="/>
+                            <Run Text="{Binding Max}"/>
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+
+                <Button Command="{Binding ChangeLine_of_check, UpdateSourceTrigger=PropertyChanged}" 
+                    Content="Изменить" Width="auto" Margin="10"/>
             </WrapPanel>
 
             <WrapPanel Grid.Row="2" VerticalAlignment="Center">
