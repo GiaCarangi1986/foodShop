@@ -16,7 +16,7 @@ namespace foodShop
         private Line_of_checkModel selectedLine_of_check;
         private DBOperations db;
         private string title;
-        private int vvodMax; //желаемое кол-во продуктов
+        private int? vvodMax; //желаемое кол-во продуктов
         private int nowKolvo; //столько хотим вычесть
         private int max;
         public ObservableCollection<Line_of_checkModel> Line_of_checks { get; set; } //коллекция строк чека
@@ -24,7 +24,7 @@ namespace foodShop
         //совмещенных со строками чека
         public ObservableCollection<Line_of_postavkaModel> Line_of_postavkas { get; set; } //коллекция строк поставки
 
-        public int VvodMax //ввод желаемого кол-ва товаров (д.б. < текущего кол-ва
+        public int? VvodMax //ввод желаемого кол-ва товаров (д.б. < текущего кол-ва
         {
             get { return vvodMax; }
             set
@@ -32,7 +32,7 @@ namespace foodShop
                 if (selectedLine_of_check != null)
                 {
                     vvodMax = value;
-                    nowKolvo = selectedLine_of_check.much_of_products - vvodMax;
+                    nowKolvo = selectedLine_of_check.much_of_products - (int)vvodMax;
                     OnPropertyChanged("VvodMax");
                 }
             }
@@ -43,8 +43,11 @@ namespace foodShop
             get { return max; }
             set
             {
-                max = value;
-                OnPropertyChanged("Max");
+                if (selectedLine_of_check != null)
+                {
+                    max = value;
+                    OnPropertyChanged("Max");
+                }
             }
         }
 
@@ -84,7 +87,9 @@ namespace foodShop
                 return changeLine_of_check ??
                   (changeLine_of_check = new RelayCommand(obj =>
                   {
-                      nowKolvo = selectedLine_of_check.much_of_products - vvodMax;
+                      CheckModel check = db.GetCheck(selectedLine_of_check.number_of_check_FK);
+                      nowKolvo = selectedLine_of_check.much_of_products - (int)vvodMax;
+                      decimal oldItogo = selectedLine_of_check.itogo; //старая сумма строки чека
 
                       var result = Line_of_checks.Join(Сheck_and_postavka, // второй набор
                  lc => lc.line_number_of_check, // свойство-селектор объекта из первого набор
@@ -123,13 +128,21 @@ namespace foodShop
                             }
 
                       }
+
                       int index = Line_of_checks.IndexOf(selectedLine_of_check);
                       max = selectedLine_of_check.much_of_products;
                       vvodMax = max;
                       Max = max;
+                      selectedLine_of_check.itogo = selectedLine_of_check.much_of_products * selectedLine_of_check.cost_for_buyer;
                       Line_of_checks.RemoveAt(index); //удалим старую строку чека
                       Line_of_checks.Insert(index, selectedLine_of_check); //вставим на ее место измненную
                       db.UpdateLine_of_check(selectedLine_of_check);
+
+                      check.total_cost -= oldItogo;
+                      check.total_cost += selectedLine_of_check.itogo;
+                      if (check.total_cost < 0) //бонусы пропадают (молоко стоит 50, бонусами оплатил пусть полностью, т е 50, чек по сути
+                          check.total_cost = 0; //сейчас = 0 и в минус не пойдет после вычета молока
+                      db.UpdateCheck(check);
                   },
                  //условие, при котором будет доступна команда
                  (obj) => (vvodMax < max && vvodMax >= 0 && selectedLine_of_check!=null)));

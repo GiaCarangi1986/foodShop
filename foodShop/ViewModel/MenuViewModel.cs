@@ -15,6 +15,7 @@ namespace foodShop
         private double statistic;
         private bool kassir;
         private CheckModel selectedCheck;
+        List<CheckModel> checkModels;
 
         public ObservableCollection<CheckModel> Checks { get; set; } //коллекция чеков
 
@@ -36,8 +37,12 @@ namespace foodShop
                 return change_Check ??
                   (change_Check = new RelayCommand(obj =>
                   {
-                      ChangeCheck change = new ChangeCheck(SelectedCheck);
+                      int index = Checks.IndexOf(selectedCheck);
+                      ChangeCheck change = new ChangeCheck(selectedCheck);
                       change.ShowDialog(); //открыли окно для редактирования строк чека
+                      CheckModel check = db.GetCheck(selectedCheck.number_of_check); //тут ошибка - выниает снова прошлое значение
+                      //Checks.RemoveAt(index);
+                      //Checks.Insert(index, check);
                   },
                  //условие, при котором будет доступна команда:
                  //разница даты покупки и текущей даты не более 1 дня
@@ -128,7 +133,7 @@ namespace foodShop
             this.kassir = kassir;
 
             db = new DBOperations();
-            List<CheckModel> checkModels = db.GetAllCheck();
+            checkModels = db.GetAllCheck();
             checkModels.Reverse(); //чтобы сначала видели новые чеки
            Checks = new ObservableCollection<CheckModel>(checkModels);
         }

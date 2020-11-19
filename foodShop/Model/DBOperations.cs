@@ -21,6 +21,11 @@ namespace foodShop
             return db.Checks.ToList().Select(i => new CheckModel(i)).ToList();
         }
 
+        public CheckModel GetCheck(int Id)
+        {
+            return new CheckModel(db.Checks.Find(Id));
+        }
+
         public List<Stroka_check_and_postavkaModel> GetAllStrokaCheckAndPostavka()
         {
             return db.Stroka_check_and_postavka.ToList().Select(i => new Stroka_check_and_postavkaModel(i)).ToList();
