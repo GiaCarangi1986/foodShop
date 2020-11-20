@@ -29,6 +29,7 @@ namespace foodShop
             all_kolvo = 0;
             //правильно считаю кол-во всех продуктов?
             foreach (var lpost in product.Line_of_postavka)
+                if (lpost.spisano!=true)
                 all_kolvo += lpost.ostalos_product;
         }
 

@@ -93,13 +93,56 @@
                 </WrapPanel>
             </TabItem>
 
-            <TabItem Header="СТАТИСТИКА СРЕДИ ПОКУПАТЕЛЕЙ" Style="{StaticResource Vis}">
-                <WrapPanel>
-                    <Calendar Language="ru-RU" Width="500" HorizontalAlignment="Left"/>
-                    <Button Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" 
-                            Content="ПОЛУЧИТЬ" Command="{Binding GetStatictic}"/>
-                    <Label Content="{Binding ShowStatictic}"/>
-                </WrapPanel>
+            <TabItem Header="ОТЧЕТ" Style="{StaticResource Vis}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*"/>
+                        <ColumnDefinition Width="0.4*"/>
+                        <ColumnDefinition Width="0.4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Calendar Language="ru-RU" Width="300" HorizontalAlignment="Left" Margin="10"/>
+
+                    <WrapPanel Grid.Row="1" Grid.Column="1" Margin="10" Orientation="Vertical">
+                        <Label Margin="10" FontSize="20" 
+                   FontFamily="Champagne &amp; Limousines">
+                            <Label.Content>
+                                <TextBlock TextWrapping="Wrap">Первая дата:</TextBlock>
+                            </Label.Content>
+                        </Label>
+
+                        <TextBox Text="{Binding Date1, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <Label Margin="10" FontSize="20" 
+                   FontFamily="Champagne &amp; Limousines">
+                            <Label.Content>
+                                <TextBlock TextWrapping="Wrap">Вторая дата:</TextBlock>
+                            </Label.Content>
+                        </Label>
+
+                        <TextBox Text="{Binding Date2, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <Button Command="{Binding AddLine_of_check, UpdateSourceTrigger=PropertyChanged}" 
+                    Content="Получить" Width="auto" Margin="10, 20, 10,10"/>
+                    </WrapPanel>
+
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Otchet}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="5">
+                                    <TextBlock FontSize="18" Text="{Binding Path=date}" />
+                                    <TextBlock>
+                                <Run Text="цена: "/>
+                                <Run Text="{Binding Path=doxod, StringFormat=0.00}"/>
+                                    </TextBlock>
+                                    <TextBlock>
+                                <Run Text="кол-во: "/>
+                                <Run Text="{Binding Path=karta}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </TabItem>
         </TabControl>
 

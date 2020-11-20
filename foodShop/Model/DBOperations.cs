@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,10 @@ namespace foodShop
 
         public CheckModel GetCheck(int Id)
         {
-            return new CheckModel(db.Checks.Find(Id));
+            db.Checks.Load();
+            var t = db.Checks.ToList();
+            var test =new CheckModel(db.Checks.Where(i=>i.number_of_check==Id).FirstOrDefault());
+            return test; 
         }
 
         public List<Stroka_check_and_postavkaModel> GetAllStrokaCheckAndPostavka()
@@ -158,6 +162,8 @@ namespace foodShop
             check.date_and_time = (DateTime)checkModel.date_and_time;
             check.number_of_card_FK = checkModel.number_of_card_FK;
             check.total_cost = checkModel.total_cost;
+            if (checkModel.bonus!=null)
+            check.bonus = checkModel.bonus;
             Save();
         }
 

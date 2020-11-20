@@ -77,9 +77,10 @@ namespace DAL
                 .HasForeignKey(e => e.id_stroka_postavka)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Postavka>()
+            /*modelBuilder.Entity<Postavka>()
                 .Property(e => e.itogo_cost)
                 .HasPrecision(19, 4);
+                */
 
             modelBuilder.Entity<Postavka>()
                 .HasMany(e => e.Line_of_postavka)

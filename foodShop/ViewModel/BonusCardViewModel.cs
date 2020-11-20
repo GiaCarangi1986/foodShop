@@ -68,13 +68,15 @@ namespace foodShop
                       check.number_of_card_FK = selectedBonusCard.number_of_card;
 
                       if (spisat != 0)
+                      {
                           check.total_cost -= spisat;
-                      check.bonus = spisat.Value;
+                          check.bonus = spisat.Value;
+                      }
 
                       db.UpdateCheck(check); //обновили чек в бд  (итоговая стоимость ниже, если сняла бонусы)
                       //плюс запишем в чек инфу о бонусной карте, если ее применили
 
-                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard);
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                      // bonusCard.Close(); //закрываем окно BonusCard
                   },
@@ -93,7 +95,7 @@ namespace foodShop
                   {
                       if (selectedBonusCard != null)
                           selectedBonusCard = null;
-                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard);
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                       //bonusCard.Close(); //закрываем окно BonusCard
                   }));
@@ -102,12 +104,13 @@ namespace foodShop
 
         private CheckModel check;
         private BonusCard bonusCard;
-        public BonusCardViewModel(BonusCard bonusCard, CheckModel check)
+        public BonusCardViewModel(BonusCard bonusCard, CheckModel check, DBOperations db)
         {
             this.bonusCard = bonusCard; //используем для последующего закрытия текущего окна
             this.check = check;
 
-            db = new DBOperations();
+            //db = new DBOperations();
+            this.db = db;
             BonusCards = new ObservableCollection<Bonus_cardModel>(db.GetAllBonus_card());
         }
 

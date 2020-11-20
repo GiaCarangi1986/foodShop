@@ -18,8 +18,9 @@ namespace DAL
         [Key]
         public int number_of_postavka { get; set; }
 
-        [Column(TypeName = "money")]
+        /*[Column(TypeName = "money")]
         public decimal? itogo_cost { get; set; }
+        */
 
         public DateTime date_of_postavka { get; set; }
 

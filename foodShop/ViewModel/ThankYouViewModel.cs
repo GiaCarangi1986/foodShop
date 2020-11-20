@@ -80,7 +80,7 @@ namespace foodShop
         private CheckModel check;
         private BonusCard bonusCard;
         private ThankYou thankYou;
-        public ThankYouViewModel(ThankYou thankYou, BonusCard bonusCard, CheckModel check, Bonus_cardModel selectedBonusCard)
+        public ThankYouViewModel(ThankYou thankYou, BonusCard bonusCard, CheckModel check, Bonus_cardModel selectedBonusCard, DBOperations db)
         {
             this.thankYou = thankYou;
             this.bonusCard = bonusCard;

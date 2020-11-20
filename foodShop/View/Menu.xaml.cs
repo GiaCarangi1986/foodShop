@@ -23,8 +23,9 @@ namespace foodShop
         public Menu()
         {
             InitializeComponent();
-            //DataContext = new MenuViewModel(this, kassir);
-            DataContext = new MenuViewModel(this, false);
+            DBOperations db = new DBOperations();
+            //DataContext = new MenuViewModel(this, kassir, db);
+            DataContext = new MenuViewModel(this, false, db);
         }
     }
 }

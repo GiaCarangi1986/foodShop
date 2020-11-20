@@ -38,16 +38,17 @@ namespace foodShop
                   (change_Check = new RelayCommand(obj =>
                   {
                       int index = Checks.IndexOf(selectedCheck);
-                      ChangeCheck change = new ChangeCheck(selectedCheck);
+                      ChangeCheck change = new ChangeCheck(selectedCheck, db);
                       change.ShowDialog(); //открыли окно для редактирования строк чека
-                      CheckModel check = db.GetCheck(selectedCheck.number_of_check); //тут ошибка - выниает снова прошлое значение
+                      selectedCheck = db.GetCheck(selectedCheck.number_of_check); //выниает снова прошлое значение
+                      Checks[index] = selectedCheck;
                       //Checks.RemoveAt(index);
                       //Checks.Insert(index, check);
                   },
                  //условие, при котором будет доступна команда:
                  //разница даты покупки и текущей даты не более 1 дня
                  (obj) => (selectedCheck!=null && DateTime.Now.Subtract(selectedCheck.date_and_time).Days==0
-                 && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours<=5)));
+                 && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours<=5 && selectedCheck.total_cost!=0)));
             }
         }
 
@@ -104,7 +105,7 @@ namespace foodShop
                 return addCheck ??
                   (addCheck = new RelayCommand(obj =>
                   {
-                      AddCheck add = new AddCheck();
+                      AddCheck add = new AddCheck(db);
                       add.ShowDialog(); //будем открывать последовательно окно с добавлением строк
                       //чека и потом окно с добавлением скидочной карты
                       CheckModel checkModel = db.GetLastCheck();
@@ -127,12 +128,12 @@ namespace foodShop
         }
 
         private Menu menu;
-        public MenuViewModel(Menu menu, bool kassir)
+        public MenuViewModel(Menu menu, bool kassir, DBOperations db)
         {
             this.menu = menu;
             this.kassir = kassir;
-
-            db = new DBOperations();
+            this.db = db;
+            //db = new DBOperations();
             checkModels = db.GetAllCheck();
             checkModels.Reverse(); //чтобы сначала видели новые чеки
            Checks = new ObservableCollection<CheckModel>(checkModels);

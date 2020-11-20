@@ -175,7 +175,7 @@ namespace foodShop
                   {
                       check.total_cost = sumInCheck;
                       db.UpdateCheck(check);
-                      BonusCard bonusCard = new BonusCard(check);
+                      BonusCard bonusCard = new BonusCard(check, db);
                       bonusCard.ShowDialog(); //открываем окно с бонусной картой
                       add.Close(); //как ток там все сделается, закрываем это окно
                   },
@@ -185,10 +185,11 @@ namespace foodShop
         }
 
         private AddCheck add;
-        public AddCheckViewModel(AddCheck add)
+        public AddCheckViewModel(AddCheck add, DBOperations db)
         {
             this.add = add;
-            db = new DBOperations();
+            //db = new DBOperations();
+            this.db = db;
             Products = new ObservableCollection<ProductModel>(db.GetAllProduct());
             Line_of_postavkas = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka());
 

@@ -7,7 +7,7 @@ using DAL;
 
 namespace foodShop
 {
-    public class CheckModel
+    public class CheckModel 
     {
         public int number_of_check { get; set; }
         public DateTime date_and_time { get; set; }

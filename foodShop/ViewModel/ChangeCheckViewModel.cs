@@ -163,11 +163,12 @@ namespace foodShop
         }
 
         private ChangeCheck change;
-        public ChangeCheckViewModel(ChangeCheck change, CheckModel check)
+        public ChangeCheckViewModel(ChangeCheck change, CheckModel check, DBOperations db)
         {
             this.change = change;
             this.check = check;
-            db = new DBOperations();
+            this.db = db;
+            //db = new DBOperations();
             Line_of_checks = new ObservableCollection<Line_of_checkModel>(db.GetAllLine_of_check(check.number_of_check));
             Line_of_postavkas = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka());
             Сheck_and_postavka = new ObservableCollection<Stroka_check_and_postavkaModel>(db.GetAllStrokaCheckAndPostavka());
