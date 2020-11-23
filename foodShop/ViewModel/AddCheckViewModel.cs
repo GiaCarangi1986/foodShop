@@ -14,7 +14,6 @@ namespace foodShop
     class AddCheckViewModel : INotifyPropertyChanged
     {
         private Line_of_checkModel lcheck; //хранит строку чека
-        private Line_of_postavkaModel lpostavka; //хранит строку поставки
         private DBOperations db;
         private ProductModel selectedProduct; //хранит выбранный в combox продукт
         private CheckModel check; //создает новый чек, куда впишем строки чека

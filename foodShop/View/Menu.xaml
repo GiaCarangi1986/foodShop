@@ -100,9 +100,24 @@
                         <ColumnDefinition Width="0.4*"/>
                         <ColumnDefinition Width="0.4*"/>
                     </Grid.ColumnDefinitions>
-                    <Calendar Language="ru-RU" Width="300" HorizontalAlignment="Left" Margin="10"/>
+                    <Calendar Language="ru-RU" Width="300" HorizontalAlignment="Left" Margin="10" 
+                             SelectedDate="{Binding Date}"/>
 
-                    <WrapPanel Grid.Row="1" Grid.Column="1" Margin="10" Orientation="Vertical">
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.3*"/>
+                        </Grid.RowDefinitions>
+                        
                         <Label Margin="10" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
                             <Label.Content>
@@ -110,38 +125,74 @@
                             </Label.Content>
                         </Label>
 
-                        <TextBox Text="{Binding Date1, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label Grid.Row="1" Width="auto" Margin="10" HorizontalAlignment="Left"
+                       Content="{Binding Date1}" FontSize="16" Language="ru-RU"/>
 
-                        <Label Margin="10" FontSize="20" 
+                        <Label Margin="10" FontSize="20" Grid.Row="2"
                    FontFamily="Champagne &amp; Limousines">
                             <Label.Content>
                                 <TextBlock TextWrapping="Wrap">Вторая дата:</TextBlock>
                             </Label.Content>
                         </Label>
 
-                        <TextBox Text="{Binding Date2, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label Grid.Row="3" Width="auto" Margin="10" HorizontalAlignment="Left"
+                       Content="{Binding Date2}" FontSize="16" Language="ru-RU"/>
 
-                        <Button Command="{Binding AddLine_of_check, UpdateSourceTrigger=PropertyChanged}" 
-                    Content="Получить" Width="auto" Margin="10, 20, 10,10"/>
-                    </WrapPanel>
+                        <Button Command="{Binding GetOtchet, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4"
+                    Content="Получить" Width="100" Margin="10" HorizontalAlignment="Left"/>
 
-                    <ListBox Grid.Row="1" ItemsSource="{Binding Otchet}">
+                        <Button Command="{Binding OkDate1}" Grid.Row="1" Grid.Column="1"
+                    Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>
+
+                        <Button Command="{Binding OkDate2}" Grid.Row="3" Grid.Column="1"
+                    Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>
+
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.9*"/>
+                            <RowDefinition Height="0.2*"/>
+                        </Grid.RowDefinitions>
+                    <ListBox ItemsSource="{Binding Check_otchet}" Grid.Column="2" Margin="10">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="5">
-                                    <TextBlock FontSize="18" Text="{Binding Path=date}" />
+                                    <TextBlock FontSize="18" Text="{Binding Path=date_and_time}" Language="ru-RU"/>
                                     <TextBlock>
-                                <Run Text="цена: "/>
-                                <Run Text="{Binding Path=doxod, StringFormat=0.00}"/>
+                                <Run Text="сумма: "/>
+                                <Run Text="{Binding Path=total_cost, StringFormat=0.00}"/>
                                     </TextBlock>
                                     <TextBlock>
-                                <Run Text="кол-во: "/>
-                                <Run Text="{Binding Path=karta}"/>
+                                <Run Text="бонусами: "/>
+                                <Run Text="{Binding Path=bonus}"/>
                                     </TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+
+                        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical">
+                            <Label Margin="10" FontSize="16" 
+                   FontFamily="Champagne &amp; Limousines">
+                                <Label.Content>
+                                    <TextBlock>
+                            <Run Text="Всего оплачено, руб="/>
+                            <Run Text="{Binding Sum, StringFormat=0.00}"/>
+                                    </TextBlock>
+                                </Label.Content>
+                            </Label>
+                            <Label Margin="10" FontSize="16" 
+                   FontFamily="Champagne &amp; Limousines">
+                                <Label.Content>
+                                    <TextBlock>
+                            <Run Text="Бонусами оплачено, руб="/>
+                            <Run Text="{Binding Bon, StringFormat=0.00}"/>
+                                    </TextBlock>
+                                </Label.Content>
+                            </Label>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>
