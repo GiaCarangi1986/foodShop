@@ -14,15 +14,16 @@ namespace foodShop
         private DBOperations db;
         private bool kassir;
         private CheckModel selectedCheck;
-        List<CheckModel> checkModels;
-        List<CheckModel> checkModel_otchet;
-        private decimal? sum, bon;
-
+        private List<CheckModel> checkModels;
+        private List<CheckModel> checkModel_otchet;
+        //private decimal? sum, bon;
+        private List<ListCheck> listChecks; //лист Листа-списка чеков (для вывода по дням)
+        private ListCheck checkOfList; //лист чеков
         private DateTime date1, date2, date; //1 и 2 даты + промежуточная date для отправки даты с календаря
         public ObservableCollection<CheckModel> Checks { get; set; } //коллекция чеков для отображения в меню
         public ObservableCollection<CheckModel> Check_otchet { get; set; } //коллекция чеков для отчета
 
-        public decimal? Sum //подводим итоговую сумму чеков
+        /*public decimal? Sum //подводим итоговую сумму чеков
         {
             get { return sum; }
             set
@@ -40,7 +41,7 @@ namespace foodShop
                 bon = value;
                 OnPropertyChanged("Bon");
             }
-        }
+        }*/
 
         public DateTime Date //получим дату из календаря
         {
@@ -60,8 +61,9 @@ namespace foodShop
                 return okDate2 ??
                   (okDate2 = new RelayCommand(obj =>
                   {
-                      date2 = date;
-                      Date2 = date2;
+                      //date2 = date;
+                      //Date2 = date2;
+                      Date2 = date;
                   }));
             }
         }
@@ -74,8 +76,9 @@ namespace foodShop
                 return okDate1 ??
                   (okDate1 = new RelayCommand(obj =>
                   {
-                      date1 = date;
-                      Date1 = date1;
+                      //date1 = date;
+                      //Date1 = date1;
+                      Date1 = date;
                   }));
             }
         }
@@ -91,23 +94,40 @@ namespace foodShop
                       //сначала почистим коллекцию
                       if (checkModel_otchet != null)
                           Check_otchet.Clear();
+                      if (listChecks != null)
+                          listChecks.Clear();
 
                       DateTime dateTime = date2.AddDays(1);
-                      checkModel_otchet = db.GetAllCheck().Where(i => i.date_and_time >= date1 && i.date_and_time<=dateTime).ToList();
-                      //Check_otchet= new ObservableCollection<CheckModel>(db.GetAllCheck().Where(i=>i.date_and_time>=date1&&
-                      //i.date_and_time<=dateTime));
-                      sum = bon = 0;
-                      foreach (var temp in checkModel_otchet)
+                      checkModel_otchet = db.GetAllCheck().Where(i => i.date_and_time.Day >= date1.Day && i.date_and_time.Day<=dateTime.Day).ToList();
+                      int days = date2.Subtract(date1).Days + 1; //кол-во дней между датами
+                      for (int i = 0; i < days; i++)
                       {
-                          var test = temp;
-                          sum += temp.total_cost;
-                          if (temp.bonus == null)
-                              test.bonus = 0;
-                          else bon += temp.bonus;
-                          Check_otchet.Add(test);
+                          checkOfList = new ListCheck(date1.AddDays(i));
+                          foreach(var test in checkModel_otchet)
+                          {
+                              if (test.date_and_time.Day == checkOfList.dateTime.Day)
+                              {
+                                  checkOfList.Add(test);
+                              }
+                          }
+                          listChecks.Add(checkOfList);
                       }
-                      Sum = sum;
-                      Bon = bon;
+
+                      foreach(var temp in listChecks)
+                      {
+                          decimal sum = 0;
+                          decimal bonus = 0;
+                          sum = temp.Sum();
+                          bonus = temp.Bonus();
+                          CheckModel check = new CheckModel();
+                          check.total_cost = sum;
+                          check.bonus = bonus;
+                          check.date_and_time = temp.dateTime;
+                          Check_otchet.Add(check);
+                      }
+                      Graph graph = new Graph(Check_otchet);
+                      graph.ShowDialog();
+                      
                   },
                  //условие, при котором будет доступна команда:
                  //дата 1 <= дата 2
@@ -216,11 +236,14 @@ namespace foodShop
             this.kassir = kassir;
             this.db = db;
             //db = new DBOperations();
-            //буду показывать чеки только за последний день
-            checkModels = db.GetAllCheck().Where(i=> DateTime.Now.Subtract(i.date_and_time).Days == 0).ToList();
+            //буду показывать чеки только за последний день (нет)
+            //checkModels = db.GetAllCheck().Where(i=> DateTime.Now.Subtract(i.date_and_time).Days == 0).ToList();
+            checkModels = db.GetAllCheck();
             checkModels.Reverse(); //чтобы сначала видели новые чеки
            Checks = new ObservableCollection<CheckModel>(checkModels);
             Check_otchet = new ObservableCollection<CheckModel>();
+            Date = DateTime.Parse(DateTime.Now.ToShortDateString());
+            listChecks = new List<ListCheck>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

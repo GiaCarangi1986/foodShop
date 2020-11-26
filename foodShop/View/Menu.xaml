@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:foodShop"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="600" Width="1080"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
+        Height="600" Width="540"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Window.Resources>
-        
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
             <materialDesign:PackIcon Kind="Close"/>
         </Button>
 
-        <TabControl Margin="10" BorderBrush="Gainsboro" Grid.Row="1">
+        <TabControl Margin="10,9.8,9.6,0" BorderBrush="Gainsboro" Grid.Row="1" Height="515" VerticalAlignment="Top">
             <TabControl.Resources>
                 <Style TargetType="TabItem" x:Key="tabControl">
                     <Setter Property="Template">
@@ -60,18 +60,22 @@
 
             <TabItem Header="ЧЕК" Style="{StaticResource tabControl}">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="53*"/>
+                        <ColumnDefinition Width="74*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.1*"/>
                         <RowDefinition Height="0.8*"/>
                     </Grid.RowDefinitions>
-                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <WrapPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="2">
                         <Button Width="220" HorizontalAlignment="Left" Command="{Binding Add_Check}"
                                 Margin="10" Content="ДОБАВИТЬ ЧЕК"/>
                         <Button Width="220" HorizontalAlignment="Left" Command="{Binding Change_Check}"
                                 Margin="10" Content="РЕДАКТИРОВАТЬ ЧЕК"/>
                     </WrapPanel>
 
-                    <ListBox Grid.Row="1" ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}">
+                    <ListBox ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}" Grid.ColumnSpan="2" Margin="0,54,0,0.2" Grid.RowSpan="2">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="5">
@@ -98,12 +102,25 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.4*"/>
                         <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition Width="0.4*"/>
+                        <!--<ColumnDefinition Width="0.4*"/>-->
                     </Grid.ColumnDefinitions>
-                    <Calendar Language="ru-RU" Width="300" HorizontalAlignment="Left" Margin="10" 
-                             SelectedDate="{Binding Date}"/>
 
-                    <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.7*"/>
+                    </Grid.RowDefinitions>
+                    <Label Margin="10" FontSize="19" Grid.ColumnSpan="2"
+                   FontFamily="Champagne &amp; Limousines">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">С помощью данного отчета можно увидеть на графике,
+                            сколько рублей и бонусов потратили покупатели за определенный промежуток времени</TextBlock>
+                        </Label.Content>
+                    </Label>
+                    <Calendar Language="ru-RU" Width="auto" HorizontalAlignment="Center" Margin="10" 
+                             SelectedDate="{Binding Date}" Height="350" VerticalAlignment="Top" Grid.Row="1"/>
+
+
+                    <Grid Grid.Column="1" Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="0.3*"/>
@@ -115,9 +132,8 @@
                             <RowDefinition Height="0.1*"/>
                             <RowDefinition Height="0.1*"/>
                             <RowDefinition Height="0.1*"/>
-                            <RowDefinition Height="0.3*"/>
                         </Grid.RowDefinitions>
-                        
+
                         <Label Margin="10" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
                             <Label.Content>
@@ -147,9 +163,10 @@
                         <Button Command="{Binding OkDate2}" Grid.Row="3" Grid.Column="1"
                     Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>
 
+
                     </Grid>
 
-                    <Grid Grid.Column="2">
+                    <!--<Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.9*"/>
                             <RowDefinition Height="0.2*"/>
@@ -158,7 +175,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="5">
-                                    <TextBlock FontSize="18" Text="{Binding Path=date_and_time}" Language="ru-RU"/>
+                                        <TextBlock FontSize="18" Text="{Binding Path=date_and_time}" Language="ru-RU"/>
                                     <TextBlock>
                                 <Run Text="сумма: "/>
                                 <Run Text="{Binding Path=total_cost, StringFormat=0.00}"/>
@@ -192,7 +209,7 @@
                                 </Label.Content>
                             </Label>
                         </StackPanel>
-                    </Grid>
+                    </Grid>-->
                 </Grid>
             </TabItem>
         </TabControl>

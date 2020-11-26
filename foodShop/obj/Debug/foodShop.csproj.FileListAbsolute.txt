@@ -42,3 +42,11 @@ C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\
 C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\Menu.baml
 C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\ThankYou.g.cs
 C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\ThankYou.baml
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\Graph.g.cs
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.Wpf.dll
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.pdb
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.xml
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.Wpf.pdb
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.Wpf.xml
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\Graph.baml
