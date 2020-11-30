@@ -105,6 +105,7 @@
     </Page>
     <Compile Include="Model\DBOperations.cs" />
     <Compile Include="Model\ListCheck.cs" />
+    <Compile Include="Model\ProsrochkaModel.cs" />
     <Compile Include="Model\Stroka_check_and_postavka.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="ViewModel\ChangeCheckViewModel.cs" />

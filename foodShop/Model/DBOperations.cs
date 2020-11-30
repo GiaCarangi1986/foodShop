@@ -22,6 +22,13 @@ namespace foodShop
             return db.Checks.ToList().Select(i => new CheckModel(i)).ToList();
         }
 
+        public void SpisatProsrochka(int Id)
+        {
+            Line_of_postavka line = db.Line_of_postavka.Find(Id);
+            line.spisano = true;
+            Save();
+        }
+
         public CheckModel GetCheck(int Id)
         {
             db.Checks.Load();
@@ -71,7 +78,7 @@ namespace foodShop
         {
             Bonus_card bonus_Card = db.Bonus_card.Find(bonus.number_of_card);
             //можно списать только старые бонусы, а новые будут зачислены на след покупку
-            bonus_Card.kolvo_bonusov = bonus_Card.kolvo_bonusov + check.total_cost * (decimal?)0.01 - (decimal?)spisat;
+            bonus_Card.kolvo_bonusov += check.total_cost * (decimal?)0.01 - (decimal?)spisat;
             Save();
             return bonus_Card.kolvo_bonusov;
         }

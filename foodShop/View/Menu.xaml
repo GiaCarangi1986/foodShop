@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:foodShop"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="600" Width="540"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
+        Height="600" Width="550"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
     <Window.Resources>
 
     </Window.Resources>
@@ -92,9 +92,41 @@
             </TabItem>
 
             <TabItem Header="СПИСАТЬ ПРОДУКТ" Style="{StaticResource Vis}">
-                <WrapPanel Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Width="150" HorizontalAlignment="Left" Margin="10" Content="СПИСАТЬ"/>
-                </WrapPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="0.15*"/>
+                    </Grid.RowDefinitions>
+
+                    <ListBox ItemsSource="{Binding Procrochka_spisok}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="5">
+                                    <CheckBox IsChecked="{Binding Path=isSelected, Mode=TwoWay}">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock FontSize="18" Text="{Binding Path=title}" />
+                                            <TextBlock>
+                                                <Run Text="номер поставки: "/>
+                                                <Run Text="{Binding Path=number_of_postavka_FK}"/>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <Run Text="кол-во: "/>
+                                                <Run Text="{Binding Path=ostalos_product}"/>    
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </CheckBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Width="auto" HorizontalAlignment="Left" Margin="10" Content="СПИСАТЬ" Grid.Row="1"
+                            Command="{Binding Spicat}"/>
+                        <Button Width="auto" HorizontalAlignment="Left" Margin="10" Content="ВЫБРАТЬ ВСЕ / СНЯТЬ ВЫБОР"
+                                Command="{Binding All_Empty}"/>
+                    </StackPanel>
+                </Grid>
             </TabItem>
 
             <TabItem Header="ОТЧЕТ" Style="{StaticResource Vis}">
@@ -107,9 +139,9 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
-                        <RowDefinition Height="0.7*"/>
+                        <RowDefinition Height="0.8*"/>
                     </Grid.RowDefinitions>
-                    <Label Margin="10" FontSize="19" Grid.ColumnSpan="2"
+                    <Label Margin="10" FontSize="18" Grid.ColumnSpan="2"
                    FontFamily="Champagne &amp; Limousines">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">С помощью данного отчета можно увидеть на графике,
@@ -117,7 +149,7 @@
                         </Label.Content>
                     </Label>
                     <Calendar Language="ru-RU" Width="auto" HorizontalAlignment="Center" Margin="10" 
-                             SelectedDate="{Binding Date}" Height="350" VerticalAlignment="Top" Grid.Row="1"/>
+                             SelectedDate="{Binding Date}" Height="360" VerticalAlignment="Top" Grid.Row="1"/>
 
 
                     <Grid Grid.Column="1" Grid.Row="1">

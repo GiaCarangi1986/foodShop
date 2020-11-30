@@ -56,8 +56,11 @@ namespace foodShop
             get { return max; }
             set
             {
-                max = value;
-               OnPropertyChanged("Max");
+                if (selectedProduct != null)
+                {
+                    max = value;
+                    OnPropertyChanged("Max");
+                }
             }
         }
          

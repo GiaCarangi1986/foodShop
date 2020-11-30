@@ -12,16 +12,20 @@ namespace foodShop
     class MenuViewModel : INotifyPropertyChanged
     {
         private DBOperations db;
-        private bool kassir;
-        private CheckModel selectedCheck;
-        private List<CheckModel> checkModels;
-        private List<CheckModel> checkModel_otchet;
-        //private decimal? sum, bon;
+        private bool all_or_nothing; //выбраны все продукты для списания или не выбран не один
+        private bool kassir; //открыть доступ админу или кассиру
+        private CheckModel selectedCheck; //выбранный чек (для редактировани)
+        private List<CheckModel> checkModels; //вспомогательная переменная, которая содержит все чеки в обратном порядке
+        private List<CheckModel> checkModel_otchet; //для отчета (содержит чеки для заданного промежутка времени)
+        //private decimal? sum, bon; //реализовано в графике
         private List<ListCheck> listChecks; //лист Листа-списка чеков (для вывода по дням)
         private ListCheck checkOfList; //лист чеков
         private DateTime date1, date2, date; //1 и 2 даты + промежуточная date для отправки даты с календаря
         public ObservableCollection<CheckModel> Checks { get; set; } //коллекция чеков для отображения в меню
-        public ObservableCollection<CheckModel> Check_otchet { get; set; } //коллекция чеков для отчета
+        public ObservableCollection<CheckModel> Check_otchet { get; set; } //коллекция чеков для отчета (по дням все посчитано)
+        public ObservableCollection<Line_of_postavkaModel> Procrochka { get; set; } //коллекция строк поставки
+        public ObservableCollection<ProductModel> Products { get; set; } //все продукты
+        public ObservableCollection<ProsrochkaModel> Procrochka_spisok { get; set; } //коллекция испорченных продуктов
 
         /*public decimal? Sum //подводим итоговую сумму чеков
         {
@@ -98,7 +102,7 @@ namespace foodShop
                           listChecks.Clear();
 
                       DateTime dateTime = date2.AddDays(1);
-                      checkModel_otchet = db.GetAllCheck().Where(i => i.date_and_time.Day >= date1.Day && i.date_and_time.Day<=dateTime.Day).ToList();
+                      checkModel_otchet = db.GetAllCheck().Where(i => i.date_and_time >= date1 && i.date_and_time<=dateTime).ToList();
                       int days = date2.Subtract(date1).Days + 1; //кол-во дней между датами
                       for (int i = 0; i < days; i++)
                       {
@@ -181,6 +185,10 @@ namespace foodShop
                       Checks[index] = selectedCheck;
                       //Checks.RemoveAt(index);
                       //Checks.Insert(index, check);
+
+                      //надо теперь просрочку обновить
+                      Procrochka_spisok.Clear();
+                      ChangeProsrochka();
                   },
                  //условие, при котором будет доступна команда:
                  //разница даты покупки и текущей даты не более 1 дня
@@ -212,6 +220,10 @@ namespace foodShop
                       //чека и потом окно с добавлением скидочной карты
                       CheckModel checkModel = db.GetLastCheck();
                       Checks.Insert(0,checkModel);
+
+                      //надо теперь просрочку обновить
+                      Procrochka_spisok.Clear();
+                      ChangeProsrochka();
                   }));
             }
         }
@@ -229,6 +241,116 @@ namespace foodShop
             }
         }
 
+        private RelayCommand spicat; //нажали СПИСАТЬ
+        public RelayCommand Spicat
+        {
+            get
+            {
+                return spicat ??
+                  (spicat = new RelayCommand(obj =>
+                  {
+
+                          foreach (var temp in Procrochka_spisok.Where(i=>i.isSelected))
+                          db.SpisatProsrochka(temp.line_of_postavka);
+
+                      //надо теперь просрочку обновить
+                      Procrochka_spisok.Clear();
+                      ChangeProsrochka();
+                  },
+                 //условие, при котором будет доступна команда:
+                 //список просрочки не пуст и есть хотя бы 1 выбранный элемент
+                 (obj) => (Procrochka_spisok.Count()>0 && Procrochka_spisok.Where(i => i.isSelected).ToList().Count > 0)));
+            }
+        }
+
+        private RelayCommand all_Empty; //нажали ВЫБРАТЬ ВСЕ / СНЯТЬ ВЫБОР
+        public RelayCommand All_Empty
+        {
+            get
+            {
+                return all_Empty ??
+                  (all_Empty = new RelayCommand(obj =>
+                  {
+                      if (all_or_nothing == false) //не выбраны элементы
+                      {
+                          foreach (var temp in Procrochka_spisok)
+                              temp.isSelected = true;
+                          all_or_nothing = true; //все элементы выбраны
+                      }
+                      else
+                      {
+                          foreach (var temp in Procrochka_spisok)
+                              temp.isSelected = false;
+                          all_or_nothing = false; //ничто не выбрано
+                      }
+                  },
+                 //условие, при котором будет доступна команда
+                 (obj) => (Procrochka_spisok.Count() > 0)));
+            }
+        }
+
+        private void ChangeProsrochka()
+        {
+            //получаем строки чека, где продукты не списаны
+            Procrochka = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka().Where(i => i.spisano == false).ToList());
+
+            //получаем все продукты
+            Products = new ObservableCollection<ProductModel>(db.GetAllProduct());
+
+            //объединть надо строку поставки и продукт, чтобы выбрать те строки поставки, где продукт просрочился
+            var result = Procrochka.Join(Products, // второй набор
+                 post => post.code_of_product_FK, // свойство-селектор объекта из первого набор
+                 prod => prod.code_of_product, // свойство-селектор объекта из второго набора
+                 (post, prod) => new {
+                     code_of_product_FK = post.code_of_product_FK,
+                     ostalos_product = post.ostalos_product,
+                     date_of_preparing = post.date_of_preparing,
+                     spisano = post.spisano,
+                     scor_godnosti_O = prod.scor_godnosti_O,
+                     line_of_postavka = post.line_of_postavka,
+                     number_of_postavka_FK = post.number_of_postavka_FK,
+                     title = prod.title
+                 }); // результат
+
+            foreach (var temp in result)
+            {
+                if (temp.spisano == false && temp.ostalos_product != 0)
+                {
+                    /*if (temp.scor_godnosti_O == null)
+                    {
+                        //Line_of_postavkaModel line_Of_Postavka = db.GetLine_of_postavka(temp.line_of_postavka);
+                        ProsrochkaModel prosrochka = new ProsrochkaModel();
+                        prosrochka.code_of_product_FK = temp.code_of_product_FK;
+                        prosrochka.date_of_preparing = temp.date_of_preparing;
+                        prosrochka.line_of_postavka = temp.line_of_postavka;
+                        prosrochka.ostalos_product = temp.ostalos_product;
+                        prosrochka.scor_godnosti_O = temp.scor_godnosti_O;
+                        prosrochka.spisano = temp.spisano;
+                        prosrochka.title = temp.title;
+                        prosrochka.number_of_postavka_FK = temp.number_of_postavka_FK;
+                        Procrochka_spisok.Add(prosrochka);
+                    }
+                    else*/
+                        if (DateTime.Now.Subtract((DateTime)temp.date_of_preparing).Days
+                            > (temp.scor_godnosti_O / 24))
+                    {
+                        //Line_of_postavkaModel line_Of_Postavka = db.GetLine_of_postavka(temp.line_of_postavka);
+                        ProsrochkaModel prosrochka = new ProsrochkaModel();
+                        prosrochka.code_of_product_FK = temp.code_of_product_FK;
+                        prosrochka.date_of_preparing = temp.date_of_preparing;
+                        prosrochka.line_of_postavka = temp.line_of_postavka;
+                        prosrochka.ostalos_product = temp.ostalos_product;
+                        prosrochka.scor_godnosti_O = temp.scor_godnosti_O;
+                        prosrochka.spisano = temp.spisano;
+                        prosrochka.title = temp.title;
+                        prosrochka.number_of_postavka_FK = temp.number_of_postavka_FK;
+                        Procrochka_spisok.Add(prosrochka);
+                    }
+                    Procrochka_spisok.OrderBy(i => i.title).ToList();
+                }
+            }
+        }
+
         private Menu menu;
         public MenuViewModel(Menu menu, bool kassir, DBOperations db)
         {
@@ -238,12 +360,76 @@ namespace foodShop
             //db = new DBOperations();
             //буду показывать чеки только за последний день (нет)
             //checkModels = db.GetAllCheck().Where(i=> DateTime.Now.Subtract(i.date_and_time).Days == 0).ToList();
-            checkModels = db.GetAllCheck();
-            checkModels.Reverse(); //чтобы сначала видели новые чеки
-           Checks = new ObservableCollection<CheckModel>(checkModels);
+            checkModels = db.GetAllCheck(); //сначала берем все чеки
+            checkModels.Reverse(); //чтобы сначала видели новые чеки (обратный порядок чеков)
+           Checks = new ObservableCollection<CheckModel>(checkModels); //в коллекции чеки в обратном порядке
             Check_otchet = new ObservableCollection<CheckModel>();
-            Date = DateTime.Parse(DateTime.Now.ToShortDateString());
+            Date = DateTime.Parse(DateTime.Now.ToShortDateString()); //в календаре отображается текущая дата
             listChecks = new List<ListCheck>();
+
+            Procrochka_spisok = new ObservableCollection<ProsrochkaModel>();
+
+            //получаем строки чека, где продукты не списаны
+            Procrochka = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka().Where(i => i.spisano == false).ToList());
+
+            //получаем все продукты
+            Products = new ObservableCollection<ProductModel>(db.GetAllProduct());
+
+            ChangeProsrochka();
+            ////объединть надо строку поставки и продукт, чтобы выбрать те строки поставки, где продукт просрочился
+            //var result = Procrochka.Join(Products, // второй набор
+            //     post => post.code_of_product_FK, // свойство-селектор объекта из первого набор
+            //     prod => prod.code_of_product, // свойство-селектор объекта из второго набора
+            //     (post, prod) => new {
+            //         code_of_product_FK = post.code_of_product_FK,
+            //         ostalos_product = post.ostalos_product,
+            //         date_of_preparing = post.date_of_preparing,
+            //         spisano = post.spisano,
+            //         scor_godnosti_O = prod.scor_godnosti_O,
+            //         line_of_postavka = post.line_of_postavka,
+            //         number_of_postavka_FK = post.number_of_postavka_FK,
+            //         title = prod.title
+            //     }); // результат
+
+            //foreach (var temp in result)
+            //{
+            //    if (temp.spisano == false && temp.ostalos_product != 0)
+            //    {
+            //        if (temp.scor_godnosti_O == null)
+            //        {
+            //            //Line_of_postavkaModel line_Of_Postavka = db.GetLine_of_postavka(temp.line_of_postavka);
+            //            ProsrochkaModel prosrochka = new ProsrochkaModel();
+            //            prosrochka.code_of_product_FK = temp.code_of_product_FK;
+            //            prosrochka.date_of_preparing = temp.date_of_preparing;
+            //            prosrochka.line_of_postavka = temp.line_of_postavka;
+            //            prosrochka.ostalos_product = temp.ostalos_product;
+            //            prosrochka.scor_godnosti_O = temp.scor_godnosti_O;
+            //            prosrochka.spisano = temp.spisano;
+            //            prosrochka.title = temp.title;
+            //            prosrochka.number_of_postavka_FK = temp.number_of_postavka_FK;
+            //            Procrochka_spisok.Add(prosrochka);
+            //        }
+            //        else
+            //            if (DateTime.Now.Subtract((DateTime)temp.date_of_preparing).Days
+            //                < (temp.scor_godnosti_O / 24))
+            //        {
+            //            //Line_of_postavkaModel line_Of_Postavka = db.GetLine_of_postavka(temp.line_of_postavka);
+            //            ProsrochkaModel prosrochka = new ProsrochkaModel();
+            //            prosrochka.code_of_product_FK = temp.code_of_product_FK;
+            //            prosrochka.date_of_preparing = temp.date_of_preparing;
+            //            prosrochka.line_of_postavka = temp.line_of_postavka;
+            //            prosrochka.ostalos_product = temp.ostalos_product;
+            //            prosrochka.scor_godnosti_O = temp.scor_godnosti_O;
+            //            prosrochka.spisano = temp.spisano;
+            //            prosrochka.title = temp.title;
+            //            prosrochka.number_of_postavka_FK = temp.number_of_postavka_FK;
+            //            Procrochka_spisok.Add(prosrochka);
+            //        }
+            //    }
+            //}
+
+            //Procrochka = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka().Where(i=>i.spisano==false
+            //&&DateTime.Now.Subtract((DateTime)i.date_of_preparing)<=i.));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

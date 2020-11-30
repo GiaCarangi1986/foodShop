@@ -17,6 +17,7 @@ namespace foodShop
         private decimal? itog; //сумма покупок чека со скидкой
         private decimal? nowBonusov; //осталось на карте кол-во бонусов
 
+        DBOperations db;
 
         public decimal? Sum //сумма покупок чека без учета скидки
         {
@@ -86,6 +87,7 @@ namespace foodShop
             this.bonusCard = bonusCard;
             this.check = check;
             this.selectedBonusCard = selectedBonusCard;
+            this.db = db;
 
             sum = check.total_cost;
             if (selectedBonusCard != null)

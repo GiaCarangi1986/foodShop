@@ -11,7 +11,7 @@ namespace foodShop
     {
         public int number_of_card { get; set; }
         public decimal? kolvo_bonusov { get; set; }
-        public int? snayli_bonusov { get; set; }
+        public decimal? snayli_bonusov { get; set; } //был int?
 
         public Bonus_cardModel() { }
         public Bonus_cardModel(Bonus_card bonus)

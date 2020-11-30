@@ -27,6 +27,7 @@ namespace foodShop
         {
             decimal sum = 0;
             foreach (var temp in checkModels)
+                if (temp.total_cost!=null)
                 sum += (decimal)temp.total_cost;
             return sum;
         }
