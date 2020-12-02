@@ -12,7 +12,6 @@ namespace foodShop
     class MenuViewModel : INotifyPropertyChanged
     {
         private DBOperations db;
-        private bool all_or_nothing; //выбраны все продукты для списания или не выбран не один
         private bool kassir; //открыть доступ админу или кассиру
         private CheckModel selectedCheck; //выбранный чек (для редактировани)
         private List<CheckModel> checkModels; //вспомогательная переменная, которая содержит все чеки в обратном порядке
@@ -271,7 +270,9 @@ namespace foodShop
                 return all_Empty ??
                   (all_Empty = new RelayCommand(obj =>
                   {
-                      if (all_or_nothing == false) //не выбраны элементы
+                      foreach (var temp in Procrochka_spisok)
+                          temp.isSelected = !temp.isSelected;
+                      /*if (all_or_nothing == false) //не выбраны элементы
                       {
                           foreach (var temp in Procrochka_spisok)
                               temp.isSelected = true;
@@ -282,7 +283,7 @@ namespace foodShop
                           foreach (var temp in Procrochka_spisok)
                               temp.isSelected = false;
                           all_or_nothing = false; //ничто не выбрано
-                      }
+                      }*/
                   },
                  //условие, при котором будет доступна команда
                  (obj) => (Procrochka_spisok.Count() > 0)));
@@ -310,7 +311,7 @@ namespace foodShop
                      line_of_postavka = post.line_of_postavka,
                      number_of_postavka_FK = post.number_of_postavka_FK,
                      title = prod.title
-                 }); // результат
+                 }).OrderBy(i=>i.title); // результат
 
             foreach (var temp in result)
             {
@@ -346,7 +347,6 @@ namespace foodShop
                         prosrochka.number_of_postavka_FK = temp.number_of_postavka_FK;
                         Procrochka_spisok.Add(prosrochka);
                     }
-                    Procrochka_spisok.OrderBy(i => i.title).ToList();
                 }
             }
         }
@@ -358,8 +358,6 @@ namespace foodShop
             this.kassir = kassir;
             this.db = db;
             //db = new DBOperations();
-            //буду показывать чеки только за последний день (нет)
-            //checkModels = db.GetAllCheck().Where(i=> DateTime.Now.Subtract(i.date_and_time).Days == 0).ToList();
             checkModels = db.GetAllCheck(); //сначала берем все чеки
             checkModels.Reverse(); //чтобы сначала видели новые чеки (обратный порядок чеков)
            Checks = new ObservableCollection<CheckModel>(checkModels); //в коллекции чеки в обратном порядке
