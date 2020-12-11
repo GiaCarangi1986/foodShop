@@ -11,6 +11,7 @@ using System.Globalization;
 
 namespace foodShop
 {
+    //class AddCheckViewModel { }
     class AddCheckViewModel : INotifyPropertyChanged
     {
         private Line_of_checkModel lcheck; //хранит строку чека

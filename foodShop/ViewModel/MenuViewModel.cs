@@ -215,6 +215,7 @@ namespace foodShop
                   (addCheck = new RelayCommand(obj =>
                   {
                       AddCheck add = new AddCheck(db);
+                      //AddCheck add = new AddCheck();
                       add.ShowDialog(); //будем открывать последовательно окно с добавлением строк
                       //чека и потом окно с добавлением скидочной карты
                       CheckModel checkModel = db.GetLastCheck();

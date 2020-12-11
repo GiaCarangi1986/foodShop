@@ -24,7 +24,7 @@ namespace foodShop
         //совмещенных со строками чека
         public ObservableCollection<Line_of_postavkaModel> Line_of_postavkas { get; set; } //коллекция строк поставки
 
-        public int? VvodMax //ввод желаемого кол-ва товаров (д.б. < текущего кол-ва
+        public int? VvodMax //ввод желаемого кол-ва товара (д.б. < текущего кол-ва)
         {
             get { return vvodMax; }
             set
@@ -149,7 +149,7 @@ namespace foodShop
             }
         }
 
-        private RelayCommand gotovo; //нажали готово (посмотрели итоги покупки)
+        private RelayCommand gotovo; //нажали готово (завершили редактироание чека)
         public RelayCommand Gotovo
         {
             get

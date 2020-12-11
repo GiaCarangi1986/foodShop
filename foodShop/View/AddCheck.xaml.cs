@@ -20,9 +20,11 @@ namespace foodShop
     public partial class AddCheck : Window
     {
         public AddCheck(DBOperations db)
+        //public AddCheck()
         {
             InitializeComponent();
             DataContext = new AddCheckViewModel(this, db);
+            //DataContext = new AddCheckViewModel();
         }
     }
 }
