@@ -6,7 +6,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:foodShop"
         mc:Ignorable="d"
-        Title="BonusCard" Height="400" Width="400"  WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="BonusCard" Height="400" Width="400"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Closing="MyWindow_Closing"
+        MinHeight="380" MinWidth="250">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>

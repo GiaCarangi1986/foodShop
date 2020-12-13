@@ -51,6 +51,7 @@ namespace foodShop
             }
         }
 
+        /*
         private RelayCommand goodbay; //закрываем окно входа
         public RelayCommand Goodbay
         {
@@ -63,6 +64,7 @@ namespace foodShop
                   }));
             }
         }
+        */
 
         private MainWindow mainWindow;
         public VxodViewModel (MainWindow mainWindow)

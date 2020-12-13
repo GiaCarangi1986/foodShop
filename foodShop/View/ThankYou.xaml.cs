@@ -23,6 +23,12 @@ namespace foodShop
         {
             InitializeComponent();
             DataContext = new ThankYouViewModel(this, bonusCard, check, selectedBonusCard, db);
+            //this.Closing += new System.ComponentModel.CancelEventHandler(MyWindow_Closing);
         }
+
+        /*private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }*/
     }
 }

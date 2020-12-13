@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:foodShop"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="600" Width="550"  WindowStartupLocation="CenterScreen" WindowStyle="None" >
+        Height="600" Width="550"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" 
+        MinHeight="600" MinWidth="550">
     <Window.Resources>
 
     </Window.Resources>
@@ -18,10 +19,10 @@
         <Border Background="#FF5AE784"/>
         <TextBlock Text="ПРОДУКТОВЫЙ МАГАЗИН" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    FontSize="22" FontFamily="Champagne &amp; Limousines" />
-        <Button HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding Goodbay}"
+        <!--<Button HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding Goodbay}"
                 Background="{x:Null}" BorderBrush="{x:Null}">
             <materialDesign:PackIcon Kind="Close"/>
-        </Button>
+        </Button>-->
 
         <TabControl Margin="10,9.8,9.6,0" BorderBrush="Gainsboro" Grid.Row="1" VerticalAlignment="Top">
             <TabControl.Resources>

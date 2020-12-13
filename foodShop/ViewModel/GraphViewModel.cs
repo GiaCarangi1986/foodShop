@@ -39,7 +39,7 @@ namespace foodShop
             }
         }
 
-        private RelayCommand goodbay; //закрыть меню
+        /*private RelayCommand goodbay; //закрыть меню
         public RelayCommand Goodbay
         {
             get
@@ -50,7 +50,7 @@ namespace foodShop
                       graph.Close(); //закрыли текущее окно Graph
                   }));
             }
-        }
+        }*/
 
         private Graph graph;
         public GraphViewModel(Graph graph, ObservableCollection<CheckModel> Graph)

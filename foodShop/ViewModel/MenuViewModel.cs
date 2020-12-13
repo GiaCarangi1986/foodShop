@@ -228,7 +228,7 @@ namespace foodShop
             }
         }
 
-        private RelayCommand goodbay; //закрыть меню
+        /*private RelayCommand goodbay; //закрыть меню
         public RelayCommand Goodbay
         {
             get
@@ -239,7 +239,7 @@ namespace foodShop
                       menu.Close(); //закрыли текущее окно Menu
                   }));
             }
-        }
+        }*/
 
         private RelayCommand spicat; //нажали СПИСАТЬ
         public RelayCommand Spicat

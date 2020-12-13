@@ -25,6 +25,12 @@ namespace foodShop
             InitializeComponent();
             DataContext = new AddCheckViewModel(this, db);
             //DataContext = new AddCheckViewModel();
+            //this.Closing += new System.ComponentModel.CancelEventHandler(MyWindow_Closing);
         }
+
+        /*private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }*/
     }
 }
