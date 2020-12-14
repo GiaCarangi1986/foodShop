@@ -8,7 +8,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         Height="620" Width="1080"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow"
-        MinHeight="620" MinWidth="300">
+        MinHeight="620" MinWidth="300" Title="Graph">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>

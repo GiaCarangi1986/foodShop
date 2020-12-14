@@ -180,6 +180,7 @@ namespace foodShop
                       db.UpdateCheck(check);
                       BonusCard bonusCard = new BonusCard(check, db);
                       bonusCard.ShowDialog(); //открываем окно с бонусной картой
+                      db.close = true;
                       add.Close(); //как ток там все сделается, закрываем это окно
                   },
                   //условие, при котором будет доступна команда
@@ -195,7 +196,7 @@ namespace foodShop
             this.db = db;
             Products = new ObservableCollection<ProductModel>(db.GetAllProduct());
             Line_of_postavkas = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka());
-
+            db.close = false;
             check = new CheckModel(); //создаем чек
             check.date_and_time = DateTime.Now;
             check.number_of_check = db.CreateCheck(check);

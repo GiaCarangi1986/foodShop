@@ -56,7 +56,7 @@ namespace foodShop
             }
         }
 
-        private RelayCommand okDate2; //нажали ок (для 2 даты)
+        /*private RelayCommand okDate2; //нажали ок (для 2 даты)
         public RelayCommand OkDate2
         {
             get
@@ -84,7 +84,7 @@ namespace foodShop
                       Date1 = date;
                   }));
             }
-        }
+        }*/
 
         private RelayCommand getOtchet; //нажали ПОЛУЧИТЬ (отчет)
         public RelayCommand GetOtchet
@@ -364,6 +364,8 @@ namespace foodShop
            Checks = new ObservableCollection<CheckModel>(checkModels); //в коллекции чеки в обратном порядке
             Check_otchet = new ObservableCollection<CheckModel>();
             Date = DateTime.Parse(DateTime.Now.ToShortDateString()); //в календаре отображается текущая дата
+            Date1 = DateTime.Parse(DateTime.Now.ToShortDateString());
+            Date2 = DateTime.Parse(DateTime.Now.ToShortDateString());
             listChecks = new List<ListCheck>();
 
             Procrochka_spisok = new ObservableCollection<ProsrochkaModel>();

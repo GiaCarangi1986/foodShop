@@ -71,8 +71,9 @@ namespace foodShop
                 return ok ??
                   (ok = new RelayCommand(obj =>
                   {
+                      
                       thankYou.Close(); //закрыли текущее окно ThankYou
-                      bonusCard.Close();
+                      //bonusCard.Close();
                   }));
             }
         }

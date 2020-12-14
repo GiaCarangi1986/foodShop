@@ -97,7 +97,8 @@ namespace foodShop
                           selectedBonusCard = null;
                       ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
-                      //bonusCard.Close(); //закрываем окно BonusCard
+                      db.close = true;
+                      bonusCard.Close(); //закрываем окно BonusCard
                   }));
             }
         }
@@ -108,7 +109,7 @@ namespace foodShop
         {
             this.bonusCard = bonusCard; //используем для последующего закрытия текущего окна
             this.check = check;
-
+            db.close = false;
             //db = new DBOperations();
             this.db = db;
             BonusCards = new ObservableCollection<Bonus_cardModel>(db.GetAllBonus_card());

@@ -19,16 +19,20 @@ namespace foodShop
     /// </summary>
     public partial class BonusCard : Window
     {
+        DBOperations DB;
         public BonusCard(CheckModel check, DBOperations db)
         {
             InitializeComponent();
             DataContext = new BonusCardViewModel(this, check, db);
-            this.Closing += new System.ComponentModel.CancelEventHandler(MyWindow_Closing);
+            DB = db;
+            //this.Closing += new System.ComponentModel.CancelEventHandler(MyWindow_Closing);
         }
 
         private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
+            if (!DB.close)
+                e.Cancel = true;
+            else e.Cancel = false;
         }
     }
 }

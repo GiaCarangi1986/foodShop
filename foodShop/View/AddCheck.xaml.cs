@@ -19,13 +19,22 @@ namespace foodShop
     /// </summary>
     public partial class AddCheck : Window
     {
+        DBOperations DB;
         public AddCheck(DBOperations db)
         //public AddCheck()
         {
             InitializeComponent();
+            DB = db;
             DataContext = new AddCheckViewModel(this, db);
             //DataContext = new AddCheckViewModel();
             //this.Closing += new System.ComponentModel.CancelEventHandler(MyWindow_Closing);
+        }
+
+        private void NO_Close(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!DB.close)
+                e.Cancel = true;
+            else e.Cancel = false;
         }
 
         /*private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

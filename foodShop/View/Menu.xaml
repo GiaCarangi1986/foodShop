@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Height="600" Width="550"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" 
-        MinHeight="600" MinWidth="550">
+        MinHeight="600" MinWidth="550" Title="Menu">
     <Window.Resources>
 
     </Window.Resources>
@@ -24,7 +24,7 @@
             <materialDesign:PackIcon Kind="Close"/>
         </Button>-->
 
-        <TabControl Margin="10,9.8,9.6,0" BorderBrush="Gainsboro" Grid.Row="1" VerticalAlignment="Top">
+        <TabControl Margin="10,9.8,9.6,10" BorderBrush="Gainsboro" Grid.Row="1" >
             <TabControl.Resources>
                 <Style TargetType="TabItem" x:Key="tabControl">
                     <Setter Property="Template">
@@ -61,26 +61,21 @@
 
             <TabItem Header="ЧЕК" Style="{StaticResource tabControl}">
                 <Grid>
-                    <!--<Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="12*"/>
-                        <ColumnDefinition Width="96*"/>
-                        <ColumnDefinition Width="151*"/>
-                    </Grid.ColumnDefinitions>-->
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.15*"/>
                         <RowDefinition Height="0.8*"/>
                     </Grid.RowDefinitions>
                     <!--<WrapPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="3" Margin="0,0,0.2,0">-->
-                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <Button Width="auto" HorizontalAlignment="Left" Command="{Binding Add_Check}"
+                    <StackPanel Orientation="Horizontal" >
+                        <Button Width="auto" Command="{Binding Add_Check}"
                                 Margin="10" Content="ДОБАВИТЬ ЧЕК"/>
-                        <Button Width="auto" HorizontalAlignment="Left" Command="{Binding Change_Check}"
+                        <Button Width="auto" Command="{Binding Change_Check}"
                                 Margin="10" Content="РЕДАКТИРОВАТЬ ЧЕК"/>
-                    </WrapPanel>
+                    </StackPanel>
 
                     <!--<ListBox ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}" Grid.ColumnSpan="3" Margin="0,54,0.2,0.2" Grid.RowSpan="2">-->
-                    <ListBox ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}" Grid.Row="1">    
-                    <ListBox.ItemTemplate>
+                    <ListBox ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}" Grid.Row="1">
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="5">
                                     <TextBlock FontSize="18" Text="{Binding Path=date_and_time}" Language="ru-RU"/>
@@ -134,75 +129,87 @@
             </TabItem>
 
             <TabItem Header="ОТЧЕТ" Style="{StaticResource Vis}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
+                <Grid MinHeight="450" Height="auto">
+
+                    <!--<Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.4*"/>
                         <ColumnDefinition Width="0.4*"/>
-                        <!--<ColumnDefinition Width="0.4*"/>-->
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>-->
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
-                        <RowDefinition Height="0.8*"/>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.2*"/>
                     </Grid.RowDefinitions>
-                    <Label Margin="10" FontSize="18" Grid.ColumnSpan="2"
+                    <Label Margin="10" FontSize="18"
                    FontFamily="Champagne &amp; Limousines">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">С помощью данного отчета можно увидеть на графике,
                             сколько рублей и бонусов потратили покупатели за определенный промежуток времени</TextBlock>
                         </Label.Content>
                     </Label>
-                    <Calendar Language="ru-RU" Width="auto" HorizontalAlignment="Stretch" Margin="10" 
-                             SelectedDate="{Binding Date}" Height="800" VerticalAlignment="Stretch" Grid.Row="1"/>
+                    <!--<Calendar Language="ru-RU" Width="auto" HorizontalAlignment="Stretch" Margin="10" 
+                             SelectedDate="{Binding Date}" Height="800" VerticalAlignment="Stretch" Grid.Row="1"/>-->
 
 
-                    <Grid Grid.Column="1" Grid.Row="1">
+                    <!--<Grid Grid.Column="1" Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="0.3*"/>
-                        </Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions>-->
 
-                        <Grid.RowDefinitions>
+                    <!--<Grid.RowDefinitions>
                             <RowDefinition Height="0.1*"/>
                             <RowDefinition Height="0.1*"/>
                             <RowDefinition Height="0.1*"/>
                             <RowDefinition Height="0.1*"/>
                             <RowDefinition Height="0.1*"/>
-                        </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>-->
 
-                        <Label Margin="10" FontSize="20" 
+                    <!--<Label Margin="10" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
                             <Label.Content>
                                 <TextBlock TextWrapping="Wrap">Первая дата:</TextBlock>
                             </Label.Content>
-                        </Label>
+                        </Label>-->
 
-                        <Label Grid.Row="1" Width="auto" Margin="10" HorizontalAlignment="Left"
-                       Content="{Binding Date1}" FontSize="16" Language="ru-RU"/>
+                    <DatePicker Grid.Row="1"  Language="ru-RU" Margin="10" MaxWidth="600" HorizontalAlignment="Stretch"
+                         Width="auto" MinWidth="100" SelectedDate="{Binding Date1}"
+                         materialDesign:HintAssist.Hint="УКАЖИТЕ ПЕРВУЮ ДАТУ" 
+                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-                        <Label Margin="10" FontSize="20" Grid.Row="2"
+                    <!--<Label Grid.Row="1" Width="auto" Margin="10" HorizontalAlignment="Left"
+                       Content="{Binding Date1}" FontSize="16" Language="ru-RU"/>-->
+
+                    <!--<Label Margin="10" FontSize="20" Grid.Row="2"
                    FontFamily="Champagne &amp; Limousines">
                             <Label.Content>
                                 <TextBlock TextWrapping="Wrap">Вторая дата:</TextBlock>
                             </Label.Content>
-                        </Label>
+                        </Label>-->
 
-                        <Label Grid.Row="3" Width="auto" Margin="10" HorizontalAlignment="Left"
-                       Content="{Binding Date2}" FontSize="16" Language="ru-RU"/>
+                    <DatePicker Grid.Row="2" Language="ru-RU" Margin="10" MaxWidth="600" HorizontalAlignment="Stretch"
+                         Width="auto" MinWidth="100" SelectedDate="{Binding Date2}"
+                         materialDesign:HintAssist.Hint="УКАЖИТЕ ВТОРУЮ ДАТУ"
+                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-                        <Button Command="{Binding GetOtchet, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4"
-                    Content="Получить" Width="auto" Margin="10" HorizontalAlignment="Left"/>
+                    <!--<Label Grid.Row="3" Width="auto" Margin="10" HorizontalAlignment="Left"
+                       Content="{Binding Date2}" FontSize="16" Language="ru-RU"/>-->
 
-                        <Button Command="{Binding OkDate1}" Grid.Row="1" Grid.Column="1"
+                    <Button Command="{Binding GetOtchet, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3"
+                    Content="Получить" Width="auto" Margin="10" HorizontalAlignment="Stretch" MaxWidth="100"/>
+
+                    <!--<Button Command="{Binding OkDate1}" Grid.Row="1" Grid.Column="1"
                     Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>
 
                         <Button Command="{Binding OkDate2}" Grid.Row="3" Grid.Column="1"
-                    Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>
+                    Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>-->
 
 
-                    </Grid>
+                </Grid>
 
-                    <!--<Grid Grid.Column="2">
+                <!--<Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.9*"/>
                             <RowDefinition Height="0.2*"/>
@@ -246,7 +253,7 @@
                             </Label>
                         </StackPanel>
                     </Grid>-->
-                </Grid>
+                <!--</Grid>-->
             </TabItem>
         </TabControl>
 

@@ -12,7 +12,7 @@ namespace foodShop
     {
         private foodShopContext db;
 
-            public DBOperations()
+        public DBOperations()
             {
                 db = new foodShopContext();
             }
@@ -21,6 +21,8 @@ namespace foodShop
             {
             return db.Checks.ToList().Select(i => new CheckModel(i)).ToList();
         }
+
+        public bool close { get; set; }
 
         public void SpisatProsrochka(int Id)
         {
