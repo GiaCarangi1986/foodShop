@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:foodShop"
         mc:Ignorable="d"
-        Title="BonusCard" Height="400" Width="400"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Closing="MyWindow_Closing"
+        Title="BonusCard" Height="600" Width="400"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow"
         MinHeight="380" MinWidth="250">
     <Grid>
         <Grid.RowDefinitions>
@@ -22,10 +22,6 @@
         <Border Background="#FF5AE784" Grid.ColumnSpan="2"/>
         <TextBlock Text="КАРТА ЛОЯЛЬНОСТИ" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
                        FontSize="22" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="2"/>
-        <!--<Button  Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{x:Null}" 
-                     BorderBrush="{x:Null}">
-            <materialDesign:PackIcon Kind="Close"/>
-        </Button>-->
 
         <Label Margin="10" Grid.Row="1" VerticalAlignment="Center" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
@@ -64,6 +60,7 @@
             <Button Width="150" Margin="10" Command="{Binding WithCard}" Content="ПРИМЕНИТЬ"/>
 
             <Button Width="150" Margin="10" Command="{Binding WithoutCard}" Content="НЕ ПРИМЕНЯТЬ"/>
+            <Button Width="150" Margin="10" Command="{Binding AddCard}" Content="ПРИОБРЕСТИ"/>
         </WrapPanel>
     </Grid>
 </Window>

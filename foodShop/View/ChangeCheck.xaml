@@ -22,10 +22,6 @@
             <Border Background="#FF5AE784" Grid.ColumnSpan="3"/>
             <TextBlock Text="ЧЕК" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
                        FontSize="22" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="3"/>
-            <!--<Button  Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{x:Null}" 
-                     BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="Close"/>
-            </Button>-->
 
             <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}" 
                      SelectedItem="{Binding SelectedLine_of_check}">

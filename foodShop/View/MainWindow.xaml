@@ -16,7 +16,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!--прямоугольник и форму ввода сделать сплайном и отступ продумать-->
         <Rectangle Height="auto" MinHeight="240">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -26,9 +25,6 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <!--<Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding Goodbay}">
-            <materialDesign:PackIcon Kind="Close"/>
-        </Button>-->
         <Rectangle MaxWidth="500" MaxHeight="350" Grid.RowSpan="2" Width="auto" Margin="35,194,35,119.6" RadiusY="10" RadiusX="10" Fill="White" MinHeight="150">
             <Rectangle.Effect>
                 <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>

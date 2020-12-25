@@ -50,3 +50,5 @@ C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\
 C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.Wpf.pdb
 C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\bin\Debug\LiveCharts.Wpf.xml
 C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\Graph.baml
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\Print.g.cs
+C:\Users\Лиза\Desktop\Конструирование ПО\foodShop\foodShop\obj\Debug\View\Print.baml

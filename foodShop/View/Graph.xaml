@@ -17,10 +17,6 @@
         <Border Background="#FF5AE784"/>
         <TextBlock Text="ГРАФИК" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    FontSize="22" FontFamily="Champagne &amp; Limousines" />
-        <!--<Button HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding Goodbay}"
-                Background="{x:Null}" BorderBrush="{x:Null}">
-            <materialDesign:PackIcon Kind="Close"/>
-        </Button>-->
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.8*"/>

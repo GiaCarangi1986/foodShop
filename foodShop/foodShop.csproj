@@ -83,6 +83,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Print.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ThankYou.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -111,9 +115,13 @@
     <Compile Include="ViewModel\ChangeCheckViewModel.cs" />
     <Compile Include="Model\LoginAndPassword.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
+    <Compile Include="ViewModel\PrintViewModel.cs" />
     <Compile Include="ViewModel\ThankYouViewModel.cs" />
     <Compile Include="View\Graph.xaml.cs">
       <DependentUpon>Graph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Print.xaml.cs">
+      <DependentUpon>Print.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ThankYou.xaml.cs">
       <DependentUpon>ThankYou.xaml</DependentUpon>

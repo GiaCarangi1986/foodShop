@@ -26,7 +26,7 @@ namespace DAL
         {
             modelBuilder.Entity<Bonus_card>()
                 .Property(e => e.kolvo_bonusov)
-                .HasPrecision(18, 0);
+                .HasPrecision(5, 3);
 
             modelBuilder.Entity<Bonus_card>()
                 .HasMany(e => e.Checks)
@@ -46,10 +46,6 @@ namespace DAL
             modelBuilder.Entity<Check>()
                 .Property(e => e.total_cost)
                 .HasPrecision(19, 4);
-
-            modelBuilder.Entity<Check>()
-                .Property(e => e.bonus)
-                .HasPrecision(18, 0);
 
             modelBuilder.Entity<Check>()
                 .HasMany(e => e.Line_of_check)
@@ -76,11 +72,6 @@ namespace DAL
                 .WithRequired(e => e.Line_of_postavka)
                 .HasForeignKey(e => e.id_stroka_postavka)
                 .WillCascadeOnDelete(false);
-
-            /*modelBuilder.Entity<Postavka>()
-                .Property(e => e.itogo_cost)
-                .HasPrecision(19, 4);
-                */
 
             modelBuilder.Entity<Postavka>()
                 .HasMany(e => e.Line_of_postavka)

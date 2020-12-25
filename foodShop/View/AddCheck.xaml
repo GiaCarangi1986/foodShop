@@ -8,15 +8,9 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="AddCheck" 
         Height="800" Width="800"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow"
-        MinHeight="500" MinWidth="500" Closing="NO_Close">
+        MinHeight="500" MinWidth="500">
     <Grid>
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="0*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>-->
-        <!--<Grid Margin="0,0,-0.4,-0.4" Grid.RowSpan="2" >-->
-       
-            <Grid.RowDefinitions>
+        <Grid.RowDefinitions>
                 <RowDefinition Height="0.1*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="0.1*"/>
@@ -26,15 +20,10 @@
                 <ColumnDefinition Width="0.8*"/>
             </Grid.ColumnDefinitions>
             <Border Background="#FF5AE784" Grid.ColumnSpan="3"/>
-            <TextBlock Text="ЧЕК" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
+        <TextBlock Text="ЧЕК" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
                        FontSize="22" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="3"/>
-            <!--<Button  Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding Bay}"
-                     VerticalAlignment="Center" Background="{x:Null}" 
-                     BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="Close"/>
-            </Button>-->
 
-            <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}">
+        <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5">

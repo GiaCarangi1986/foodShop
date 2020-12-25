@@ -1,0 +1,98 @@
+﻿<Window x:Class="foodShop.Print"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:foodShop"
+        mc:Ignorable="d"
+        Title="Print" Height="800" Width="800"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow"
+        MinHeight="500" MinWidth="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.8*"/>
+        </Grid.ColumnDefinitions>
+        <Border Background="#FF5AE784" Grid.ColumnSpan="3"/>
+        <TextBlock Text="ВЕРСИЯ ДЛЯ ПЕЧАТИ" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       FontSize="22" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="3"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path=name_of_product}" />
+                        <TextBlock>
+                                <Run Text="цена: "/>
+                                <Run Text="{Binding Path=cost_for_buyer, StringFormat=0.00}"/>
+                        </TextBlock>
+                        <TextBlock>
+                                <Run Text="кол-во: "/>
+                                <Run Text="{Binding Path=much_of_products}"/>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Width="auto" Margin="10" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding Ok}"
+                    Content="Ок"/>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Margin="10" FontSize="16" VerticalAlignment="Center"
+                   FontFamily="Champagne &amp; Limousines">
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap">Сумма чека, руб:</TextBlock> 
+                </Label.Content>
+            </Label>
+            
+            <Label Margin="10" FontSize="16" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding Vis}" 
+                   FontFamily="Champagne &amp; Limousines">
+                
+            <Label.Content>
+                <TextBlock TextWrapping="Wrap">Скидка составила, руб:</TextBlock>
+            </Label.Content>
+                
+        </Label>
+
+            <Label Margin="10" FontSize="16" Grid.Row="2" VerticalAlignment="Center" Visibility="{Binding Vis}"
+                   FontFamily="Champagne &amp; Limousines">
+            <Label.Content>
+                <TextBlock TextWrapping="Wrap">Итоговая стоимость со скидкой, руб:</TextBlock>
+            </Label.Content>
+        </Label>
+
+            <Label Margin="10" FontSize="16" Grid.Row="3" VerticalAlignment="Center" Visibility="{Binding Vis}"
+                   FontFamily="Champagne &amp; Limousines">
+            <Label.Content>
+                <TextBlock TextWrapping="Wrap">Бонусов на карте:</TextBlock>
+            </Label.Content>
+        </Label>
+        
+        <Label Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines"
+               Content="{Binding Path=Sum, StringFormat=0.00}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <Label Grid.Row="1" Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines" Visibility="{Binding Vis}"
+               Content="{Binding Path=Sale, StringFormat=0.00}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <Label Grid.Row="2" Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines" Visibility="{Binding Vis}"
+               Content="{Binding Path=Itog, StringFormat=0.00}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <Label Grid.Row="3" Grid.Column="1" Margin="10" FontSize="17" FontFamily="Champagne &amp; Limousines" Visibility="{Binding Vis}"
+               Content="{Binding Path=NowBonusov, StringFormat=0.00}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Window>

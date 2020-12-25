@@ -14,6 +14,7 @@ namespace foodShop
         public decimal? total_cost { get; set; }
         public int? number_of_card_FK { get; set; }
         public decimal? bonus { get; set; }
+        public bool card { get; set; }
 
         public CheckModel() { }
         public CheckModel(Check check)
@@ -23,6 +24,7 @@ namespace foodShop
             total_cost = check.total_cost;
             number_of_card_FK = check.number_of_card_FK;
             bonus = check.bonus;
+            card = check.card;
         }
     }
 }

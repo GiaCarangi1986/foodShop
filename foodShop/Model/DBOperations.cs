@@ -22,7 +22,53 @@ namespace foodShop
             return db.Checks.ToList().Select(i => new CheckModel(i)).ToList();
         }
 
-        public bool close { get; set; }
+        public void DeleteCheck(int Id)
+        {
+            Check check = db.Checks.Find(Id);
+            db.Checks.Remove(check);
+            Save();
+        }
+
+        public void DeleteLine_of_check(int Id)
+        {
+            Line_of_check lcheck = db.Line_of_check.Find(Id);
+            db.Line_of_check.Remove(lcheck);
+            Save();
+        }
+
+        public void DeleteLine_of_check_and_postavka(int Id)
+        {
+            Stroka_check_and_postavka lstrpost = db.Stroka_check_and_postavka.Find(Id);
+            db.Stroka_check_and_postavka.Remove(lstrpost);
+            Save();
+        }
+
+        public Line_of_postavkaModel GetCardPostavka()
+        {
+            List<Line_of_postavkaModel> line_s = new List<Line_of_postavkaModel>();
+            line_s = GetAllLine_of_postavka();
+            foreach (var temp in line_s.Where(i=>i.code_of_product_FK==26 && i.ostalos_product>0))
+            {
+                return temp;
+            }
+            return null;
+        }
+
+            public double CardCost()
+        {
+            int Id = 26; //id бонусной карты
+            ProductModel product= new ProductModel(db.Products.Find(Id));
+            return (double)product.now_cost;
+        }
+
+        public int CreateBobusCard(Bonus_cardModel bonusCard)
+        {
+            Bonus_card bonus = new Bonus_card();
+            bonus.kolvo_bonusov = 0;
+            db.Bonus_card.Add(bonus);
+            Save();
+            return bonus.number_of_card;
+        }
 
         public void SpisatProsrochka(int Id)
         {
@@ -95,9 +141,21 @@ namespace foodShop
                 return new ProductModel(db.Products.Find(Id));
             }
 
+        public Bonus_cardModel GetBonus_card(int Id)
+        {
+            return new Bonus_cardModel(db.Bonus_card.Find(Id));
+        }
+
         public CheckModel GetLastCheck()
         {
             CheckModel checkModel = db.Checks.ToList().Select(i => new CheckModel(i)).ToList().LastOrDefault();
+            return new CheckModel(db.Checks.Find(checkModel.number_of_check));
+        }
+
+        public CheckModel GetPredLastCheck()
+        {
+            int index = db.Checks.ToList().Select(i => new CheckModel(i)).ToList().Count-2;
+            CheckModel checkModel = db.Checks.ToList().Select(i => new CheckModel(i)).ToList().ElementAt(index);
             return new CheckModel(db.Checks.Find(checkModel.number_of_check));
         }
 
@@ -127,13 +185,6 @@ namespace foodShop
             line.number_of_check_FK = line_Of_Check.number_of_check_FK;
             line.code_of_product_FK = line_Of_Check.code_of_product_FK;
             db.Line_of_check.Add(line);
-            /*db.Line_of_check.Add(new Line_of_check()
-            {
-                much_of_products = line_Of_Check.much_of_products,
-                cost_for_buyer = line_Of_Check.cost_for_buyer,
-                number_of_check_FK = line_Of_Check.number_of_check_FK,
-                code_of_product_FK = line_Of_Check.code_of_product_FK
-            });*/
             Save();
             return line.line_number_of_check;
             }
@@ -154,13 +205,10 @@ namespace foodShop
             check.date_and_time = (DateTime)checkModel.date_and_time;
             check.number_of_card_FK = checkModel.number_of_card_FK;
             check.total_cost = checkModel.total_cost;
+            if (!checkModel.card)
+                check.card = false;
+            else check.card = checkModel.card;
             db.Checks.Add(check);
-            /*db.Checks.Add(new Check()
-            {
-              date_and_time = (DateTime)checkModel.date_and_time,
-            number_of_card_FK = checkModel.number_of_card_FK,
-            total_cost = checkModel.total_cost
-        });*/
             Save();
             return check.number_of_check;
         }
@@ -171,6 +219,7 @@ namespace foodShop
             check.date_and_time = (DateTime)checkModel.date_and_time;
             check.number_of_card_FK = checkModel.number_of_card_FK;
             check.total_cost = checkModel.total_cost;
+            check.card = checkModel.card;
             if (checkModel.bonus!=null)
             check.bonus = checkModel.bonus;
             Save();

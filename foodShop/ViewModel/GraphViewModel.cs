@@ -39,19 +39,6 @@ namespace foodShop
             }
         }
 
-        /*private RelayCommand goodbay; //закрыть меню
-        public RelayCommand Goodbay
-        {
-            get
-            {
-                return goodbay ??
-                  (goodbay = new RelayCommand(obj =>
-                  {
-                      graph.Close(); //закрыли текущее окно Graph
-                  }));
-            }
-        }*/
-
         private Graph graph;
         public GraphViewModel(Graph graph, ObservableCollection<CheckModel> Graph)
         {
@@ -76,8 +63,6 @@ namespace foodShop
         void RefreshCharts()
         {
             SeriesCollection.Clear();
-            //foreach (var service in Graph)
-            //{
             ChartValues<decimal> sum = new ChartValues<decimal>();
             ChartValues<decimal> bonus = new ChartValues<decimal>();
             foreach (var temp in Graph)
@@ -98,12 +83,6 @@ namespace foodShop
                 Title = "Бонусы",
                 Values = new ChartValues<decimal>(bonus)
             });
-            /*SeriesCollection.Add(new Axis
-            {
-
-            });*/
-
-            //}
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

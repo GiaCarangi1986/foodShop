@@ -27,6 +27,8 @@ namespace DAL
 
         public decimal? bonus { get; set; }
 
+        public bool card { get; set; }
+
         public virtual Bonus_card Bonus_card { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

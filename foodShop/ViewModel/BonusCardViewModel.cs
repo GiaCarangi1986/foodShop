@@ -15,6 +15,9 @@ namespace foodShop
         private Bonus_cardModel selectedBonusCard; //хранит выбранную в combox бонусную карту
         private int? spisat;
         private decimal? max;
+        private bool newCard; //приобрел ли покупатель новую карту?
+        private double cost;//цена приоьретения бонусной карты
+        Line_of_postavkaModel postavkaModel; //строка поставки с бонусной картой
 
         public ObservableCollection<Bonus_cardModel> BonusCards { get; set; } //коллекция бонусных карт
 
@@ -47,10 +50,14 @@ namespace foodShop
             set
             {
                 selectedBonusCard = value;
-                max = selectedBonusCard.kolvo_bonusov;
-                MaxBonus = max;
-                spisat = 0;
-                OnPropertyChanged("SelectedProduct");
+                
+                    max = selectedBonusCard.kolvo_bonusov;
+                if (max != null)
+                {
+                    MaxBonus = max;
+                    spisat = 0;
+                    OnPropertyChanged("SelectedProduct");
+                }
             }
         }
 
@@ -75,10 +82,10 @@ namespace foodShop
 
                       db.UpdateCheck(check); //обновили чек в бд  (итоговая стоимость ниже, если сняла бонусы)
                       //плюс запишем в чек инфу о бонусной карте, если ее применили
+                      
 
-                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db);
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db,cost);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
-                     // bonusCard.Close(); //закрываем окно BonusCard
                   },
                  //условие, при котором будет доступна команда
                  (obj) => (selectedBonusCard!=null && spisat<= selectedBonusCard.kolvo_bonusov)));
@@ -95,11 +102,48 @@ namespace foodShop
                   {
                       if (selectedBonusCard != null)
                           selectedBonusCard = null;
-                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db);
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db,cost);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
-                      db.close = true;
                       bonusCard.Close(); //закрываем окно BonusCard
                   }));
+            }
+        }
+
+        private RelayCommand addCard; //ПРИОБРЕСТИ бонусную карту
+        public RelayCommand AddCard
+        {
+            get
+            {
+                return addCard ??
+                  (addCard = new RelayCommand(obj =>
+                  {
+                      Bonus_cardModel model = new Bonus_cardModel();
+                      model.number_of_card=db.CreateBobusCard(model);
+                      BonusCards.Add(model);
+                      model.kolvo_bonusov = 0;
+                      newCard = true;
+                      cost = db.CardCost();
+
+                      CheckModel check1 = new CheckModel();
+                      check1.date_and_time = DateTime.Now;
+                      check1.card = true;
+                      check1.total_cost = (decimal?)cost;
+                      check1.number_of_check = db.CreateCheck(check1);
+
+                      Line_of_checkModel line = new Line_of_checkModel();
+                      line.code_of_product_FK = 26;
+                      line.cost_for_buyer = (decimal)cost;
+                      line.itogo = (decimal)cost;
+                      line.much_of_products = 1;
+                      line.name_of_product = "бонусная карта";
+                      line.number_of_check_FK = check1.number_of_check;
+                      db.CreateLine_of_check(line);
+
+                      postavkaModel.ostalos_product--;
+                      db.UpdateLine_of_postavka(postavkaModel);
+                  },
+                 //условие, при котором будет доступна команда
+                 (obj) => (newCard==false && (postavkaModel = db.GetCardPostavka())!=null)));
             }
         }
 
@@ -109,10 +153,9 @@ namespace foodShop
         {
             this.bonusCard = bonusCard; //используем для последующего закрытия текущего окна
             this.check = check;
-            db.close = false;
-            //db = new DBOperations();
             this.db = db;
             BonusCards = new ObservableCollection<Bonus_cardModel>(db.GetAllBonus_card());
+            Line_of_postavkaModel postavkaModel = new Line_of_postavkaModel();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

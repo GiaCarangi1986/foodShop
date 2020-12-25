@@ -16,6 +16,7 @@ namespace foodShop
         private decimal? sum; //сумма покупок чека без учета скидки
         private decimal? itog; //сумма покупок чека со скидкой
         private decimal? nowBonusov; //осталось на карте кол-во бонусов
+        private double cost; //цена приобретения покупателем бонусной карты
 
         DBOperations db;
 
@@ -73,7 +74,7 @@ namespace foodShop
                   {
                       
                       thankYou.Close(); //закрыли текущее окно ThankYou
-                      //bonusCard.Close();
+                      bonusCard.Close();
                   }));
             }
         }
@@ -82,15 +83,16 @@ namespace foodShop
         private CheckModel check;
         private BonusCard bonusCard;
         private ThankYou thankYou;
-        public ThankYouViewModel(ThankYou thankYou, BonusCard bonusCard, CheckModel check, Bonus_cardModel selectedBonusCard, DBOperations db)
+        public ThankYouViewModel(ThankYou thankYou, BonusCard bonusCard, CheckModel check, Bonus_cardModel selectedBonusCard, DBOperations db, double cost)
         {
             this.thankYou = thankYou;
             this.bonusCard = bonusCard;
             this.check = check;
             this.selectedBonusCard = selectedBonusCard;
             this.db = db;
+            this.cost = cost;
 
-            sum = check.total_cost;
+            sum = check.total_cost + (decimal?)cost;
             if (selectedBonusCard != null)
             {
                 sum += selectedBonusCard.snayli_bonusov;
@@ -103,8 +105,7 @@ namespace foodShop
                 nowBonusov = null;
             }
             itog = check.total_cost;
-
-            bonusCard.Hide();
+            //bonusCard.Hide();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

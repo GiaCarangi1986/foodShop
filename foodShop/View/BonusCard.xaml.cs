@@ -28,11 +28,11 @@ namespace foodShop
             //this.Closing += new System.ComponentModel.CancelEventHandler(MyWindow_Closing);
         }
 
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        /*private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!DB.close)
                 e.Cancel = true;
             else e.Cancel = false;
-        }
+        }*/
     }
 }

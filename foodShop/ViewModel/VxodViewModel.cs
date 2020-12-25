@@ -42,29 +42,14 @@ namespace foodShop
                           bool kassir = false;
                           if (user.login == "kassir")
                               kassir = true;
-                          //Menu menu = new Menu(kassir);
-                          Menu menu = new Menu();
+                          Menu menu = new Menu(kassir);
+                          //Menu menu = new Menu();
                           mainWindow.Close(); //закрываем текущее окно MainWindow
                           menu.Show(); //открываем меню (окно Menu)
                       }
                   }));
             }
         }
-
-        /*
-        private RelayCommand goodbay; //закрываем окно входа
-        public RelayCommand Goodbay
-        {
-            get
-            {
-                return goodbay ??
-                  (goodbay = new RelayCommand(obj =>
-                  {
-                      mainWindow.Close(); //закрыли текущее окно MainWindow (вышли из программы)
-                  }));
-            }
-        }
-        */
 
         private MainWindow mainWindow;
         public VxodViewModel (MainWindow mainWindow)

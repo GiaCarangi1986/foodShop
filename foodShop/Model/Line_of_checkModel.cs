@@ -21,14 +21,17 @@ namespace foodShop
         public Line_of_checkModel() { }
         public Line_of_checkModel(Line_of_check lcheck)
         {
-            line_number_of_check = lcheck.line_number_of_check;
-            much_of_products = lcheck.much_of_products;
-            cost_for_buyer = lcheck.cost_for_buyer;
-            number_of_check_FK = lcheck.number_of_check_FK;
-            code_of_product_FK = lcheck.code_of_product_FK;
+            if (lcheck != null)
+            {
+                line_number_of_check = lcheck.line_number_of_check;
+                much_of_products = lcheck.much_of_products;
+                cost_for_buyer = lcheck.cost_for_buyer;
+                number_of_check_FK = lcheck.number_of_check_FK;
+                code_of_product_FK = lcheck.code_of_product_FK;
 
-            name_of_product = lcheck.Product.title;
-            itogo = lcheck.Product.now_cost * much_of_products;
+                name_of_product = lcheck.Product.title;
+                itogo = lcheck.Product.now_cost * much_of_products;
+            }
         }
     }
 }

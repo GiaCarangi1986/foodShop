@@ -17,7 +17,6 @@ namespace foodShop
         public int line_of_postavka { get; set; }
         public int number_of_postavka_FK { get; set; }
         public int code_of_product_FK { get; set; }
-        //public string title { get; set; }
         public string Title;
         public string title
         {
@@ -28,7 +27,6 @@ namespace foodShop
                 OnPropertyChanged("title");
             }
         }
-        //public bool isSelected { get; set; } //выбран / не выбран продукт для списания
         public bool IsSelected;
         public bool isSelected { 
             get { return IsSelected; }

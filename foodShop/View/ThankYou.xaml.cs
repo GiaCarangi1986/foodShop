@@ -19,10 +19,10 @@ namespace foodShop
     /// </summary>
     public partial class ThankYou : Window
     {
-        public ThankYou(BonusCard bonusCard, CheckModel check, Bonus_cardModel selectedBonusCard, DBOperations db)
+        public ThankYou(BonusCard bonusCard, CheckModel check, Bonus_cardModel selectedBonusCard, DBOperations db, double cost)
         {
             InitializeComponent();
-            DataContext = new ThankYouViewModel(this, bonusCard, check, selectedBonusCard, db);
+            DataContext = new ThankYouViewModel(this, bonusCard, check, selectedBonusCard, db,cost);
             //this.Closing += new System.ComponentModel.CancelEventHandler(MyWindow_Closing);
         }
 

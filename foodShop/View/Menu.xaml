@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:foodShop"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="600" Width="550"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" 
-        MinHeight="600" MinWidth="550" Title="Menu">
+        Height="600" Width="740"  WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" 
+        MinHeight="600" MinWidth="740" Title="Menu">
     <Window.Resources>
 
     </Window.Resources>
@@ -19,10 +19,6 @@
         <Border Background="#FF5AE784"/>
         <TextBlock Text="ПРОДУКТОВЫЙ МАГАЗИН" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    FontSize="22" FontFamily="Champagne &amp; Limousines" />
-        <!--<Button HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding Goodbay}"
-                Background="{x:Null}" BorderBrush="{x:Null}">
-            <materialDesign:PackIcon Kind="Close"/>
-        </Button>-->
 
         <TabControl Margin="10,9.8,9.6,10" BorderBrush="Gainsboro" Grid.Row="1" >
             <TabControl.Resources>
@@ -65,15 +61,17 @@
                         <RowDefinition Height="0.15*"/>
                         <RowDefinition Height="0.8*"/>
                     </Grid.RowDefinitions>
-                    <!--<WrapPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="3" Margin="0,0,0.2,0">-->
-                    <StackPanel Orientation="Horizontal" >
+                    <WrapPanel Orientation="Horizontal" >
                         <Button Width="auto" Command="{Binding Add_Check}"
                                 Margin="10" Content="ДОБАВИТЬ ЧЕК"/>
                         <Button Width="auto" Command="{Binding Change_Check}"
                                 Margin="10" Content="РЕДАКТИРОВАТЬ ЧЕК"/>
-                    </StackPanel>
+                        <Button Width="auto" Command="{Binding Delete_Check}"
+                                Margin="10" Content="УДАЛИТЬ ЧЕК"/>
+                        <Button Width="auto" Command="{Binding Print_Check}"
+                                Margin="10" Content="ВЕРСИЯ ДЛЯ ПЕЧАТИ"/>
+                    </WrapPanel>
 
-                    <!--<ListBox ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}" Grid.ColumnSpan="3" Margin="0,54,0.2,0.2" Grid.RowSpan="2">-->
                     <ListBox ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}" Grid.Row="1">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -131,11 +129,6 @@
             <TabItem Header="ОТЧЕТ" Style="{StaticResource Vis}">
                 <Grid MinHeight="450" Height="auto">
 
-                    <!--<Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition Width="0.4*"/>
-                    </Grid.ColumnDefinitions>-->
-
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
                         <RowDefinition Height="0.2*"/>
@@ -149,111 +142,20 @@
                             сколько рублей и бонусов потратили покупатели за определенный промежуток времени</TextBlock>
                         </Label.Content>
                     </Label>
-                    <!--<Calendar Language="ru-RU" Width="auto" HorizontalAlignment="Stretch" Margin="10" 
-                             SelectedDate="{Binding Date}" Height="800" VerticalAlignment="Stretch" Grid.Row="1"/>-->
-
-
-                    <!--<Grid Grid.Column="1" Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition Width="0.3*"/>
-                        </Grid.ColumnDefinitions>-->
-
-                    <!--<Grid.RowDefinitions>
-                            <RowDefinition Height="0.1*"/>
-                            <RowDefinition Height="0.1*"/>
-                            <RowDefinition Height="0.1*"/>
-                            <RowDefinition Height="0.1*"/>
-                            <RowDefinition Height="0.1*"/>
-                        </Grid.RowDefinitions>-->
-
-                    <!--<Label Margin="10" FontSize="20" 
-                   FontFamily="Champagne &amp; Limousines">
-                            <Label.Content>
-                                <TextBlock TextWrapping="Wrap">Первая дата:</TextBlock>
-                            </Label.Content>
-                        </Label>-->
 
                     <DatePicker Grid.Row="1"  Language="ru-RU" Margin="10" MaxWidth="600" HorizontalAlignment="Stretch"
                          Width="auto" MinWidth="100" SelectedDate="{Binding Date1}"
                          materialDesign:HintAssist.Hint="УКАЖИТЕ ПЕРВУЮ ДАТУ" 
                          Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-                    <!--<Label Grid.Row="1" Width="auto" Margin="10" HorizontalAlignment="Left"
-                       Content="{Binding Date1}" FontSize="16" Language="ru-RU"/>-->
-
-                    <!--<Label Margin="10" FontSize="20" Grid.Row="2"
-                   FontFamily="Champagne &amp; Limousines">
-                            <Label.Content>
-                                <TextBlock TextWrapping="Wrap">Вторая дата:</TextBlock>
-                            </Label.Content>
-                        </Label>-->
-
                     <DatePicker Grid.Row="2" Language="ru-RU" Margin="10" MaxWidth="600" HorizontalAlignment="Stretch"
                          Width="auto" MinWidth="100" SelectedDate="{Binding Date2}"
                          materialDesign:HintAssist.Hint="УКАЖИТЕ ВТОРУЮ ДАТУ"
                          Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-                    <!--<Label Grid.Row="3" Width="auto" Margin="10" HorizontalAlignment="Left"
-                       Content="{Binding Date2}" FontSize="16" Language="ru-RU"/>-->
-
                     <Button Command="{Binding GetOtchet, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3"
                     Content="Получить" Width="auto" Margin="10" HorizontalAlignment="Stretch" MaxWidth="100"/>
-
-                    <!--<Button Command="{Binding OkDate1}" Grid.Row="1" Grid.Column="1"
-                    Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>
-
-                        <Button Command="{Binding OkDate2}" Grid.Row="3" Grid.Column="1"
-                    Content="Ок" Width="auto" Margin="10" HorizontalAlignment="Left"/>-->
-
-
                 </Grid>
-
-                <!--<Grid Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="0.9*"/>
-                            <RowDefinition Height="0.2*"/>
-                        </Grid.RowDefinitions>
-                    <ListBox ItemsSource="{Binding Check_otchet}" Grid.Column="2" Margin="10">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="5">
-                                        <TextBlock FontSize="18" Text="{Binding Path=date_and_time}" Language="ru-RU"/>
-                                    <TextBlock>
-                                <Run Text="сумма: "/>
-                                <Run Text="{Binding Path=total_cost, StringFormat=0.00}"/>
-                                    </TextBlock>
-                                    <TextBlock>
-                                <Run Text="бонусами: "/>
-                                <Run Text="{Binding Path=bonus}"/>
-                                    </TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical">
-                            <Label Margin="10" FontSize="16" 
-                   FontFamily="Champagne &amp; Limousines">
-                                <Label.Content>
-                                    <TextBlock>
-                            <Run Text="Всего оплачено, руб="/>
-                            <Run Text="{Binding Sum, StringFormat=0.00}"/>
-                                    </TextBlock>
-                                </Label.Content>
-                            </Label>
-                            <Label Margin="10" FontSize="16" 
-                   FontFamily="Champagne &amp; Limousines">
-                                <Label.Content>
-                                    <TextBlock>
-                            <Run Text="Бонусами оплачено, руб="/>
-                            <Run Text="{Binding Bon, StringFormat=0.00}"/>
-                                    </TextBlock>
-                                </Label.Content>
-                            </Label>
-                        </StackPanel>
-                    </Grid>-->
-                <!--</Grid>-->
             </TabItem>
         </TabControl>
 
