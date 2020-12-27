@@ -54,7 +54,7 @@
                 </Label.Content>
             </Label>
         </WrapPanel>
-        
+
         <WrapPanel VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="3" 
                    Orientation="Vertical" HorizontalAlignment="Center">
             <Button Width="150" Margin="10" Command="{Binding WithCard}" Content="ПРИМЕНИТЬ"/>

@@ -103,30 +103,32 @@ namespace foodShop
 
                       foreach (var item in result.Where(i => i.line_number_of_check == selectedLine_of_check.line_number_of_check))
                       {
-                          
-                            if (item.kolvo >= nowKolvo)
-                            {
-                              Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
-                              postavkaModel.ostalos_product += nowKolvo;
-                              db.UpdateLine_of_postavka(postavkaModel);
-                              Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
-                              stroka.kolvo_product_in_stroka_postavka -= nowKolvo;
-                              db.UpdateStrokaCheckAndPostavka(stroka);
-                              selectedLine_of_check.much_of_products -= nowKolvo;
-                              break;
-                            }
-                            else
-                            {
-                              Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
-                              postavkaModel.ostalos_product += item.kolvo;
-                              nowKolvo -= item.kolvo;
-                              db.UpdateLine_of_postavka(postavkaModel);
-                              Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
-                              stroka.kolvo_product_in_stroka_postavka = 0;
-                              db.UpdateStrokaCheckAndPostavka(stroka);
-                              selectedLine_of_check.much_of_products -= item.kolvo;
-                            }
-
+                          if (item.line_number_of_check == selectedLine_of_check.line_number_of_check)
+                          {
+                              if (item.kolvo >= nowKolvo)
+                              {
+                                  Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
+                                  postavkaModel.ostalos_product += nowKolvo;
+                                  db.UpdateLine_of_postavka(postavkaModel);
+                                  Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
+                                  stroka.kolvo_product_in_stroka_postavka -= nowKolvo;
+                                  db.UpdateStrokaCheckAndPostavka(stroka);
+                                  selectedLine_of_check.much_of_products -= nowKolvo;
+                                  break;
+                              }
+                              else
+                              {
+                                  Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
+                                  postavkaModel.ostalos_product += item.kolvo;
+                                  nowKolvo -= item.kolvo;
+                                  db.UpdateLine_of_postavka(postavkaModel);
+                                  Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
+                                  //тут изменила
+                                  stroka.kolvo_product_in_stroka_postavka -= item.kolvo;
+                                  db.UpdateStrokaCheckAndPostavka(stroka);
+                                  selectedLine_of_check.much_of_products -= item.kolvo;
+                              }
+                          }
                       }
 
                       int index = Line_of_checks.IndexOf(selectedLine_of_check);
@@ -145,7 +147,7 @@ namespace foodShop
                       db.UpdateCheck(check);
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (vvodMax < max && vvodMax >= 0 && selectedLine_of_check!=null)));
+                 (obj) => (vvodMax < max && vvodMax >= 0 && selectedLine_of_check != null)));
             }
         }
 

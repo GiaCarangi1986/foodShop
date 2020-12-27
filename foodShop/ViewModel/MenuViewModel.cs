@@ -56,12 +56,12 @@ namespace foodShop
                           listChecks.Clear();
 
                       DateTime dateTime = date2.AddDays(1);
-                      checkModel_otchet = db.GetAllCheck().Where(i => i.date_and_time >= date1 && i.date_and_time<=dateTime).ToList();
+                      checkModel_otchet = db.GetAllCheck().Where(i => i.date_and_time >= date1 && i.date_and_time <= dateTime).ToList();
                       int days = date2.Subtract(date1).Days + 1; //кол-во дней между датами
                       for (int i = 0; i < days; i++)
                       {
                           checkOfList = new ListCheck(date1.AddDays(i));
-                          foreach(var test in checkModel_otchet)
+                          foreach (var test in checkModel_otchet)
                           {
                               if (test.date_and_time.Day == checkOfList.dateTime.Day)
                               {
@@ -71,7 +71,7 @@ namespace foodShop
                           listChecks.Add(checkOfList);
                       }
 
-                      foreach(var temp in listChecks)
+                      foreach (var temp in listChecks)
                       {
                           decimal sum = 0;
                           decimal bonus = 0;
@@ -85,11 +85,11 @@ namespace foodShop
                       }
                       Graph graph = new Graph(Check_otchet);
                       graph.ShowDialog();
-                      
+
                   },
                  //условие, при котором будет доступна команда:
                  //дата 1 <= дата 2
-                 (obj) => (date1.Year!=1 && date2.Year != 1 && date1<=date2)));
+                 (obj) => (date1.Year != 1 && date2.Year != 1 && date1 <= date2)));
             }
         }
 
@@ -98,8 +98,8 @@ namespace foodShop
             get { return date1; }
             set
             {
-                    date1 = value;
-                    OnPropertyChanged("Date1");
+                date1 = value;
+                OnPropertyChanged("Date1");
             }
         }
 
@@ -108,9 +108,9 @@ namespace foodShop
             get { return date2; }
             set
             {
-                
-                    date2 = value;
-                    OnPropertyChanged("Date2");
+
+                date2 = value;
+                OnPropertyChanged("Date2");
             }
         }
 
@@ -144,9 +144,9 @@ namespace foodShop
                   },
                  //условие, при котором будет доступна команда:
                  //разница даты покупки и текущей даты не более 5 часов
-                 (obj) => (selectedCheck!=null && DateTime.Now.Subtract(selectedCheck.date_and_time).Days==0
-                 && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours<=5 && selectedCheck.total_cost!=0
-                 && selectedCheck.card==false)));
+                 (obj) => (selectedCheck != null && DateTime.Now.Subtract(selectedCheck.date_and_time).Days == 0
+                 && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours <= 4 && selectedCheck.total_cost != 0
+                 && selectedCheck.card == false)));
             }
         }
 
@@ -179,7 +179,7 @@ namespace foodShop
                           CheckModel checkModel1 = db.GetPredLastCheck();
                           Checks.Insert(0, checkModel1);
                       }
-                      Checks.Insert(0,checkModel);
+                      Checks.Insert(0, checkModel);
 
                       //надо теперь просрочку обновить
                       Procrochka_spisok.Clear();
@@ -214,26 +214,27 @@ namespace foodShop
                       foreach (var item in result.Where(i => i.number_of_check == selectedCheck.number_of_check))
                       {
                           int nowKolvo = item.much_of_products;
-
-                          if (item.kolvo >= nowKolvo)
+                          if (item.number_of_check == selectedCheck.number_of_check)
                           {
-                              Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
-                              postavkaModel.ostalos_product += nowKolvo;
-                              db.UpdateLine_of_postavka(postavkaModel);
-                              Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
-                              db.DeleteLine_of_check_and_postavka(stroka.id);
-                              break;
+                              if (item.kolvo >= nowKolvo)
+                              {
+                                  Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
+                                  postavkaModel.ostalos_product += nowKolvo;
+                                  db.UpdateLine_of_postavka(postavkaModel);
+                                  Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
+                                  db.DeleteLine_of_check_and_postavka(stroka.id);
+                                  //break; исключение в delete можно сделать и глянуть что там с редактированием
+                              }
+                              else
+                              {
+                                  Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
+                                  postavkaModel.ostalos_product += item.kolvo;
+                                  nowKolvo -= item.kolvo;
+                                  db.UpdateLine_of_postavka(postavkaModel);
+                                  Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
+                                  db.DeleteLine_of_check_and_postavka(stroka.id);
+                              }
                           }
-                          else
-                          {
-                              Line_of_postavkaModel postavkaModel = db.GetLine_of_postavka(item.line_number_of_postavka);
-                              postavkaModel.ostalos_product += item.kolvo;
-                              nowKolvo -= item.kolvo;
-                              db.UpdateLine_of_postavka(postavkaModel);
-                              Stroka_check_and_postavkaModel stroka = db.GetStrokaCheckAndPostavka(item.id);
-                              db.DeleteLine_of_check_and_postavka(stroka.id);
-                          }
-
                       }
 
                       foreach (var temp in Line_of_checks.Where(i => i.number_of_check_FK == selectedCheck.number_of_check))
@@ -247,7 +248,7 @@ namespace foodShop
                  //условие, при котором будет доступна команда:
                  //разница даты покупки и текущей даты не более 5 часов
                  (obj) => (selectedCheck != null && DateTime.Now.Subtract(selectedCheck.date_and_time).Days == 0
-                 && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours <= 5 && selectedCheck.card == false)));
+                 && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours <= 4 && selectedCheck.card == false)));
             }
         }
 
@@ -264,7 +265,7 @@ namespace foodShop
                       print.ShowDialog(); //будем открывать последовательно окно с версией печати
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (selectedCheck!=null)));
+                 (obj) => (selectedCheck != null)));
             }
         }
 
@@ -277,7 +278,7 @@ namespace foodShop
                   (spicat = new RelayCommand(obj =>
                   {
 
-                          foreach (var temp in Procrochka_spisok.Where(i=>i.isSelected))
+                      foreach (var temp in Procrochka_spisok.Where(i => i.isSelected))
                           db.SpisatProsrochka(temp.line_of_postavka);
 
                       //надо теперь просрочку обновить
@@ -286,7 +287,7 @@ namespace foodShop
                   },
                  //условие, при котором будет доступна команда:
                  //список просрочки не пуст и есть хотя бы 1 выбранный элемент
-                 (obj) => (Procrochka_spisok.Count()>0 && Procrochka_spisok.Where(i => i.isSelected).ToList().Count > 0)));
+                 (obj) => (Procrochka_spisok.Count() > 0 && Procrochka_spisok.Where(i => i.isSelected).ToList().Count > 0)));
             }
         }
 
@@ -327,27 +328,27 @@ namespace foodShop
                      line_of_postavka = post.line_of_postavka,
                      number_of_postavka_FK = post.number_of_postavka_FK,
                      title = prod.title
-                 }).OrderBy(i=>i.title); // результат
+                 }).OrderBy(i => i.title); // результат
 
             foreach (var temp in result)
             {
                 if (temp.spisano == false && temp.ostalos_product != 0)
                 {
-                    if (temp.scor_godnosti_O!=null)
-                        if (DateTime.Now.Subtract((DateTime)temp.date_of_preparing).Days
+                    if (temp.scor_godnosti_O != null)
+                        if (DateTime.Now.Subtract((DateTime)temp.date_of_preparing).Days+1
                             > (temp.scor_godnosti_O / 24))
-                    {
-                        ProsrochkaModel prosrochka = new ProsrochkaModel();
-                        prosrochka.code_of_product_FK = temp.code_of_product_FK;
-                        prosrochka.date_of_preparing = temp.date_of_preparing;
-                        prosrochka.line_of_postavka = temp.line_of_postavka;
-                        prosrochka.ostalos_product = temp.ostalos_product;
-                        prosrochka.scor_godnosti_O = temp.scor_godnosti_O;
-                        prosrochka.spisano = temp.spisano;
-                        prosrochka.title = temp.title;
-                        prosrochka.number_of_postavka_FK = temp.number_of_postavka_FK;
-                        Procrochka_spisok.Add(prosrochka);
-                    }
+                        {
+                            ProsrochkaModel prosrochka = new ProsrochkaModel();
+                            prosrochka.code_of_product_FK = temp.code_of_product_FK;
+                            prosrochka.date_of_preparing = temp.date_of_preparing;
+                            prosrochka.line_of_postavka = temp.line_of_postavka;
+                            prosrochka.ostalos_product = temp.ostalos_product;
+                            prosrochka.scor_godnosti_O = temp.scor_godnosti_O;
+                            prosrochka.spisano = temp.spisano;
+                            prosrochka.title = temp.title;
+                            prosrochka.number_of_postavka_FK = temp.number_of_postavka_FK;
+                            Procrochka_spisok.Add(prosrochka);
+                        }
                 }
             }
         }
@@ -361,7 +362,7 @@ namespace foodShop
             //db = new DBOperations();
             checkModels = db.GetAllCheck(); //сначала берем все чеки
             checkModels.Reverse(); //чтобы сначала видели новые чеки (обратный порядок чеков)
-           Checks = new ObservableCollection<CheckModel>(checkModels); //в коллекции чеки в обратном порядке
+            Checks = new ObservableCollection<CheckModel>(checkModels); //в коллекции чеки в обратном порядке
             Check_otchet = new ObservableCollection<CheckModel>();
             Date = DateTime.Parse(DateTime.Now.ToShortDateString()); //в календаре отображается текущая дата
             Date1 = DateTime.Parse(DateTime.Now.ToShortDateString());

@@ -42,8 +42,8 @@ namespace foodShop
                           bool kassir = false;
                           if (user.login == "kassir")
                               kassir = true;
-                          Menu menu = new Menu(kassir);
-                          //Menu menu = new Menu();
+                          //Menu menu = new Menu(kassir);
+                          Menu menu = new Menu();
                           mainWindow.Close(); //закрываем текущее окно MainWindow
                           menu.Show(); //открываем меню (окно Menu)
                       }

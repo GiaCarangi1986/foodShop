@@ -11,86 +11,86 @@
         MinHeight="500" MinWidth="500">
     <Grid>
         <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="0.1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.8*"/>
-            </Grid.ColumnDefinitions>
-            <Border Background="#FF5AE784" Grid.ColumnSpan="3"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.8*"/>
+        </Grid.ColumnDefinitions>
+        <Border Background="#FF5AE784" Grid.ColumnSpan="3"/>
         <TextBlock Text="ЧЕК" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
                        FontSize="22" FontFamily="Champagne &amp; Limousines" Grid.ColumnSpan="3"/>
 
         <ListBox Grid.Row="1" ItemsSource="{Binding Line_of_checks}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="5">
-                            <TextBlock FontSize="18" Text="{Binding Path=name_of_product}" />
-                            <TextBlock>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path=name_of_product}" />
+                        <TextBlock>
                                 <Run Text="цена: "/>
                                 <Run Text="{Binding Path=cost_for_buyer, StringFormat=0.00}"/>
-                            </TextBlock>
-                            <TextBlock>
+                        </TextBlock>
+                        <TextBlock>
                                 <Run Text="кол-во: "/>
                                 <Run Text="{Binding Path=much_of_products}"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
-            <WrapPanel Grid.Row="1" Grid.Column="1" Margin="10" Orientation="Vertical">
-                <Label Margin="10" FontSize="20" 
+        <WrapPanel Grid.Row="1" Grid.Column="1" Margin="10" Orientation="Vertical">
+            <Label Margin="10" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">Выберите название:</TextBlock>
-                    </Label.Content>
-                </Label>
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap">Выберите название:</TextBlock>
+                </Label.Content>
+            </Label>
 
-                <ComboBox Width="auto" Margin="10" x:Name="nameProduct" ItemsSource="{Binding Products}" 
+            <ComboBox Width="auto" Margin="10" x:Name="nameProduct" ItemsSource="{Binding Products}" 
                           IsEditable="True" SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}" 
                           DisplayMemberPath="title" IsSynchronizedWithCurrentItem="True"/>
 
-                <Label Margin="10" FontSize="16" 
+            <Label Margin="10" FontSize="16" 
                    FontFamily="Champagne &amp; Limousines">
-                    <Label.Content>
-                        <TextBlock>
+                <Label.Content>
+                    <TextBlock>
                             <Run Text="цена="/>
                             <Run Text="{Binding Price}"/>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    </TextBlock>
+                </Label.Content>
+            </Label>
 
-                <Label Margin="10" FontSize="20" 
+            <Label Margin="10" FontSize="20" 
                    FontFamily="Champagne &amp; Limousines">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">Выберите количество продуктов:</TextBlock>
-                    </Label.Content>
-                </Label>
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap">Выберите количество продуктов:</TextBlock>
+                </Label.Content>
+            </Label>
 
-                <TextBox Text="{Binding VvodMax, UpdateSourceTrigger=PropertyChanged}" />
-                
-                <Label Margin="10" FontSize="16" 
+            <TextBox Text="{Binding VvodMax, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Label Margin="10" FontSize="16" 
                    FontFamily="Champagne &amp; Limousines">
-                    <Label.Content>
-                        <TextBlock>
+                <Label.Content>
+                    <TextBlock>
                             <Run Text="макс="/>
                             <Run Text="{Binding Max}"/>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    </TextBlock>
+                </Label.Content>
+            </Label>
 
-                <Button Command="{Binding AddLine_of_check, UpdateSourceTrigger=PropertyChanged}" 
+            <Button Command="{Binding AddLine_of_check, UpdateSourceTrigger=PropertyChanged}" 
                     Content="Добавить новый продукт" Width="auto" Margin="10"/>
-            </WrapPanel>
+        </WrapPanel>
 
-            <WrapPanel Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <Button Width="auto" Margin="10"  Command="{Binding GetCheck}"
+        <WrapPanel Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Button Width="auto" Margin="10"  Command="{Binding GetCheck}"
                     Content="Составить чек"/>
-                
-            </WrapPanel>
+
+        </WrapPanel>
         <!--</Grid>-->
     </Grid>
 </Window>

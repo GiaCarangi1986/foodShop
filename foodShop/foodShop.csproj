@@ -79,6 +79,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\AddCheck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BonusCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Graph.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -88,14 +96,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ThankYou.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\AddCheck.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\BonusCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,6 +117,12 @@
     <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\PrintViewModel.cs" />
     <Compile Include="ViewModel\ThankYouViewModel.cs" />
+    <Compile Include="View\AddCheck.xaml.cs">
+      <DependentUpon>AddCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BonusCard.xaml.cs">
+      <DependentUpon>BonusCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Graph.xaml.cs">
       <DependentUpon>Graph.xaml</DependentUpon>
     </Compile>
@@ -138,15 +144,9 @@
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\VxodViewModel.cs" />
-    <Compile Include="View\AddCheck.xaml.cs">
-      <DependentUpon>AddCheck.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="View\BonusCard.xaml.cs">
-      <DependentUpon>BonusCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ChangeCheck.xaml.cs">
       <DependentUpon>ChangeCheck.xaml</DependentUpon>

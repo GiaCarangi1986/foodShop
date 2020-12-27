@@ -50,12 +50,12 @@ namespace foodShop
             set
             {
                 selectedBonusCard = value;
-                
-                    max = selectedBonusCard.kolvo_bonusov;
+
+                max = selectedBonusCard.kolvo_bonusov;
                 if (max != null)
                 {
                     MaxBonus = max;
-                    spisat = 0;
+                    //spisat = 0;
                     OnPropertyChanged("SelectedProduct");
                 }
             }
@@ -81,14 +81,14 @@ namespace foodShop
                       }
 
                       db.UpdateCheck(check); //обновили чек в бд  (итоговая стоимость ниже, если сняла бонусы)
-                      //плюс запишем в чек инфу о бонусной карте, если ее применили
-                      
+                                             //плюс запишем в чек инфу о бонусной карте, если ее применили
 
-                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db,cost);
+
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db, cost);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (selectedBonusCard!=null && spisat<= selectedBonusCard.kolvo_bonusov)));
+                 (obj) => (selectedBonusCard != null && spisat <= selectedBonusCard.kolvo_bonusov)));
             }
         }
 
@@ -102,7 +102,7 @@ namespace foodShop
                   {
                       if (selectedBonusCard != null)
                           selectedBonusCard = null;
-                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db,cost);
+                      ThankYou thank = new ThankYou(bonusCard, check, selectedBonusCard, db, cost);
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                       bonusCard.Close(); //закрываем окно BonusCard
                   }));
@@ -118,7 +118,7 @@ namespace foodShop
                   (addCard = new RelayCommand(obj =>
                   {
                       Bonus_cardModel model = new Bonus_cardModel();
-                      model.number_of_card=db.CreateBobusCard(model);
+                      model.number_of_card = db.CreateBobusCard(model);
                       BonusCards.Add(model);
                       model.kolvo_bonusov = 0;
                       newCard = true;
@@ -143,7 +143,7 @@ namespace foodShop
                       db.UpdateLine_of_postavka(postavkaModel);
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (newCard==false && (postavkaModel = db.GetCardPostavka())!=null)));
+                 (obj) => (newCard == false && (postavkaModel = db.GetCardPostavka()) != null)));
             }
         }
 

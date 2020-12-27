@@ -30,21 +30,24 @@ namespace foodShop
 
         public string Price //указывается цена товара
         {
-            get {
-                return price.ToString("0.00"); }
+            get
+            {
+                return price.ToString("0.00");
+            }
             set
             {
-                    price = Convert.ToDecimal(value);
-                    OnPropertyChanged("Price");
+                price = Convert.ToDecimal(value);
+                OnPropertyChanged("Price");
             }
         }
 
         public int? VvodMax //ввод желаемого кол-ва товаров
         {
-            get {  return vvodMax; }
+            get { return vvodMax; }
             set
             {
-                if (selectedProduct != null) {
+                if (selectedProduct != null)
+                {
                     vvodMax = value;
                     OnPropertyChanged("VvodMax");
                 }
@@ -63,14 +66,14 @@ namespace foodShop
                 }
             }
         }
-         
+
         public ProductModel SelectedProduct //запомнить продукт, выбранный в combobox
         {
             get { return selectedProduct; }
             set
             {
-                
-                    selectedProduct = value;
+
+                selectedProduct = value;
                 if (selectedProduct != null)
                 {
                     max = (int)selectedProduct.all_kolvo;
@@ -82,7 +85,7 @@ namespace foodShop
             }
         }
 
-       // команда добавления новой строки чека
+        // команда добавления новой строки чека
         private RelayCommand addLine_of_check;
         public RelayCommand AddLine_of_check
         {
@@ -121,53 +124,61 @@ namespace foodShop
                       }
                       if (!update)
                       {
-                          
+
                           lcheck.line_number_of_check = db.CreateLine_of_check(lcheck); //в бд сохраним новую строку чека
                           Line_of_checks.Insert(Line_of_checks.Count, lcheck); //добавить строку чека в поле слева
                       }
 
                       //уменьшить кол-во в строке поставки
 
-                          var result = Line_of_checks.Join(Line_of_postavkas, // второй набор
-                 lc => lc.code_of_product_FK, // свойство-селектор объекта из первого набор
-                 pc => pc.code_of_product_FK, // свойство-селектор объекта из второго набора
-                 (lc, pc) => new { ostalos_product = pc.ostalos_product, number_of_check = lc.number_of_check_FK,
-                 line_of_postavka = pc.line_of_postavka, line_number_of_check = lc.line_number_of_check}); // результат
+                      var result = Line_of_checks.Join(Line_of_postavkas, // второй набор
+             lc => lc.code_of_product_FK, // свойство-селектор объекта из первого набор
+             pc => pc.code_of_product_FK, // свойство-селектор объекта из второго набора
+             (lc, pc) => new {
+                 ostalos_product = pc.ostalos_product,
+                 number_of_check = lc.number_of_check_FK,
+                 line_of_postavka = pc.line_of_postavka,
+                 line_number_of_check = lc.line_number_of_check,
+                 code_of_product_FK = pc.code_of_product_FK
+             }); // результат
 
                       check_and_postavka = new Stroka_check_and_postavkaModel();
                       //подумать над вторым выражением после "и"
-                  foreach (var item in result.Where(i=>i.ostalos_product>0 && i.number_of_check==lcheck.number_of_check_FK)) 
+                      foreach (var item in result.Where(i => i.ostalos_product > 0 && i.number_of_check == lcheck.number_of_check_FK && i.code_of_product_FK == lcheck.code_of_product_FK))
                       {
-                          if (item.ostalos_product>= vvodMax)
+                          if (item.code_of_product_FK == lcheck.code_of_product_FK)
                           {
-                              Line_of_postavkaModel pline = db.GetLine_of_postavka(item.line_of_postavka);
-                              pline.ostalos_product -= vvodMax;
-                              db.UpdateLine_of_postavka(pline);
-                              selectedProduct.all_kolvo -= vvodMax;
-                              max = (int)selectedProduct.all_kolvo;
-                              Max = max;
-                              check_and_postavka.id_stroka_check = item.line_number_of_check;
-                              check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
-                              check_and_postavka.kolvo_product_in_stroka_postavka = (int)vvodMax;
-                              db.CreateStroka_check_and_postavka(check_and_postavka);
-                              break;
-                          }
-                          else
-                          {
-                              Line_of_postavkaModel pline = db.GetLine_of_postavka(item.line_of_postavka);
-                              vvodMax -= pline.ostalos_product;
-                              selectedProduct.all_kolvo -= vvodMax;
-                              pline.ostalos_product = 0;
-                              db.UpdateLine_of_postavka(pline);
-                              check_and_postavka.id_stroka_check = item.line_number_of_check;
-                              check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
-                              check_and_postavka.kolvo_product_in_stroka_postavka = (int)vvodMax;
-                              db.CreateStroka_check_and_postavka(check_and_postavka);
+                              if (item.ostalos_product >= vvodMax)
+                              {
+                                  Line_of_postavkaModel pline = db.GetLine_of_postavka(item.line_of_postavka);
+                                  pline.ostalos_product -= vvodMax;
+                                  db.UpdateLine_of_postavka(pline);
+                                  selectedProduct.all_kolvo -= vvodMax;
+                                  max = (int)selectedProduct.all_kolvo;
+                                  Max = max;
+                                  check_and_postavka.id_stroka_check = item.line_number_of_check;
+                                  check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
+                                  check_and_postavka.kolvo_product_in_stroka_postavka = (int)vvodMax;
+                                  db.CreateStroka_check_and_postavka(check_and_postavka);
+                                  break;
+                              }
+                              else
+                              {
+                                  Line_of_postavkaModel pline = db.GetLine_of_postavka(item.line_of_postavka);
+                                  vvodMax -= pline.ostalos_product;
+                                  selectedProduct.all_kolvo -= vvodMax;
+                                  pline.ostalos_product = 0;
+                                  db.UpdateLine_of_postavka(pline);
+                                  check_and_postavka.id_stroka_check = item.line_number_of_check;
+                                  check_and_postavka.id_stroka_postavka = pline.line_of_postavka;
+                                  check_and_postavka.kolvo_product_in_stroka_postavka = (int)vvodMax;
+                                  db.CreateStroka_check_and_postavka(check_and_postavka);
+                              }
                           }
                       }
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (vvodMax <= max && vvodMax>0)));
+                 (obj) => (vvodMax <= max && vvodMax > 0)));
             }
         }
 
@@ -186,8 +197,8 @@ namespace foodShop
                       //db.close = true;
                       add.Close(); //как ток там все сделается, закрываем это окно
                   },
-                  //условие, при котором будет доступна команда
-                 (obj) => (Line_of_checks.Count>=1)));
+                 //условие, при котором будет доступна команда
+                 (obj) => (Line_of_checks.Count >= 1)));
             }
         }
 
@@ -197,7 +208,7 @@ namespace foodShop
             this.add = add;
             this.db = db;
             //все, кроме бонусной карты
-            Products = new ObservableCollection<ProductModel>(db.GetAllProduct().Where(i=>i.code_of_product!=26));
+            Products = new ObservableCollection<ProductModel>(db.GetAllProduct().Where(i => i.code_of_product != 26));
             Line_of_postavkas = new ObservableCollection<Line_of_postavkaModel>(db.GetAllLine_of_postavka());
             check = new CheckModel(); //создаем чек
             check.date_and_time = DateTime.Now;

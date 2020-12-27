@@ -235,11 +235,26 @@ namespace foodShop
             Save();
         }
 
-        public bool Save()
+        /*public bool Save()
             {
                 if (db.SaveChanges() > 0) return true;
                 return false;
+            }*/
+
+        public Exception Save()
+        {
+            try
+            {
+                bool ok = false;
+                if (db.SaveChanges() > 0)
+                    ok = true;
+                return null;
+            }
+            catch (Exception Err)
+            {
+                return Err;
             }
         }
 
+    }
 }
