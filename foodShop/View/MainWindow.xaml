@@ -37,7 +37,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox Margin="5,20,5,10" VerticalAlignment="Center" materialDesign:HintAssist.Hint="ЛОГИН" Text="{Binding Login, UpdateSourceTrigger=LostFocus}"
+                <TextBox Margin="5,20,5,10" VerticalAlignment="Center" materialDesign:HintAssist.Hint="ЛОГИН" Text="{Binding Login, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="17"/>
                 <PasswordBox Margin="5,0,5,10" VerticalAlignment="Center" Grid.Row="1" materialDesign:HintAssist.Hint="ПАРОЛЬ" x:Name="PasswordBox"
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="17"/>

@@ -40,12 +40,17 @@ namespace foodShop
                       if (user!=null && user.password == _password)
                       {
                           bool kassir = false;
+                          bool starKassir = false;
                           if (user.login == "kassir")
                               kassir = true;
-                          Menu menu = new Menu(kassir);
+                          else if (user.login == "starKassir")
+                              starKassir = true;
+                          Menu menu = new Menu(kassir,starKassir);
                           //Menu menu = new Menu();
-                          mainWindow.Close(); //закрываем текущее окно MainWindow
-                          menu.Show(); //открываем меню (окно Menu)
+                          //mainWindow.Close(); //закрываем текущее окно MainWindow
+                          Login = null;
+                          passwordBox.Password = null;
+                          menu.ShowDialog(); //открываем меню (окно Menu)
                       }
                   }));
             }

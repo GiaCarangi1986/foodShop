@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace foodShop
 {
     class MenuViewModel : INotifyPropertyChanged
     {
         private DBOperations db;
-        private bool kassir; //открыть доступ админу или кассиру
+        private bool kassir, starKassir; //открыть доступ админу или кассиру или старшему кассиру
         private CheckModel selectedCheck; //выбранный чек (для редактировани)
         private List<CheckModel> checkModels; //вспомогательная переменная, которая содержит все чеки в обратном порядке
         private List<CheckModel> checkModel_otchet; //для отчета (содержит чеки для заданного промежутка времени)
@@ -30,6 +31,12 @@ namespace foodShop
         public ObservableCollection<Stroka_check_and_postavkaModel> Сheck_and_postavka { get; set; } //коллекция строк поставки,
         //совмещенных со строками чека
         public ObservableCollection<Line_of_postavkaModel> Line_of_postavkas { get; set; } //коллекция строк поставки
+
+        private Visibility vis;
+        public Visibility Vis
+        {
+            get { return vis; }
+        }
 
         public DateTime Date //получим дату из календаря
         {
@@ -152,7 +159,11 @@ namespace foodShop
 
         public bool TabControlVis //скрывает "списать" и "отчет" для кассира
         {
-            get { return kassir; }
+            get {
+                bool noAdmin=true;
+                if (!kassir && !starKassir)
+                    noAdmin = false;
+                return noAdmin; }
             set
             {
                 kassir = value;
@@ -354,10 +365,14 @@ namespace foodShop
         }
 
         private Menu menu;
-        public MenuViewModel(Menu menu, bool kassir, DBOperations db)
+        public MenuViewModel(Menu menu, bool kassir, DBOperations db, bool starKassir)
         {
             this.menu = menu;
             this.kassir = kassir;
+            this.starKassir = starKassir;
+            if (!this.kassir)
+                vis = Visibility.Visible;
+            else vis = Visibility.Collapsed;
             this.db = db;
             //db = new DBOperations();
             checkModels = db.GetAllCheck(); //сначала берем все чеки

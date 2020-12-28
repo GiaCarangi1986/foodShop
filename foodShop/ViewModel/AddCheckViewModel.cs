@@ -139,14 +139,15 @@ namespace foodShop
                  number_of_check = lc.number_of_check_FK,
                  line_of_postavka = pc.line_of_postavka,
                  line_number_of_check = lc.line_number_of_check,
-                 code_of_product_FK = pc.code_of_product_FK
+                 code_of_product_FK = pc.code_of_product_FK,
+                 spisano=pc.spisano
              }); // результат
 
                       check_and_postavka = new Stroka_check_and_postavkaModel();
                       //подумать над вторым выражением после "и"
                       foreach (var item in result.Where(i => i.ostalos_product > 0 && i.number_of_check == lcheck.number_of_check_FK && i.code_of_product_FK == lcheck.code_of_product_FK))
                       {
-                          if (item.code_of_product_FK == lcheck.code_of_product_FK)
+                          if (item.code_of_product_FK == lcheck.code_of_product_FK&&item.spisano==false)
                           {
                               if (item.ostalos_product >= vvodMax)
                               {

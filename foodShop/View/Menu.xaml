@@ -64,12 +64,12 @@
                     <WrapPanel Orientation="Horizontal" >
                         <Button Width="auto" Command="{Binding Add_Check}"
                                 Margin="10" Content="ДОБАВИТЬ ЧЕК"/>
-                        <Button Width="auto" Command="{Binding Change_Check}"
+                        <Button Width="auto" Command="{Binding Change_Check}" Visibility="{Binding Vis}"
                                 Margin="10" Content="РЕДАКТИРОВАТЬ ЧЕК"/>
-                        <Button Width="auto" Command="{Binding Delete_Check}"
+                        <Button Width="auto" Command="{Binding Delete_Check}" Visibility="{Binding Vis}"
                                 Margin="10" Content="УДАЛИТЬ ЧЕК"/>
                         <Button Width="auto" Command="{Binding Print_Check}"
-                                Margin="10" Content="ВЕРСИЯ ДЛЯ ПЕЧАТИ"/>
+                                Margin="10" Content="ПОСМОТРЕТЬ ЧЕК"/>
                     </WrapPanel>
 
                     <ListBox ItemsSource="{Binding Checks}" SelectedItem="{Binding SelectedCheck}" Grid.Row="1">
