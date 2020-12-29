@@ -101,10 +101,14 @@ namespace foodShop
             }
             else
             {
+                
                 sale = 0;
                 nowBonusov = null;
             }
-            itog = check.total_cost;
+            if (check.total_cost!=null)
+                itog = check.total_cost + (decimal?)cost; 
+            else
+                itog = check.total_cost;
             //bonusCard.Hide();
         }
 

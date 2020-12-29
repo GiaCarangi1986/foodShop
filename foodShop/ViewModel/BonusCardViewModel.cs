@@ -88,7 +88,7 @@ namespace foodShop
                       thank.Show(); //октрыть окно с подведением итогов о покупке
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (selectedBonusCard != null && spisat <= selectedBonusCard.kolvo_bonusov)));
+                 (obj) => (selectedBonusCard != null && spisat <= selectedBonusCard.kolvo_bonusov && spisat<=check.total_cost)));
             }
         }
 

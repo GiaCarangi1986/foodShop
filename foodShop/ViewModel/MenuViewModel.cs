@@ -153,7 +153,7 @@ namespace foodShop
                  //разница даты покупки и текущей даты не более 5 часов
                  (obj) => (selectedCheck != null && DateTime.Now.Subtract(selectedCheck.date_and_time).Days == 0
                  && DateTime.Now.Subtract(selectedCheck.date_and_time).Hours <= 4 && selectedCheck.total_cost != 0
-                 && selectedCheck.card == false)));
+                 && selectedCheck.card == false && selectedCheck.total_cost!=null)));
             }
         }
 
@@ -276,7 +276,7 @@ namespace foodShop
                       print.ShowDialog(); //будем открывать последовательно окно с версией печати
                   },
                  //условие, при котором будет доступна команда
-                 (obj) => (selectedCheck != null)));
+                 (obj) => (selectedCheck != null && selectedCheck.total_cost != null)));
             }
         }
 
